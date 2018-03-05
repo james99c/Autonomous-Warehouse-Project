@@ -1,11 +1,3 @@
-routePlan( ArrayList<RobotDataObject> ){
-  sort ArrayList according to which has the smallest distance to goal
-  for(int i = 0; i <RobotDataObjects.size(); i++){
-
-  }
-}
-
-
 
 SearchTree{
   childNodes;
