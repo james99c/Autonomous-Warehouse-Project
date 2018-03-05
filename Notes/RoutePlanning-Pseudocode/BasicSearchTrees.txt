@@ -1,0 +1,68 @@
+routePlan( ArrayList<RobotDataObject> ){
+  sort ArrayList according to which has the smallest distance to goal
+  for(int i = 0; i <RobotDataObjects.size(); i++){
+
+  }
+}
+
+
+
+SearchTree{
+  childNodes;
+  static usableLeafNodes;
+
+  SearchTree(currentLocation , previousLocation, currentCost, goalLocation, parentNode, currentPath, inputVariable){
+    this.currentLocation = currentLocation;
+    this.previousLocation = previousLocation;
+    this.currentCost = currentCost;
+    this.goalLocation = goalLocation;
+    this.parentNode = parentNode;
+    this.currentPath = currentPath;
+    this.inputVariable = inputVariable;
+    getHeuristic();
+  }
+
+  searchForGoal(){
+    if(! atGoalLocation){
+      NewLocationList = findAllMovementOptions(currentLocation);
+      if(NewLocationList.size() == 0){
+        try{
+          usableLeafNodes.get(0).remove().search();
+          return;
+        } catch(index out of range){
+          usableLeafNodes.empty();
+          throw("there is no possible path to the goalNode");
+          return;
+        }
+      }
+      else{
+        for (i in NewLocationList){
+          this.childNodes.add(new Node(NewLocationList.get(i), this.currentLocation, currentCost + 1, this.goalLocation, this, currentPath.add(NewLocationList.get(i)), this.inputVariable, this.usableLeafNodes));
+        }
+        then sort child nodes from lowest to highest totalCost
+
+          usableLeafNodes.add(childNodes);
+          #Sort usable Leaf nodes from lowest total cost to highest total cost
+          usableLeafNodes.remove();
+          return;
+
+      }
+    }
+    else{
+      if(usableLeafNodes.get(0) => currentCost){
+        this.inputVariable = currentPath;
+        this.usableLeafNodes.empty();
+        return;
+      }
+      else{
+        usableLeafNodes.get(0).remove().search();
+        return;
+      }
+    }
+  }
+
+  getHeuristic(){
+    this.heuristicCost = getHeuristicCost(CurrentLocation, goalLocation);
+    this.totalCost = cost + heuristicCost;
+  }
+}
