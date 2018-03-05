@@ -1,0 +1,14 @@
+Using time stamps. If 2 robots will be at the same point at the same
+time, re-route
+  1. one of them randomly?
+  2. Re-route before executing the route at the beginning or during the
+     execution (when the next move will collide with other robots)?
+
+Time taken to turn vs Time taken not to turn (go straight) is different.
+(It takes a bit more time to rotate) After a few movements, the time 
+stamps will no longer be synchronised.
+  1. Give a buffer time after like 5 movements? Where all robots stop
+     executing movements and wait for a few seconds
+  2. Communicate with the server after every move? In order to retrieve
+     a new route
+

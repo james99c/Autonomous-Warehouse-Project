@@ -3,7 +3,7 @@ SearchTree{
   childNodes;
   static usableLeafNodes;
 
-  SearchTree(currentLocation , previousLocation, currentCost, goalLocation, parentNode, currentPath, inputVariable){
+  SearchTree(currentLocation, previousLocation, currentCost, goalLocation, parentNode, currentPath, inputVariable){
     this.currentLocation = currentLocation;
     this.previousLocation = previousLocation;
     this.currentCost = currentCost;
@@ -40,7 +40,7 @@ SearchTree{
 
       }
     }
-    else{
+    else{  // at goal location
       if(usableLeafNodes.get(0) => currentCost){
         this.inputVariable = currentPath;
         this.usableLeafNodes.empty();
