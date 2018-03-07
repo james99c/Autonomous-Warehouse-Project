@@ -11,7 +11,7 @@ public interface MapInterface {
 	public ArrayList<Pair<Integer, Location>> getRobotsAndIDs();
 	public Location getRobotLocation(Integer robotID);
 	
-	// make this route unaccessible by other robots
+	// make this route unaccessible by other robots for each location is unaccessible for 2 time frames each
 	public void blockRoute(ArrayList<Location> location, Integer RouteID);
 	
 	// make this route available by other robots
