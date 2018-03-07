@@ -1,6 +1,8 @@
 package Interfaces;
-import Java.Util.ArrayList;
+
+import java.util.ArrayList;
+
 
 public interface RoutePlannerInterface {
-	
+	public ArrayList<Integer> getJob();
 }
