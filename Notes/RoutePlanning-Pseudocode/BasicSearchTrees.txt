@@ -1,22 +1,35 @@
+routeForAllRobots(){
+  # organise robotList by shortest heuristicCost
+  ArrayList<ArrayList<Location>> allRoutes;
+  for robot in robotList{
+      ArrayList<locations> route;
+      new SearchTree(robot.location, robot.location, 0, robot.goalLocation, Empty, new ArrayList<Location>(), route).search();
+      allRoutes.add(route);
+      virtualMap.remove(route);
+  }
+  return allRoute;
+}
+
 
 SearchTree{
   childNodes;
   static usableLeafNodes;
 
-  SearchTree(currentLocation, previousLocation, currentCost, goalLocation, parentNode, currentPath, inputVariable){
+  // currentPath contains locations with Time frames
+  SearchTree(currentLocation, previousLocation, currentCost, goalLocation, currentPath, inputVariable){
     this.currentLocation = currentLocation;
     this.previousLocation = previousLocation;
     this.currentCost = currentCost;
     this.goalLocation = goalLocation;
-    this.parentNode = parentNode;
     this.currentPath = currentPath;
     this.inputVariable = inputVariable;
-    getHeuristic();
+    this.heuristicCost = virtualMap.getHeuristicCost(CurrentLocation, goalLocation);
+    this.totalCost = cost + heuristicCost;
   }
 
   searchForGoal(){
     if(! atGoalLocation){
-      NewLocationList = findAllMovementOptions(currentLocation);
+      NewLocationList = virtualMap.findAllMovementOptions(currentLocation);
       if(NewLocationList.size() == 0){
         try{
           usableLeafNodes.get(0).remove().search();
@@ -28,8 +41,8 @@ SearchTree{
         }
       }
       else{
-        for (i in NewLocationList){
-          this.childNodes.add(new Node(NewLocationList.get(i), this.currentLocation, currentCost + 1, this.goalLocation, this, currentPath.add(NewLocationList.get(i)), this.inputVariable, this.usableLeafNodes));
+        for (i in NewLocationList){                                                                                                   // need to have time frame and currentCost
+          this.childNodes.add(new Node(NewLocationList.get(i), this.currentLocation, currentCost + 1, this.goalLocation, this, currentPath.add(NewLocationList.get(i), currentCost), this.inputVariable, this.usableLeafNodes));
         }
         then sort child nodes from lowest to highest totalCost
 
@@ -51,10 +64,5 @@ SearchTree{
         return;
       }
     }
-  }
-
-  getHeuristic(){
-    this.heuristicCost = getHeuristicCost(CurrentLocation, goalLocation);
-    this.totalCost = cost + heuristicCost;
   }
 }
