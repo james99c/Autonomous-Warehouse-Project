@@ -47,7 +47,6 @@ public class Map {
 			}
 		}
 	}
-
 	
 	public ArrayList<GridPoint> getAvailableLocations(Location location, Integer[] timeFrame){
 		ArrayList<GridPoint> surroundingLocations = new  ArrayList<GridPoint>();

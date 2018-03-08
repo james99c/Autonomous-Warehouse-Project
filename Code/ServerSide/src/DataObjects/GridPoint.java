@@ -5,17 +5,27 @@ import java.util.ArrayList;
 public class GridPoint {
 	
 	private ArrayList<Integer[]> timeFrames = new ArrayList<Integer[]>();
-	
+	private Location location;
+	private Boolean unavailable;
 	// timeFrame {StartTime, EndTime}
 	// if completely unavailable have anything as time frame
-	GridPoint(Location location,Boolean unavailable){
-
+	GridPoint(Location _location,Boolean _unavailable){
+		this.location = _location;
+		this.unavailable = _unavailable;
 	}
 	
-	public Boolean getAvailability(ArrayList<Integer[]> timeFrame){
+	public Boolean getAvailability(float[] timeFrame){
 		if(unavailable){
 			return false;
 		}
+		else{
+			for(Integer[] a:this.timeFrames){
+				if (a[0] < timeFrame[0] && a[1] > timeFrame[0] | a[0] < timeFrame[1] && a[1] > timeFrame[1]| timeFrame[0] < a[0] && ){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	public void removeTimeFrames(){
