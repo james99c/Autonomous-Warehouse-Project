@@ -29,8 +29,9 @@ public class JobAssigner implements JobAssignerInterface{
 
 	@Override
 	public HashMap<String, ArrayList<Job>> outputJobs(ArrayList<Job> sortedJobs) {
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<String, ArrayList<Job>> jobMap = new HashMap<String, ArrayList<Job>>();
+		jobMap.put("robot1", jobs);
+		return jobMap;
 	}
 
 }
