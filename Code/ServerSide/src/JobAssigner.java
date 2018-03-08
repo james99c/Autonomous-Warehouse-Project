@@ -6,6 +6,12 @@ import Interfaces.JobAssignerInterface;
 
 
 public class JobAssigner implements JobAssignerInterface{
+	
+	private ArrayList<Job> jobs;
+	
+	public JobAssigner(ArrayList<Job> unsortedJobs){
+		this.jobs = unsortedJobs;
+	}
 
 	@Override
 	public ArrayList<Job> sortJobs(ArrayList<Job> Unsortedjobs) {
