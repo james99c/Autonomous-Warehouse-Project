@@ -12,7 +12,7 @@ public class Map {
 		for (int x=0 ; x < width; x++){
 			for( int y=0; y < height; y++){
 
-				this.map[x][y] = new GridPoint(x,y, new ArrayList<Integer[]>(), false);
+				this.map[x][y] = new GridPoint(x, y, false);
 				
 			}
 		}

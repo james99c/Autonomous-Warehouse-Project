@@ -11,7 +11,7 @@ public class RoutePlanner implements RoutePlannerInterface{
         jobs = getJob();
     }
 
-    public ArrayList<Location> getRoute() {
+    public ArrayList<Location> getRoute(Location start, Location goal) {
         return this.route;
     }
 
@@ -19,5 +19,7 @@ public class RoutePlanner implements RoutePlannerInterface{
         // Take jobs from JobDecider
     }
 
-    //public search
+    public ArrayList<Integer[]> search(currentLocation, previousLocation, currentCost, goalLocation, currentPath, inputVariable){
+        
+    }
 }
