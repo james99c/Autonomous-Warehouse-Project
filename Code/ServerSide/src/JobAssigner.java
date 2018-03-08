@@ -16,7 +16,7 @@ public class JobAssigner implements JobAssignerInterface{
 	}
 
 	@Override
-	public ArrayList<Job> sortJobs(ArrayList<Job> Unsortedjobs) {
+	public ArrayList<Job> sortJobs() {
 		Collections.sort(jobs, new Comparator<Job>(){
 		     public int compare(Job o1, Job o2){
 		         if(o1.getRewardForJob() == o2.getRewardForJob())
