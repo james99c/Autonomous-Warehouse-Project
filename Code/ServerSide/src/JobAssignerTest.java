@@ -10,7 +10,7 @@ import DataObjects.Job;
 public class JobAssignerTest {
 
 	@Test
-	public void test() {
+	public void testSort() {
 		Job job1 = new Job((float) 5.0);
 		Job job2 = new Job((float) 10.0);
 		Job job3 = new Job((float) 15.0);
