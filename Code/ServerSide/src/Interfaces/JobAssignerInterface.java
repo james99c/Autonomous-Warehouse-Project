@@ -7,6 +7,6 @@ import DataObjects.Job;
 
 public interface JobAssignerInterface {
 
-	public ArrayList<Job> sortJobs();
+	public void sortJobs();
 	public HashMap<String, ArrayList<Job>> outputJobs(ArrayList<Job> sortedJobs);
 }

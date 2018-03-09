@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class JobAssigner implements JobAssignerInterface{
 	}
 
 	@Override
-	public ArrayList<Job> sortJobs() {
+	public void sortJobs() {
 		Collections.sort(jobs, new Comparator<Job>(){
 		     public int compare(Job o1, Job o2){
 		         if(o1.getRewardForJob() == o2.getRewardForJob())
@@ -24,7 +25,11 @@ public class JobAssigner implements JobAssignerInterface{
 		         return o1.getRewardForJob() > o2.getRewardForJob() ? -1 : 1;
 		     }
 		});
-		return null;
+		System.out.println(Arrays.toString(jobs.toArray()));
+	}
+	
+	public ArrayList<Job> getJobs(){
+		return jobs;
 	}
 
 	@Override
