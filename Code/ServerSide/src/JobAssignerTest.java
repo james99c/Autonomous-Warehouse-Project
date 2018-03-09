@@ -19,9 +19,9 @@ public class JobAssignerTest {
 		unsortedJobs.add(job2);
 		unsortedJobs.add(job3);
 		ArrayList<Job> sortedJobs = new ArrayList<Job>();
-		unsortedJobs.add(job3);
-		unsortedJobs.add(job2);
-		unsortedJobs.add(job1);
+		sortedJobs.add(job3);
+		sortedJobs.add(job2);
+		sortedJobs.add(job1);
 		JobAssigner jobAssigner = new JobAssigner(unsortedJobs);
 		jobAssigner.sortJobs();
 		assertEquals("job lists should be equal",sortedJobs,jobAssigner.getJobs());

@@ -25,7 +25,6 @@ public class JobAssigner implements JobAssignerInterface{
 		         return o1.getRewardForJob() > o2.getRewardForJob() ? -1 : 1;
 		     }
 		});
-		System.out.println(Arrays.toString(jobs.toArray()));
 	}
 	
 	public ArrayList<Job> getJobs(){
