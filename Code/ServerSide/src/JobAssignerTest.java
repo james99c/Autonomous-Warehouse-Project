@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.Test;
 
@@ -31,6 +32,23 @@ public class JobAssignerTest {
 		JobAssigner jobAssigner = new JobAssigner(unsortedJobs);
 		jobAssigner.sortJobs();
 		assertEquals("job lists should be equal",sortedJobs,jobAssigner.getJobs());
+	}
+	
+	@Test
+	public void testOutput(){
+		
+		Job job1 = new Job((float) 5.0);
+		Job job2 = new Job((float) 10.0);
+		Job job3 = new Job((float) 15.0);
+		ArrayList<Job> sortedJobs = new ArrayList<Job>();
+		JobAssigner jobAssigner = new JobAssigner(sortedJobs);
+		sortedJobs.add(job3);
+		sortedJobs.add(job2);
+		sortedJobs.add(job1);
+		HashMap<String, ArrayList<Job>> jobMap = new HashMap<String, ArrayList<Job>>();
+		jobMap.put("robot1", sortedJobs);
+		HashMap<String, ArrayList<Job>> jobMap1 = jobAssigner.outputJobs(sortedJobs);
+		assertEquals("hash map created correctly", jobMap, jobMap1);
 	}
 
 }
