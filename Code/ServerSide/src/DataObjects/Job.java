@@ -3,8 +3,11 @@ package DataObjects;
 import Interfaces.JobInterface;
 
 public class Job implements JobInterface{
-	public Job(){
-		
+	
+	private float rewardForJob;
+	
+	public Job(float rewardForJob){
+		this.rewardForJob = rewardForJob;
 	}
 	@Override
 	public Location getStartingLocation() {
@@ -19,7 +22,7 @@ public class Job implements JobInterface{
 	@Override
 	public float getRewardForJob() {
 		// TODO Auto-generated method stub
-		return 0;
+		return rewardForJob;
 	}
 	@Override
 	public float getWeight() {
