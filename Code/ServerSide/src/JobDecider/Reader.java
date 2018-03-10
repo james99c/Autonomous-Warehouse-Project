@@ -6,20 +6,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import DataObjects.Job;
 
 public class Reader {
 
-	final static Logger logger = Logger.getLogger(Reader.class);
+	//final static Logger logger = Logger.getLogger(Reader.class);
 
 	public static void main(String[] args) {
 
-		String itemFile = "/home/tomas/Dropbox/Mokslai/RP/job files/items.csv";
-		String locationFile = "/home/tomas/Dropbox/Mokslai/RP/job files/locations.csv";
-		String jobFile = "/home/tomas/Dropbox/Mokslai/RP/job files/training_jobs.csv";
-		String cancellationFile = "/home/tomas/Dropbox/Mokslai/RP/job files/cancellations.csv";
+		String itemFile = "/Users/ioanateju/Desktop/csv/items.csv";
+		String locationFile = "/Users/ioanateju/Desktop/csv/locations.csv";
+		String jobFile = "/Users/ioanateju/Desktop/csv/training_jobs.csv";
+		String cancellationFile = "/Users/ioanateju/Desktop/csv/cancellations.csv";
 		BufferedReader br = null;
 		BufferedReader br1 = null;
 		String line = "";
@@ -33,7 +33,7 @@ public class Reader {
 
 			br = new BufferedReader(new FileReader(itemFile));
 			br1 = new BufferedReader(new FileReader(locationFile));
-			logger.debug("Reading items and locations csv files");
+			//logger.debug("Reading items and locations csv files");
 			while ((line = br.readLine()) != null && (line2 = br1.readLine()) != null) {
 				// use comma as separator
 				String[] item = line.split(cvsSplitBy);
@@ -48,7 +48,7 @@ public class Reader {
 			br1.close();
 			br = new BufferedReader(new FileReader(jobFile));
 			br1 = new BufferedReader(new FileReader(cancellationFile));
-			logger.debug("Reading training_jobs and cancellations csv files");
+			//logger.debug("Reading training_jobs and cancellations csv files");
 			
 			while ((line = br.readLine()) != null && (line2 = br1.readLine()) != null) {
 				String[] job = line.split(cvsSplitBy);
@@ -80,7 +80,7 @@ public class Reader {
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			logger.error("One or more files are not found");
+			//logger.error("One or more files are not found");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

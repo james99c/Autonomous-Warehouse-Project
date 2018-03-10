@@ -1,6 +1,5 @@
 package DataObjects;
 
-import Interfaces.JobInterface;
 import JobDecider.Item;
 import JobDecider.JobObject;
 import JobDecider.Reader;
