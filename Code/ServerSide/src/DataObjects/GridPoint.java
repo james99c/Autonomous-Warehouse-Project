@@ -4,14 +4,15 @@ import java.util.ArrayList;
 
 public class GridPoint {
 	
-	private ArrayList<Integer[]> timeFrames = new ArrayList<Integer[]>();
+	private ArrayList<Integer[]> timeFrames;
 	private Location location;
 	private Boolean unavailable;
 	// timeFrame {StartTime, EndTime}
 	// if completely unavailable have anything as time frame
-	GridPoint(Location _location,Boolean _unavailable){
+	GridPoint(int x, int y, Boolean _unavailable){
 		this.location = _location;
 		this.unavailable = _unavailable;
+		timeFrame = new ArrayList<Integer[]>();
 	}
 	
 	public Boolean getAvailability(float[] timeFrame){
