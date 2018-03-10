@@ -1,4 +1,9 @@
+import java.util.ArrayList;
+
+import DataObjects.Location;
+import DataObjects.Map;
 import Interfaces.RoutePlannerInterface;
+import RoutePlannerExtra.SearchTree;
 
 
 
@@ -7,19 +12,9 @@ public class RoutePlanner implements RoutePlannerInterface{
 
     private ArrayList<Location> route;
 
-    public RoutePlanner() {
-        jobs = getJob();
-    }
-
-    public ArrayList<Location> getRoute(Location start, Location goal) {
-        return this.route;
-    }
-
-    public ArrayList<Integer> getJob() {
-        // Take jobs from JobDecider
-    }
-
-    public ArrayList<Integer[]> search(currentLocation, previousLocation, currentCost, goalLocation, currentPath, inputVariable){
-        
+    public ArrayList<Location> findRoute(Location currentLocation, Location goalLocation, Map currentMap){
+       ArrayList<Location> outputVariable = new ArrayList<Location>();
+       
+       return outputVariable;
     }
 }
