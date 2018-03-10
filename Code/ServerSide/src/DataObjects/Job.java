@@ -1,32 +1,74 @@
 package DataObjects;
 
 import Interfaces.JobInterface;
+import JobDecider.Item;
+import JobDecider.JobObject;
+import JobDecider.Reader;
 
-public class Job implements JobInterface{
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Job {
+	private int id;
+	private ArrayList<JobObject> job;
+	private Reader reader;
+	private HashMap<String, Item> items;
+	private boolean cancel;
 	
-	private float rewardForJob;
+	public Job(int id, ArrayList<JobObject> job, HashMap<String, Item> items, boolean cancel){
+		this.id = id;
+		this.job = job;
+		this.items = items;
+		this.cancel = cancel;
+	}
 	
-	public Job(float rewardForJob){
-		this.rewardForJob = rewardForJob;
+	public int getID() {
+		return id;
 	}
-	@Override
-	public Location getStartingLocation() {
-		// TODO Auto-generated method stub
-		return null;
+
+	public ArrayList<String> getItems() {
+		ArrayList<String> item = new ArrayList<String>();
+		for(JobObject job : job){
+			item.add(job.getID());
+		}
+		return item;
 	}
-	@Override
-	public Location getGoalLocation() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public ArrayList<Integer> getNumberOfItems() {
+		ArrayList<Integer> item = null;
+		for(JobObject job : job){
+			item.add(job.getQuantity());
+		}
+		return item;
 	}
-	@Override
-	public float getRewardForJob() {
-		// TODO Auto-generated method stub
-		return rewardForJob;
+	
+	public float getJobReward() {
+		float reward = 0;
+		for(int i=0; i < getItems().size(); i++) 
+			reward += items.get(job.get(i).getID()).getReward() * job.get(i).getQuantity();
+		return reward;
+		
 	}
-	@Override
-	public float getWeight() {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public float getJobWeight() {
+		float weight = 0;
+		for(int i=0; i < getItems().size(); i++) 
+			weight += items.get(job.get(i).getID()).getWeight() * job.get(i).getQuantity();;
+		return weight;
 	}
-}
+	public boolean getCancellation(){
+		
+		return cancel;
+	}
+
+		
+		
+
+		
+		
+		public ArrayList<JobObject> getJob(){
+			return job;
+		}
+	}
+
+
