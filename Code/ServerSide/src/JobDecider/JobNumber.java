@@ -18,4 +18,9 @@ public class JobNumber {
 	public ArrayList<JobObject> getJob(){
 		return job;
 	}
+
+
+
+
+
 }
