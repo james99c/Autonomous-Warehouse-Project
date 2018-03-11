@@ -111,7 +111,7 @@ public class SearchTree implements Comparable {
 
   private float timeFrameDifference(ArrayList<Float[]> listOfTimeFrame) {
     int size = listOfTimeFrame.size();
-    Float[] timeFrame = list.get(size - 1);
+    Float[] timeFrame = listOfTimeFrame.get(size - 1);
     return timeFrame[1] - timeFrame[0];
   }
 }
