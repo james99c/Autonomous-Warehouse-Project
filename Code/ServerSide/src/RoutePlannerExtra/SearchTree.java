@@ -28,25 +28,36 @@ public class SearchTree {
 
   private void searchForGoal() {
     if(!(this.currentLocation.equals(this.goalLocation))){
-      NewLocationList = Map.findAllMovementOptions(currentLocation, currentCost);
+      ArrayList<Location> newLocationList = Map.findAllMovementOptions(currentLocation, currentCost);
       // if there are no movement options
-      if(NewLocationList.size() == 0){
+      if(newLocationList.size() == 0){
 
           if(searchTree.size() > 0){
-          usableLeafNodes.remove(0).search();
-          return;
-        } else{
-          System.out.println("there are no paths to the object");
-          return;
-        }
-
+            usableLeafNodes.remove(0).search();
+            return;
+          } 
+          else {
+            System.out.println("There are no paths to the object.");
+            return;
+          }
       }
       else{
-        for (int i = 0; i < NewLocationList.size(); i++){
+        /*
+        for (int i = 0; i < newLocationList.size(); i++){
           // need a way to calculate the cost of moving to the child node                                                                                                 // need to have time frame and currentCost
           this.childNodes.add(
-            new SearchTree(NewLocationList.get(i), this.currentLocation, currentCost + 1, this.goalLocation, this, currentPath.add(GridPoint(NewLocationList.get(i), Timeframe), this.inputVariable, this.usableLeafNodes));
+            new SearchTree(newLocationList.get(i), this.currentLocation, currentCost + 1, 
+                          this.goalLocation, this, 
+                          currentPath.add(new GridPoint(newLocationList.get(i), Timeframe), this.inputVariable, this.usableLeafNodes));
         }
+        */
+        for (Location e: newLocationList)
+          this.childNodes.add(
+            new SearchTree(e, this.currentLocation, currentCost + 1, this.goalLocation, 
+                this, currentPath.add(new GridPoint(e, Timeframe), this.inputVariable, 
+                this.usableLeafNodes)
+            )
+          );
         // then sort child nodes from lowest to highest totalCost
         usableLeafNodes.addAll(childNodes);
 
