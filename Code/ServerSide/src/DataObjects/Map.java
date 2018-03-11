@@ -50,11 +50,13 @@ public class Map {
 	
 	public ArrayList<GridPoint> getAvailableLocations(Location location, Integer[] timeFrame){
 		ArrayList<GridPoint> surroundingLocations = new ArrayList<GridPoint>();
+		int x = location.getX();
+		int y = location.getY();
 		try {
-			surroundingLocations.add(map[location.getX() + 1][location.getY()]);
-			surroundingLocations.add(map[location.getX() - 1][location.getY()]);
-			surroundingLocations.add(map[location.getX() ][location.getY() + 1]);
-			surroundingLocations.add(map[location.getX() ][location.getY() - 1]);
+			surroundingLocations.add(map[x+1][y]);
+			surroundingLocations.add(map[x-1][y]);
+			surroundingLocations.add(map[x][y+1]);
+			surroundingLocations.add(map[x][y-1]);
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
