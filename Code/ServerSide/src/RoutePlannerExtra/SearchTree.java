@@ -47,31 +47,30 @@ public class SearchTree implements Comparable {
         }
 
       } else { // when there are movement options
-        for (int i = 0; i < NewLocationList.size(); i++) {
+        for (GridPoint gp: NewLocationList) {
           // need to have time frame and currentCost as the estimated time
           
           ArrayList<GridPoint> newPath = (ArrayList<GridPoint>) currentPath;
-          newPath.add(NewLocationList.get(i));
+          newPath.add(gp);
           
-          this.childNodes.add(new SearchTree(NewLocationList.get(i).getLocation(), this.currentLocation,
-              currentCost + (NewLocationList.get(i).getTimeFrames().get(-1)[1] - NewLocationList.get(i).getTimeFrames().get(-1)[0]), this.goalLocation, this,
-              newPath, outputVariable));
-        }
-        */
-        for (Location e: newLocationList)
           this.childNodes.add(
-            new SearchTree(e, this.currentLocation, currentCost + 1, this.goalLocation, 
-                this, currentPath.add(new GridPoint(e, Timeframe), this.inputVariable, 
-                this.usableLeafNodes)
+            new SearchTree(
+              gp.getLocation(),
+              this.currentLocation,
+              currentCost + (timeFrameDifference(gp.getTimeFrames())),
+              this.goalLocation, 
+              this,
+              newPath, 
+              this.outputVariable
             )
           );
+        }
         // then sort child nodes from lowest to highest totalCost
         usableLeafNodes.addAll(childNodes);
         Collections.sort(usableLeafNodes);
         // searches the child node with the lowest total cost
         usableLeafNodes.remove(0).search();
         return;
-
       }
     } else { // at goal location
       // has found the ideal route
@@ -101,12 +100,18 @@ public class SearchTree implements Comparable {
     return (int) (this.totalCost - compareage);
   }
 
-@Override
-public int compareTo(Object compareTree) {
-	  Float compareage = ((SearchTree) compareTree).totalCost;
+  @Override
+  public int compareTo(Object compareTree) {
+      Float compareage = ((SearchTree) compareTree).totalCost;
 
-	    /* For Ascending order*/
-	  	// hope that something doesn't arrive within the same second
-	    return (int) (this.totalCost - compareage);
-}
+        /* For Ascending order*/
+        // hope that something doesn't arrive within the same second
+        return (int) (this.totalCost - compareage);
+  }
+
+  private float timeFrameDifference(ArrayList<Float[]> listOfTimeFrame) {
+    int size = listOfTimeFrame.size();
+    Float[] timeFrame = list.get(size - 1);
+    return timeFrame[1] - timeFrame[0];
+  }
 }
