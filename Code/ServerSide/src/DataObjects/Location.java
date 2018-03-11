@@ -1,18 +1,18 @@
 package DataObjects;
 
 public class Location {
-	private Integer x, y;
-
-	Location(Integer x, Integer y){
-		this.x = x;
-		this.y = y;
+	private int x;
+	private int y;
+	Location(Integer _x, Integer _y){
+		this.x = _x;
+		this.y = _y;
 	}
-
-	public Integer getX() {
+	
+	public int getX(){
 		return this.x;
 	}
-
-	public Integer getY() {
+	
+	public int getY(){
 		return this.y;
 	}
 }

@@ -4,14 +4,18 @@ import java.util.ArrayList;
 
 public class Map {
 	private GridPoint[][] map;
+	private Integer height;
+	private Integer width;
+
 	
-	Map(Integer height, Integer width, ArrayList<Location> unAvailableLocations){
-		this.map = new GridPoint[width][height];
+	Map(Integer _height, Integer _width, ArrayList<Location> unAvailableLocations){
+		this.map = new GridPoint[_width][_height];
+		this.height = _height;
+		this.width = _width;
 		
-		// generates
+		// generates all the gridpoints for locations
 		for (int x=0 ; x < width; x++){
 			for( int y=0; y < height; y++){
-
 				this.map[x][y] = new GridPoint(x, y, false);
 				
 			}
@@ -19,7 +23,7 @@ public class Map {
 		
 		// sets unavailable locations
 		for (Location a: unAvailableLocations){
-			this.map[a.getX()][a.getY()] = new GridPoint(x,y, new ArrayList<Integer[]>(), true);;
+			this.map[a.getX()][a.getY()] = new GridPoint(a.getX(),a.getY(), true);
 		}
 		
 	}
@@ -27,20 +31,20 @@ public class Map {
 	
 	public void blockRoute(ArrayList<GridPoint> route){
 		for (GridPoint a: route){
-			this.map[a.getX()][a.getY()].setUnAvailability(a.getTimeFrames());
+			this.map[a.getLocation().getX()][a.getLocation().getY()].setUnAvailability(a.getTimeFrames());
 		}
 		
 	}
 	public void unBlockRoute(ArrayList<GridPoint> route){
 		for (GridPoint a: route){
-			this.map[a.getX()][a.getY()].setUnAvailability(a.getTimeFrames());
+			this.map[a.getLocation().getX()][a.getLocation().getY()].setUnAvailability(a.getTimeFrames());
 		}
 		
 	}
 	
 	public void clearTimeFrames(){
-		for (int x=0 ; x < width; x++){
-			for( int y=0; y < height; y++){
+		for (int x=0 ; x < this.width; x++){
+			for( int y=0; y <this.height; y++){
 
 				this.map[x][y].removeTimeFrames();
 				
@@ -48,7 +52,7 @@ public class Map {
 		}
 	}
 	
-	public ArrayList<GridPoint> getAvailableLocations(Location location, Integer[] timeFrame){
+	public ArrayList<GridPoint> getAvailableLocations(Location location, Float[] timeFrame){
 		ArrayList<GridPoint> surroundingLocations = new ArrayList<GridPoint>();
 		int x = location.getX();
 		int y = location.getY();
@@ -64,6 +68,7 @@ public class Map {
 		ArrayList<GridPoint> output = new ArrayList<GridPoint>();
 		for (GridPoint a: surroundingLocations){
 			if(a.getAvailability(timeFrame)){
+				a.setUnAvailability(timeFrame); 
 				output.add(a);
 			}
 		}
