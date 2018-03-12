@@ -15,7 +15,7 @@ public class Reader {
 
 	final static Logger logger = Logger.getAnonymousLogger(Reader.class);
 
-	public void FileReader() {
+	public static void mainFileReader(String[] args) {
 
 		String itemFile = "/Users/ioanateju/Desktop/csv/items.csv";
 		String locationFile = "/Users/ioanateju/Desktop/csv/locations.csv";
