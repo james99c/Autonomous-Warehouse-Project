@@ -13,12 +13,21 @@ public class Job {
 	private Reader reader;
 	private HashMap<String, Item> items;
 	private boolean cancel;
+	private float reward;
 	
 	public Job(int id, ArrayList<JobObject> job, HashMap<String, Item> items, boolean cancel){
 		this.id = id;
 		this.job = job;
 		this.items = items;
 		this.cancel = cancel;
+	}
+	
+	public Job(float reward){
+		this.reward = reward;
+	}
+	
+	public float getReward(){
+		return reward;
 	}
 	
 	public int getID() {
