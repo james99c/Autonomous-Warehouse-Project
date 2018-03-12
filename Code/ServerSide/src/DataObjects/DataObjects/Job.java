@@ -2,15 +2,14 @@ package DataObjects;
 
 import JobDecider.Item;
 import JobDecider.JobObject;
-import JobDecider.Reader;
-
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Job {
 	private int id;
 	private ArrayList<JobObject> job;
-	private Reader reader;
+	private FileReader reader;
 	private HashMap<String, Item> items;
 	private boolean cancel;
 	private float reward;
