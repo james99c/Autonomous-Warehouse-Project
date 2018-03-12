@@ -34,7 +34,7 @@ public class Job {
 	}
 	
 	public ArrayList<Integer> getNumberOfItems() {
-		ArrayList<Integer> item = null;
+		ArrayList<Integer> item = new ArrayList<Integer>();
 		for(JobObject job : job){
 			item.add(job.getQuantity());
 		}
