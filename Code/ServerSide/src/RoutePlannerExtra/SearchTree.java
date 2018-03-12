@@ -11,27 +11,27 @@ public class SearchTree implements Comparable {
   Location currentLocation, previousLocation, goalLocation;
   Float currentCost, heuristicCost, totalCost;
   SearchTree parentNode;
-  ArrayList<GridPoint> currentPath, outputVariable;
+  ArrayList<GridPoint> currentPath;
   ArrayList<SearchTree> childNodes = new ArrayList<SearchTree>();
   
   static Map currentMap;
+  static ArrayList<GridPoint> outputVariable = new ArrayList<GridPoint>();
   static ArrayList<SearchTree> usableLeafNodes = new ArrayList<SearchTree>();
 
   SearchTree(Location _currentLocation, Location _previousLocation, float _currentCost, Location _goalLocation,
-      SearchTree _parentNode, ArrayList<GridPoint> _currentPath, ArrayList<GridPoint> _outputVariable) {
+      SearchTree _parentNode, ArrayList<GridPoint> _currentPath) {
     this.currentLocation = _currentLocation;
     this.previousLocation = _previousLocation;
     this.goalLocation = _goalLocation;
     this.parentNode = _parentNode;
     this.currentPath = _currentPath;
-    this.outputVariable = _outputVariable;
     this.currentCost = _currentCost;
     this.heuristicCost = getHeuristicCost(_currentLocation, _goalLocation);
     this.totalCost = _currentCost + heuristicCost;
   }
 
   // searches this particular node for goal
-  private void search() {
+  public void search() {
     // if not at goal
     if (!(this.currentLocation.equals(this.goalLocation))) {					// need map to calculate how long it's gonna take to move that junction
       ArrayList<GridPoint> NewLocationList = currentMap.getAvailableLocations(currentLocation, new Float[] {currentCost, currentCost + 1} );
@@ -60,8 +60,7 @@ public class SearchTree implements Comparable {
               currentCost + (timeFrameDifference(gp.getTimeFrames())),
               this.goalLocation, 
               this,
-              newPath, 
-              this.outputVariable
+              newPath
             )
           );
         }
@@ -87,6 +86,16 @@ public class SearchTree implements Comparable {
     }
   }
 
+  public ArrayList<GridPoint> getOutputVariable() {
+    ArrayList<GridPoint> ret = new ArrayList<>(this.outputVariable);
+    this.outputVariable.clear();
+    return ret;
+  }
+
+  public setMap(Map _map) {
+    this.currentMap = _map;
+  }
+
   private Float getHeuristicCost(Location currentLocation, Location goalLocation) {
     Integer changeInX = Math.abs(goalLocation.getX() - currentLocation.getX());
     Integer changeInY = Math.abs(goalLocation.getY() - currentLocation.getY());
@@ -102,11 +111,11 @@ public class SearchTree implements Comparable {
 
   @Override
   public int compareTo(Object compareTree) {
-      Float compareage = ((SearchTree) compareTree).totalCost;
+    Float compareage = ((SearchTree) compareTree).totalCost;
 
-        /* For Ascending order*/
-        // hope that something doesn't arrive within the same second
-        return (int) (this.totalCost - compareage);
+    /* For Ascending order*/
+    // hope that something doesn't arrive within the same second
+    return (int) (this.totalCost - compareage);
   }
 
   private float timeFrameDifference(ArrayList<Float[]> listOfTimeFrame) {
