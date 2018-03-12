@@ -20,9 +20,9 @@ public class JobAssigner implements JobAssignerInterface{
 	public void sortJobs() {
 		Collections.sort(jobs, new Comparator<Job>(){
 		     public int compare(Job o1, Job o2){
-		         if(o1.getJobReward() == o2.getJobReward())
+		         if(o1.getReward() == o2.getReward())
 		             return 0;
-		         return o1.getJobReward() > o2.getJobReward() ? -1 : 1;
+		         return o1.getReward() > o2.getReward() ? -1 : 1;
 		     }
 		});
 	}
