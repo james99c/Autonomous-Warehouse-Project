@@ -1,13 +1,31 @@
 import lejos.nxt.LCD
 
 public class Display {
-	String jobID;
-	String status;
-	int weight;
+	String jobID = "No job";
+	String status = "Idle";
+	String route = "No route";
+	//int weight = 0;
 	public static void main(String args[]) {
 		LCD.drawString(jobID, 0, 5);
 		LCD.drawString(status, 2, 3)
-		LCD.drawInt(weight, 4, 7);
-		LCD.drawnString("< pick  cancel >", 6, 0);
+		//LCD.drawInt(weight, 4, 7);
+		LCD.drawString(route, 4, 3);
+		LCD.drawString("< pick  cancel >", 6, 0);
 	}
+	public void updateID() {
+		//Update new jobID 
+	}
+	
+	public void updateStatus() {
+		//Update status
+	}
+	
+	public void updateWeight() {
+		//Update weight
+	}
+	
+	pub;ic void updateRoute() {
+		//Update route
+	}
+	
 }

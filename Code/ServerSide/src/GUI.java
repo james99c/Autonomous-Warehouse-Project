@@ -2,17 +2,19 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.*;
+import java.io.File;
 
 import javax.swing.*;
 
 import Interfaces.GUIInterface;
 
 
-public class GUI implements GUIInterface{
+public class GUI {
 	private JFrame frame;
 	String job1;
 	String job2;
 	String job3;
+	//String filePath = "";
 	
 	
 	public GUI() {
@@ -28,6 +30,7 @@ public class GUI implements GUIInterface{
         JPanel panel4 = new JPanel();
         
         JLabel title = new JLabel("Current Jobs");
+        //JLabel fileName = new JLabel("No file selected");
         JLabel robotlabel1 = new JLabel("Robot 1");
         JLabel robotlabel2 = new JLabel("Robot 2");
         JLabel robotlabel3 = new JLabel("Robot 3");
@@ -56,8 +59,24 @@ public class GUI implements GUIInterface{
             	//Cancel the robot's operation
                     }} );   
         
+        /*JButton readFile = new JButton("Select file");
+        readFile.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFileChooser chooser1 = new JFileChooser();
+                int result = chooser1.showOpenDialog(frame);
+                if(result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile1 = chooser1.getSelectedFile();
+                    filePath = selectedFile1.getAbsolutePath();
+                    fileName.setText(filePath);
+                	}
+        	}
+        } ); */
+        
         
         panel1.add(title);
+        //panel1.add(readFile);
+        //panel1.add(fileName);
         
         panel2.add(robotlabel1);
         panel2.add(joblabel1);
@@ -84,5 +103,5 @@ public class GUI implements GUIInterface{
 	public static void main(String[] args) {
         GUI g = new GUI();
         		
-	}
+	} 
 }
