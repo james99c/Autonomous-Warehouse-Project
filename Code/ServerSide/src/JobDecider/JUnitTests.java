@@ -64,8 +64,8 @@ public class JUnitTests {
 		assertEquals(10200, id);
 		assertArrayEquals(items1.toArray(), items2.toArray());
 		assertArrayEquals(numberOfItems1.toArray(), numberOfItems2.toArray());
-		assertEquals(reward, 93.10f, 0.001);
-		assertEquals(weight, 15.85f, 0.001);
+		assertEquals(93.10f, reward, 0.001);
+		assertEquals(15.85f, weight, 0.001);
 		assertTrue(cancel);
 		assertEquals(jobs1, jobs);
 	}
