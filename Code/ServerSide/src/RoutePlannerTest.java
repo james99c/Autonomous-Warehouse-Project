@@ -64,8 +64,8 @@ public class RoutePlannerTest {
 		int size = a.size();
 
 		for (int i = 0; i < size; i++) {
-			GridPoint p1 = a.get(i);
-			GridPoint p2 = b.get(i);
+			Location p1 = a.get(i).getLocation();
+			Location p2 = b.get(i).getLocation();
 
 			if (p1.getX() != p2.getX() || p1.getY() != p2.getY())
 				return false;
