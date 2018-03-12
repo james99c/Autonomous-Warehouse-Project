@@ -2,7 +2,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
-
+/**
+ * 
+ * Sends routes to the robot to execute
+ * 
+ * @author James
+ *
+ */
 public class ServerSender extends Thread {
 	
 	private DataInputStream input;
@@ -19,6 +25,10 @@ public class ServerSender extends Thread {
 
 	public void run() {
 		try {
+			/*
+			 * If there is a route available in the robots
+			 * queue then take it and send it
+			 */
 			while (true) {
 					String route = clientQueue.take();
 					output.writeInt(route.length());

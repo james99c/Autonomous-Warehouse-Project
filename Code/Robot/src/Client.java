@@ -13,6 +13,14 @@ import lejos.nxt.debug.DebugMonitor;
 import rp.config.RobotConfigs;
 import rp.systems.RobotProgrammingDemo;
 
+/**
+ * 
+ * Communication for a robot.
+ * Enables movement where appropriate
+ * 
+ * @author James
+ *
+ */
 public class Client {
 	
 	private static Movement robot;
@@ -32,6 +40,12 @@ public class Client {
 		DataOutputStream outputStream = connection.openDataOutputStream();
 
 		boolean run = true;
+		/*
+		 * Read routes from the server,
+		 * then instantly execute them,
+		 * and finally send the route the robot
+		 * actually took back to the server
+		 */
 		while (run) {
 
 			try {
@@ -39,6 +53,11 @@ public class Client {
 				byte[] array = new byte[length];
 				inputStream.read(array);
 				String route = new String(array);
+				
+				/*
+				 * If the route received is empty don't do anything,
+				 * otherwise execute the route
+				 */
 				if (route == null || route.equals("")) {
 				}
 				else {
@@ -49,6 +68,7 @@ public class Client {
 					outputStream.writeBytes(routeExecuted);
 					outputStream.flush();
 				}
+				
 			}
 			catch (IOException e) {
 				System.out.println("Failed to talk to server");
@@ -57,7 +77,9 @@ public class Client {
 		}
 	}
 	
-	
+	/**
+	 * Setup the sensors for usage and create a new movement object
+	 */
 	public static void initialiseSensors() {
 		LightSensor leftLightSensor = new LightSensor(SensorPort.S1);
 		LightSensor rightLightSensor = new LightSensor(SensorPort.S2);

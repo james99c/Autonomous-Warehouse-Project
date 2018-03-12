@@ -11,6 +11,13 @@ import rp.systems.RobotProgrammingDemo;
 import rp.systems.WheeledRobotSystem;
 import rp.util.Rate;
 
+/**
+ * 
+ * Specific movements of a robot
+ * 
+ * @author Anthony
+ *
+ */
 public class Movement {
 
 	private DifferentialPilot m_pilot;
@@ -26,7 +33,15 @@ public class Movement {
 	int rightSensLightVal;
 	Rate r = new Rate(20);
 	
-
+	/**
+	 * 
+	 * Constructor for new movement
+	 * 
+	 * @param _config The robot's configuration
+	 * @param port1 The type of sensor at port 1
+	 * @param port2 The type of sensor at port 2
+	 * @param port3 The type of sensor at port 3
+	 */
 	public Movement(WheeledRobotConfiguration _config, LightSensor port1, LightSensor port2, LightSensor port3) {
 		this.leftSensor = port1;
 		this.rightSensor = port2;
