@@ -9,9 +9,8 @@ import org.junit.Test;
 
 import DataObjects.Job;
 
-
 public class JUnitTests {
-	
+
 	@Test
 	public void testItem() {
 		Item item = new Item(3.45f, 1.07f, 4, 3);
@@ -24,7 +23,7 @@ public class JUnitTests {
 		assertEquals(4, x);
 		assertEquals(3, y);
 	}
-	
+
 	@Test
 	public void testJobObject() {
 		JobObject job = new JobObject("ab", 7);
@@ -33,7 +32,7 @@ public class JUnitTests {
 		assertEquals("ab", id);
 		assertEquals(7, quantity);
 	}
-	
+
 	@SuppressWarnings("null")
 	@Test
 	public void testJob() {
@@ -41,21 +40,21 @@ public class JUnitTests {
 		jobs.add(new JobObject("aa", 5));
 		jobs.add(new JobObject("ab", 2));
 		jobs.add(new JobObject("bd", 7));
-		
+
 		HashMap<String, Item> items = new HashMap<String, Item>();
-		items.put("aa", new Item(2.05f, 1.67f, 2,1));
-		items.put("ab", new Item(5.90f, 2.00f, 7,4));
-		items.put("bd", new Item(10.15f, 0.50f, 5,1));
-		
+		items.put("aa", new Item(2.05f, 1.67f, 2, 1));
+		items.put("ab", new Item(5.90f, 2.00f, 7, 4));
+		items.put("bd", new Item(10.15f, 0.50f, 5, 1));
+
 		Job job = new Job(10200, jobs, items, true);
 		int id = job.getID();
 		ArrayList<String> items1 = job.getItems();
-		ArrayList<String> items2 = null;
+		ArrayList<String> items2 = new ArrayList<String>();
 		items2.add("aa");
 		items2.add("ab");
 		items2.add("bd");
 		ArrayList<Integer> numberOfItems1 = job.getNumberOfItems();
-		ArrayList<Integer> numberOfItems2 = null;
+		ArrayList<Integer> numberOfItems2 = new ArrayList<Integer>();
 		numberOfItems2.add(5);
 		numberOfItems2.add(2);
 		numberOfItems2.add(7);
