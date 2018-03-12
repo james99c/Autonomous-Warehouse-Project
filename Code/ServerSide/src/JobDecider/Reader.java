@@ -6,16 +6,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-//import org.apache.log4j.Logger;
-import java.util.logging.Logger;
-
+import org.apache.log4j.Logger;
 import DataObjects.Job;
 
 public class Reader {
 
-	final static Logger logger = Logger.getAnonymousLogger(Reader.class);
+	final static Logger logger = Logger.getLogger(Reader.class);
 
-	public static void mainFileReader(String[] args) {
+	public static void main(String[] args) {
 
 		String itemFile = "/Users/ioanateju/Desktop/csv/items.csv";
 		String locationFile = "/Users/ioanateju/Desktop/csv/locations.csv";
