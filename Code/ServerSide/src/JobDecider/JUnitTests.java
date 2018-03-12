@@ -19,7 +19,7 @@ public class JUnitTests {
 		int x = item.getX();
 		int y = item.getY();
 		assertEquals(3.45f, reward, 0e-1);
-		assertEquals(1.07f, weight, 0e-2);
+		assertEquals(1.07f, weight, 0e-1);
 		assertEquals(4, x);
 		assertEquals(3, y);
 	}
@@ -33,7 +33,6 @@ public class JUnitTests {
 		assertEquals(7, quantity);
 	}
 
-	@SuppressWarnings("null")
 	@Test
 	public void testJob() {
 		ArrayList<JobObject> jobs = new ArrayList<JobObject>();
@@ -59,14 +58,14 @@ public class JUnitTests {
 		numberOfItems2.add(2);
 		numberOfItems2.add(7);
 		float reward = job.getJobReward();
-		float weight = job.getJobReward();
+		float weight = job.getJobWeight();
 		boolean cancel = job.getCancellation();
 		ArrayList<JobObject> jobs1 = job.getJob();
 		assertEquals(10200, id);
 		assertArrayEquals(items1.toArray(), items2.toArray());
 		assertArrayEquals(numberOfItems1.toArray(), numberOfItems2.toArray());
-		assertEquals(reward, 93.10f, 0e-3);
-		assertEquals(weight, 15.85f, 0e-4);
+		assertEquals(reward, 93.10f, 0.001);
+		assertEquals(weight, 15.85f, 0.001);
 		assertTrue(cancel);
 		assertEquals(jobs1, jobs);
 	}
