@@ -8,13 +8,14 @@ public class Map {
 	private Integer width;
 
 	
-	Map(Integer _height, Integer _width, ArrayList<Location> unAvailableLocations){
-		this.map = new GridPoint[_width][_height];
-		this.height = _height;
-		this.width = _width;
+	public Map(Integer _height, Integer _width, ArrayList<Location> unAvailableLocations){
+		
+		this.height = _height + 1;
+		this.width = _width + 1;
+		this.map = new GridPoint[width][height];
 		
 		// generates all the gridpoints for locations
-		for (int x=0 ; x < width; x++){
+		for (int x=0 ; x < width ; x++){
 			for( int y=0; y < height; y++){
 				this.map[x][y] = new GridPoint(x, y, false);
 				
@@ -58,12 +59,29 @@ public class Map {
 		int y = location.getY();
 		try {
 			surroundingLocations.add(map[x+1][y]);
-			surroundingLocations.add(map[x-1][y]);
-			surroundingLocations.add(map[x][y+1]);
-			surroundingLocations.add(map[x][y-1]);
+			
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
+		try {
+			surroundingLocations.add(map[x-1][y]);
+			
+		} catch (IndexOutOfBoundsException e) {
+			// Do nothing
+		}
+		try {
+			surroundingLocations.add(map[x][y+1]);
+			
+		} catch (IndexOutOfBoundsException e) {
+			// Do nothing
+		}
+		try {
+			surroundingLocations.add(map[x][y-1]);
+			
+		} catch (IndexOutOfBoundsException e) {
+			// Do nothing
+		}
+		
 		
 		ArrayList<GridPoint> output = new ArrayList<GridPoint>();
 		for (GridPoint a: surroundingLocations){

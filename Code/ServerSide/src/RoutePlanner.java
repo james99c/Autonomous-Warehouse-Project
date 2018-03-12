@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import DataObjects.GridPoint;
 import DataObjects.Location;
 import DataObjects.Map;
 import Interfaces.RoutePlannerInterface;
@@ -11,30 +12,39 @@ public class RoutePlanner implements RoutePlannerInterface{
     private ArrayList<Integer> jobs;
     private ArrayList<GridPoint> route;
     private ArrayList<Location> prevLocation;
+    private Map map;
 
-    public RoutePlanner() {
+    public RoutePlanner(Map _map) {
         prevLocation = new ArrayList<Location>();
+        this.map = _map;
+        SearchTree.setMap(map);
     }
 
-    public ArrayList<GridPoint> findRoute(Location currentLocation, Location goalLocation, Map currentMap){
+    public ArrayList<GridPoint> findRoute(Location currentLocation, Location goalLocation){
         //ArrayList<Location> outputVariable = new ArrayList<Location>();
-        SearchTree searchTree = new Search(
+        SearchTree searchTree = new SearchTree(
             currentLocation,
-            getLastItemFromArrayList(prevLocation),
+            currentLocation,
+            0f,
             goalLocation,
-            this,
-            this.route,
-            0
-        );
-        searchTree.setMap(currentMap);
-
+            null,
+            new ArrayList<GridPoint>()
+        );     
         searchTree.search();
         ArrayList<GridPoint> outputVariable = searchTree.getOutputVariable();
         return outputVariable;
     }
+    
+    public static void main(String[] args) {
+    	Map map = new Map(5,5, new ArrayList<Location>());
+    	RoutePlanner routeSearch = new RoutePlanner(map);
+    	System.out.println(routeSearch.findRoute(new Location(0,0), new Location(5,5)));
+    	//		new RoutePlanner();
+//		new Map(5,5, new ArrayList<Location>());
+	}
 
-    private <E> getLastItemFromArrayList(ArrayList<E> list) {
+    private Location getLastItemFromArrayList(ArrayList<Location> list) {
         int size = list.size();
-        return (E) list.get(size-1);
+        return list.get(size-1);
     }
 }
