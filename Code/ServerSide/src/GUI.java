@@ -10,7 +10,9 @@ import Interfaces.GUIInterface;
 
 
 public class GUI {
-	private JFrame frame;
+	private JFrame frame1;
+	private JFrame frame2;
+	private JFrame frame3;
 	String job1;
 	String job2;
 	String job3;
@@ -18,16 +20,116 @@ public class GUI {
 	
 	
 	public GUI() {
+		frame1 = new JFrame();
+		Integer robotsConnected = 0;
+		JPanel panel11 = new JPanel();
+		JPanel panel12 = new JPanel();
+		JPanel panel13 = new JPanel();
+		frame1.setLayout(new FlowLayout());
+		
+		JLabel connectingLabel = new JLabel("Connecting to robots");
+		JLabel counterLabel = new JLabel(robotsConnected.toString() + " Robots connected");
+		
+		JButton doneButton = new JButton("Done");
+        doneButton.addActionListener(new ActionListener() {
+            @Override            
+            public void actionPerformed(ActionEvent e) {
+            	frame1.dispose();
+            	frame2.setVisible(true);
+                    }} );
+        
+		panel11.add(connectingLabel);
+		panel12.add(counterLabel);
+		panel13.add(doneButton);
+		
+		frame1.add(panel11);
+        frame1.add(panel12);
+        frame1.add(panel13);
+        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame1.setTitle("Warehouse GUI");
+        frame1.setPreferredSize(new Dimension(280, 280));
+        frame1.pack();
+        frame1.setVisible(true);
+        
+        
+        frame2 = new JFrame();
+        JPanel panel21 = new JPanel();
+        JPanel panel22 = new JPanel();
+        JPanel panel23 = new JPanel();
+        JPanel panel24 = new JPanel();
+        JPanel panel25 = new JPanel();
+        JPanel panel26 = new JPanel();
+        frame2.setLayout(new FlowLayout());
+        
+        JLabel title1 = new JLabel("Connected Robots");
+        JLabel noneConnected =  new JLabel("No robots connected");
+        JLabel connected1 = new JLabel("Robot1");
+        JLabel connected2 = new JLabel("Robot2");
+        JLabel connected3 = new JLabel("Robot3");
+        JLabel enterX = new JLabel("Enter x co-ordinate");
+        JLabel enterY = new JLabel("Enter y co-ordinate");
+        JTextField x1 = new JTextField();
+        JTextField x2 = new JTextField();
+        JTextField x3 = new JTextField();
+        JTextField y1 = new JTextField();
+        JTextField y2 = new JTextField();
+        JTextField y3 = new JTextField();
+        
+        JButton doneButton2 = new JButton("Done");
+        doneButton2.addActionListener(new ActionListener() {
+            @Override            
+            public void actionPerformed(ActionEvent e) {
+            	frame2.dispose();
+            	frame3.setVisible(true);
+                    }} );
+        
+        panel21.add(title1);
+        
+        panel22.add(connected1);
+        panel22.add(enterX);
+        panel22.add(x1);
+        panel22.add(enterY);
+        panel22.add(y1);
+        
+        panel23.add(connected2);
+        panel23.add(enterX);
+        panel23.add(x2);
+        panel23.add(enterY);
+        panel23.add(y2);
+        
+        panel24.add(connected3);
+        panel24.add(enterX);
+        panel24.add(x3);
+        panel24.add(enterY);
+        panel24.add(y3);
+        
+		panel25.add(noneConnected);
+		
+		panel26.add(doneButton2);
+		
+		frame2.add(panel21);
+        if(robotsConnected > 0) {frame2.add(panel22); }
+        if(robotsConnected > 1) {frame2.add(panel23); }
+        if(robotsConnected > 2) {frame2.add(panel24); }
+        if(robotsConnected == 0) {frame2.add(panel25); }
+        frame2.add(panel26);
+        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame2.setTitle("Warehouse GUI");
+        frame2.setPreferredSize(new Dimension(280, 280));
+        frame2.pack();
+        frame2.setVisible(false);
+        
 		String testString = "Test job ID";
         job1 = testString;
         job2 = testString;
         job3 = testString;
-		frame = new JFrame();
-		frame.setLayout(new FlowLayout());
-		JPanel panel1 = new JPanel();
-        JPanel panel2 = new JPanel();
-        JPanel panel3 = new JPanel();
-        JPanel panel4 = new JPanel();
+		frame3 = new JFrame();
+		frame3.setLayout(new FlowLayout());
+		JPanel panel31 = new JPanel();
+        JPanel panel32 = new JPanel();
+        JPanel panel33 = new JPanel();
+        JPanel panel34 = new JPanel();
+        JPanel panel35 = new JPanel();
         
         JLabel title = new JLabel("Current Jobs");
         //JLabel fileName = new JLabel("No file selected");
@@ -74,31 +176,34 @@ public class GUI {
         } ); */
         
         
-        panel1.add(title);
+        panel31.add(title);
         //panel1.add(readFile);
         //panel1.add(fileName);
         
-        panel2.add(robotlabel1);
-        panel2.add(joblabel1);
-        panel2.add(cancel1);
+        panel32.add(robotlabel1);
+        panel32.add(joblabel1);
+        panel32.add(cancel1);
         
-        panel3.add(robotlabel2);
-        panel3.add(joblabel2);
-        panel3.add(cancel2);
+        panel33.add(robotlabel2);
+        panel33.add(joblabel2);
+        panel33.add(cancel2);
         
-        panel4.add(robotlabel3);
-        panel4.add(joblabel3);
-        panel4.add(cancel3);
+        panel34.add(robotlabel3);
+        panel34.add(joblabel3);
+        panel34.add(cancel3);
         
-        frame.add(panel1);
-        frame.add(panel2);
-        frame.add(panel3);
-        frame.add(panel4);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Warehouse GUI");
-        frame.setPreferredSize(new Dimension(280, 280));
-        frame.pack();
-        frame.setVisible(true);
+        panel35.add(noneConnected);
+        
+        frame3.add(panel31);
+        if(robotsConnected > 0) {frame3.add(panel32); }
+        if(robotsConnected > 1) {frame3.add(panel33); }
+        if(robotsConnected > 2) {frame3.add(panel34); }
+        if(robotsConnected == 0) {frame3.add(panel35); }
+        frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame3.setTitle("Warehouse GUI");
+        frame3.setPreferredSize(new Dimension(280, 280));
+        frame3.pack();
+        frame3.setVisible(false);
 	}
 	public static void main(String[] args) {
         GUI g = new GUI();

@@ -1,11 +1,13 @@
 import lejos.nxt.LCD
 
 public class Display {
-	String jobID = "No job";
-	String status = "Idle";
-	String route = "No route";
+
 	//int weight = 0;
 	public static void main(String args[]) {
+		String jobID = "No job";
+		String status = "Idle";
+		String route = "No route";
+		//int weight = 0;
 		LCD.drawString(jobID, 0, 5);
 		LCD.drawString(status, 2, 3)
 		//LCD.drawInt(weight, 4, 7);
