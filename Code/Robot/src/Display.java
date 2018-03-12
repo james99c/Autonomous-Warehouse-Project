@@ -1,9 +1,9 @@
-import lejos.nxt.LCD
+import lejos.nxt.LCD;
 
 public class Display {
 
 	//int weight = 0;
-	public static void main(String args[]) {
+	public void show(){
 		String jobID = "No job";
 		String status = "Idle";
 		String route = "No route";
@@ -26,7 +26,7 @@ public class Display {
 		//Update weight
 	}
 	
-	pub;ic void updateRoute() {
+	public void updateRoute() {
 		//Update route
 	}
 	
