@@ -7,15 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class RoutePlannerTest {
-
-  // RoutePlanner.main(RoutePlanner.java:50) 0    [main] DEBUG RoutePlanner  - 0 : 1
-  // RoutePlanner.main(RoutePlanner.java:50) 2    [main] DEBUG RoutePlanner  - 0 : 2
-  // RoutePlanner.main(RoutePlanner.java:50) 2    [main] DEBUG RoutePlanner  - 1 : 2
-  // RoutePlanner.main(RoutePlanner.java:50) 2    [main] DEBUG RoutePlanner  - 1 : 3
-  // RoutePlanner.main(RoutePlanner.java:50) 2    [main] DEBUG RoutePlanner  - 1 : 4
-  // RoutePlanner.main(RoutePlanner.java:50) 2    [main] DEBUG RoutePlanner  - 2 : 4
-  // RoutePlanner.main(RoutePlanner.java:50) 3    [main] DEBUG RoutePlanner  - 3 : 4
-
+    
   // Map = no obstables
   @Test
   public void test1() {
