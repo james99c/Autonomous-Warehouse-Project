@@ -5,6 +5,8 @@ import DataObjects.Location;
 import DataObjects.Map;
 import Interfaces.RoutePlannerInterface;
 import RoutePlannerExtra.SearchTree;
+import apache.logging.log4j.Logger;
+import apache.logging.log4j.LogManager;
 
 
 
@@ -34,14 +36,7 @@ public class RoutePlanner implements RoutePlannerInterface{
         ArrayList<GridPoint> outputVariable = searchTree.getOutputVariable();
         return outputVariable;
     }
-    
-    public static void main(String[] args) {
-    	Map map = new Map(5,5, new ArrayList<Location>());
-    	RoutePlanner routeSearch = new RoutePlanner(map);
-    	System.out.println(routeSearch.findRoute(new Location(0,0), new Location(5,5)));
-    	//		new RoutePlanner();
-//		new Map(5,5, new ArrayList<Location>());
-	}
+
 
     private Location getLastItemFromArrayList(ArrayList<Location> list) {
         int size = list.size();
