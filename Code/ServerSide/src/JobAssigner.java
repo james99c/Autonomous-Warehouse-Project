@@ -41,6 +41,7 @@ public class JobAssigner implements JobAssignerInterface{
 		logger.debug("converting sorted jobs list into a hashmap");
 		HashMap<String, ArrayList<Job>> jobMap = new HashMap<String, ArrayList<Job>>();
 		jobMap.put("robot1", jobs);
+		logger.debug(jobMap.toString());
 		return jobMap;
 	}
 
