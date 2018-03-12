@@ -6,7 +6,10 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+import DataObjects.GridPoint;
 import DataObjects.Job;
+import DataObjects.Location;
+import DataObjects.Map;
 import Interfaces.JobAssignerInterface;
 
 
@@ -15,6 +18,9 @@ public class JobAssigner implements JobAssignerInterface{
 	final static Logger logger = Logger.getLogger(JobAssigner.class);
 	
 	private ArrayList<Job> jobs;
+	// creates map of 5x5 with no unavailable co-ordinates
+	private Map map = new Map(5,5,new ArrayList());
+	private RoutePlanner routePlanner = new RoutePlanner(map);
 	
 	public JobAssigner(ArrayList<Job> unsortedJobs){
 		this.jobs = unsortedJobs;
@@ -42,6 +48,16 @@ public class JobAssigner implements JobAssignerInterface{
 		HashMap<String, ArrayList<Job>> jobMap = new HashMap<String, ArrayList<Job>>();
 		jobMap.put("robot1", jobs);
 		return jobMap;
+	}
+	
+	public ArrayList<Location> getRoute(Job _job) {
+		ArrayList<GridPoint> gridRoute = routePlanner.findRoute(_job.getStartLocation(),_job.getGoalLocation());
+		ArrayList<Location> route = new ArrayList<Location>();
+		for (int i = 0; i < gridRoute.size(); i ++) {
+			route.add(new Location(gridRoute.get(i).getLocation().getX(),gridRoute.get(i).getLocation().getY()));
+			
+		}
+		return route;
 	}
 
 }
