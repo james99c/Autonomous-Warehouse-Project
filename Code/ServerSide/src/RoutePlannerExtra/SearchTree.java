@@ -113,7 +113,6 @@ public class SearchTree implements Comparable {
 			}
 		} else { // at goal location
 			// has found the ideal route
-			System.out.println(currentLocation.getX() + " : " + currentLocation.getY());
 			if (usableLeafNodes.get(0).totalCost > this.totalCost) {
 				this.outputVariable = currentPath;
 				this.usableLeafNodes.clear();
