@@ -10,7 +10,7 @@ public class GridPoint {
 
 	// timeFrame {StartTime, EndTime}
 	// if completely unavailable have anything as time frame
-	GridPoint(int x, int y, Boolean _unavailable) {
+	public GridPoint(int x, int y, Boolean _unavailable) {
 		this.location = new Location(x, y);
 		this.unavailable = _unavailable;
 		this.timeFrames = new ArrayList<Float[]>();
