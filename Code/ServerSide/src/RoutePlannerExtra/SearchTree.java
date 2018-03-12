@@ -3,11 +3,15 @@ package RoutePlannerExtra;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import DataObjects.GridPoint;
 import DataObjects.Location;
 import DataObjects.Map;
 
 public class SearchTree implements Comparable {
+    private static final Logger logger = LogManager.getLogger(SearchTree.class);
 	Location currentLocation, previousLocation, goalLocation;
 	Float currentCost, heuristicCost, totalCost;
 	SearchTree parentNode;

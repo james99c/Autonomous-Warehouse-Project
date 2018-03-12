@@ -5,16 +5,18 @@ import DataObjects.Location;
 import DataObjects.Map;
 import Interfaces.RoutePlannerInterface;
 import RoutePlannerExtra.SearchTree;
-import apache.logging.log4j.Logger;
-import apache.logging.log4j.LogManager;
 
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
 
 public class RoutePlanner implements RoutePlannerInterface{
     private ArrayList<Integer> jobs;
     private ArrayList<GridPoint> route;
     private ArrayList<Location> prevLocation;
     private Map map;
+    
+    private static final Logger logger = LogManager.getLogger(RoutePlanner.class);
 
     public RoutePlanner(Map _map) {
         prevLocation = new ArrayList<Location>();
