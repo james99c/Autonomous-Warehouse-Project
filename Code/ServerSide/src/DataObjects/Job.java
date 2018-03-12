@@ -6,6 +6,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import DataObjects.Location;
+
 public class Job {
 	private int id;
 	private ArrayList<JobObject> job;
@@ -13,12 +15,16 @@ public class Job {
 	private HashMap<String, Item> items;
 	private boolean cancel;
 	private float reward;
+	private Location startLocation;
+	private Location goalLocation;
 	
-	public Job(int id, ArrayList<JobObject> job, HashMap<String, Item> items, boolean cancel){
+	public Job(int id, ArrayList<JobObject> job, HashMap<String, Item> items, boolean cancel, Location startLocation, Location goalLocation){
 		this.id = id;
 		this.job = job;
 		this.items = items;
 		this.cancel = cancel;
+		this.startLocation = startLocation;
+		this.goalLocation = goalLocation;
 	}
 	
 	public Job(float reward){
@@ -31,6 +37,14 @@ public class Job {
 	
 	public int getID() {
 		return id;
+	}
+	
+	public Location getStartLocation() {
+		return this.startLocation;
+	}
+	
+	public Location getGoalLocation() {
+		return this.goalLocation;
 	}
 
 	public ArrayList<String> getItems() {
