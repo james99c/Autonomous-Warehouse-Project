@@ -21,7 +21,7 @@ public class RoutePlanner implements RoutePlannerInterface{
     public RoutePlanner(Map _map) {
         prevLocation = new ArrayList<Location>();
         this.map = _map;
-        SearchTree.setMap(map);
+        SearchTree.currentMap = map;
     }
 
     public ArrayList<GridPoint> findRoute(Location currentLocation, Location goalLocation){
@@ -41,8 +41,10 @@ public class RoutePlanner implements RoutePlannerInterface{
     
     public static void main(String[] args) {
     		ArrayList<Location> unavailable = new ArrayList<Location>();
-    		unavailable.add(new Location(0,3));
-    		unavailable.add(new Location(3,0));
+//    		unavailable.add(new Location(2,3));
+//    		unavailable.add(new Location(2,2));
+//    		unavailable.add(new Location(3,2));
+    		
 		Map map = new Map(5,5, unavailable);
 		RoutePlanner search = new RoutePlanner(map);
 		ArrayList<GridPoint> route = search.findRoute(new Location(0,0), new Location(3,4));

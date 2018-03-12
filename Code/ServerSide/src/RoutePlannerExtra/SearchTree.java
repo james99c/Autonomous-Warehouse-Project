@@ -18,7 +18,7 @@ public class SearchTree implements Comparable {
 	ArrayList<GridPoint> currentPath;
 	ArrayList<SearchTree> childNodes = new ArrayList<SearchTree>();
 
-	static Map currentMap;
+	public static Map currentMap;
 	static ArrayList<GridPoint> outputVariable = new ArrayList<GridPoint>();
 	static ArrayList<SearchTree> usableLeafNodes = new ArrayList<SearchTree>();
 
@@ -132,9 +132,7 @@ public class SearchTree implements Comparable {
 		return ret;
 	}
 
-	public static void setMap(Map _map) {
-		currentMap = _map;
-	}
+
 
 	public Float getHeuristicCost(Location currentLocation,
 			Location goalLocation) {
