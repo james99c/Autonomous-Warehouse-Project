@@ -1,30 +1,33 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
 
-public class ServerSender implements Runnable {
+public class ServerSender extends Thread {
 	
 	private DataInputStream input;
 	private DataOutputStream output;
+	private String robotName;
+	private BlockingQueue<String> clientQueue;
 	
-	ServerSender(DataInputStream newInputStream, DataOutputStream newOutputStream) {
-		this.input = newInputStream;
-		this.output = newOutputStream;
+	ServerSender(CommInfo newRobotCommInfo, BlockingQueue<String> test) {
+		this.input = newRobotCommInfo.getInputStream();
+		this.output = newRobotCommInfo.getOutputStream();
+		this.robotName = newRobotCommInfo.getRobotName();
+		this.clientQueue = test;
 	}
 
-	@Override
 	public void run() {
 		try {
 			while (true) {
-				output.writeBytes("hello");
-				output.flush();
-				
-				byte[] fromClient = input.readAllBytes();
-				String clientResponse = new String(fromClient, "UTF-8");
-				//System.out.println(robot.name + " says " + clientResponse);
+					String route = clientQueue.take();
+					output.writeInt(route.length());
+					output.writeBytes(route);
+					output.flush();
+					System.out.println("We're writing ints! ---------- " + route);
 			}
 		}
-		catch (IOException e) {
+		catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
 	}

@@ -3,29 +3,41 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
+//import com.sun.deploy.util.SessionState.Client;
+
 import lejos.pc.comm.NXTInfo;
 
 public class ServerComm extends Thread {
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
-	private BlockingQueue<Integer> list;
+	CommInfo robotInfo;
+	private ClientTable clientTable;
 
-	public ServerComm(CommInfo newCommInfo, BlockingQueue<Integer> newList) {
+	public ServerComm(CommInfo newCommInfo, ClientTable clientTable) {
+		this.robotInfo = newCommInfo;
 		this.inputStream = newCommInfo.getInputStream();
 		this.outputStream = newCommInfo.getOutputStream();
-		this.list = newList;
+		this.clientTable = clientTable;
+		
 	}
 
 	public void run() {
+		System.out.println("Server comm is active");
 		try {
 			while (true) {
-				// 0 = forward, 1 = left, 2 = right
-				outputStream.writeInt(02010);
-				outputStream.flush();
-
-				int answer = inputStream.readInt();
-				System.out.println(" returned " + answer);
+				
+					int length = inputStream.readInt();
+					byte[] array = new byte[length];
+					inputStream.read(array);
+					String answer = new String(array);
+					//System.out.println("The route is: " + route);
+					if (answer == null || answer.equals("")) {
+					}
+					else {
+						System.out.println("Robot's route: " + answer);
+					}
+				
 			}
 		}
 		catch (IOException e) {

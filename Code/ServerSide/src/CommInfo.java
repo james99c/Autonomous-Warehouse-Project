@@ -5,12 +5,19 @@ import lejos.pc.comm.NXTInfo;
 
 public class CommInfo {
 	
+	String robotName;
 	DataInputStream inputStream;
 	DataOutputStream outputStream;
 	
-	public CommInfo(DataInputStream newInputStream, DataOutputStream newOutputStream) {
+	public CommInfo(String newRobotName, DataInputStream newInputStream, DataOutputStream newOutputStream) {
+		this.robotName = newRobotName;
 		this.inputStream = newInputStream;
 		this.outputStream = newOutputStream;
+	}
+	
+	
+	public String getRobotName() {
+		return this.robotName;
 	}
 	
 	

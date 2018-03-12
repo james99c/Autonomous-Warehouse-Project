@@ -5,14 +5,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientTable {
 
-	private ConcurrentMap<RobotConnector, BlockingQueue<Integer>> queueTable = new ConcurrentHashMap<RobotConnector, BlockingQueue<Integer>>();
+	private ConcurrentMap<String, BlockingQueue<String>> queueTable = new ConcurrentHashMap<String, BlockingQueue<String>>();
 	
 	
-	public void add(RobotConnector newRobot) {
-		queueTable.put(newRobot, new LinkedBlockingQueue<Integer>());
+	public void add(String newRobot) {
+		queueTable.put(newRobot, new LinkedBlockingQueue<String>());
 	}
 	
-	public BlockingQueue<Integer> getQueue(RobotConnector robotName) {
+	public BlockingQueue<String> getQueue(String robotName) {
 		return  queueTable.get(robotName);
 	}
 	
