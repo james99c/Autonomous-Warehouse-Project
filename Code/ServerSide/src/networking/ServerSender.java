@@ -1,7 +1,11 @@
+package networking;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
+
+import org.apache.log4j.Logger;
 /**
  * 
  * Sends routes to the robot to execute
@@ -11,16 +15,15 @@ import java.util.concurrent.BlockingQueue;
  */
 public class ServerSender extends Thread {
 	
-	private DataInputStream input;
 	private DataOutputStream output;
 	private String robotName;
 	private BlockingQueue<String> clientQueue;
+	//final static Logger logger = Logger.getLogger(RobotConnector.class);
 	
-	ServerSender(CommInfo newRobotCommInfo, BlockingQueue<String> test) {
-		this.input = newRobotCommInfo.getInputStream();
+	ServerSender(CommInfo newRobotCommInfo, BlockingQueue<String> newClientQueue) {
 		this.output = newRobotCommInfo.getOutputStream();
 		this.robotName = newRobotCommInfo.getRobotName();
-		this.clientQueue = test;
+		this.clientQueue = newClientQueue;
 	}
 
 	public void run() {

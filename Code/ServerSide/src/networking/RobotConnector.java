@@ -1,7 +1,8 @@
+package networking;
+
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 
@@ -10,12 +11,16 @@ import lejos.pc.comm.NXTCommException;
 import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
 
+import org.apache.log4j.Logger;
+
+import com.intel.bluetooth.BlueCoveConfigProperties;
+
 public class RobotConnector {
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
 	private final NXTInfo robotInfo;
-	private static String route = "01020";
+	//final static Logger logger = Logger.getLogger(RobotConnector.class);
 
 	/**
 	 * 
@@ -48,12 +53,13 @@ public class RobotConnector {
 	}
 
 	public static void main(String[] args) {
+		
 		ClientTable clientTable = new ClientTable();
 		try {
 
 			// Add the info about the robot(s)
 			NXTInfo[] robots = { new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"),
-					// new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
+					new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
 					new NXTInfo(NXTCommFactory.BLUETOOTH, "Sagittarius", "00165317B913") };
 
 			ArrayList<RobotConnector> connections = new ArrayList<>(robots.length);
@@ -75,15 +81,9 @@ public class RobotConnector {
 
 				System.out.println("Threads started!");
 
-				BlockingQueue<String> recipientsQueue = clientTable.getQueue(robotCommInfo.getRobotName());
-
-				if (recipientsQueue != null) {
-					System.out.println("Trying to offer a route to " + robotCommInfo.getRobotName());
-					recipientsQueue.offer(route);
-					System.out.println("Successfully offered: " + route);
-				}
-
 			}
+			
+			testRoutes(clientTable);
 
 		}
 		catch (NXTCommException e) {
@@ -91,4 +91,31 @@ public class RobotConnector {
 		}
 
 	}
+	
+	
+	
+	private static void testRoutes(ClientTable clientTable) {
+		BlockingQueue<String> recipientsQueue = clientTable.getQueue("Pisces");
+		if (recipientsQueue != null) {
+			System.out.println("Trying to offer a route to Pisces");
+			recipientsQueue.offer("000000020");
+			System.out.println("Successfully offered: 000000020");
+		}
+		
+		BlockingQueue<String> recipientsQueue2 = clientTable.getQueue("Gemini");
+		if (recipientsQueue2 != null) {
+			System.out.println("Trying to offer a route to Gemini");
+			recipientsQueue2.offer("00100");
+			System.out.println("Successfully offered: 00100");
+		}
+		
+		BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
+		if (recipientsQueue3 != null) {
+			System.out.println("Trying to offer a route to Sagittarius");
+			recipientsQueue3.offer("00200");
+			System.out.println("Successfully offered: 00200");
+		}
+	}
+	
+	
 }

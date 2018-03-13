@@ -1,7 +1,11 @@
+package networking;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
+
+import org.apache.log4j.Logger;
 
 //import com.sun.deploy.util.SessionState.Client;
 
@@ -24,6 +28,7 @@ public class ServerComm extends Thread {
 	private DataOutputStream outputStream;
 	CommInfo robotInfo;
 	private ClientTable clientTable;
+	//final static Logger logger = Logger.getLogger(RobotConnector.class);
 
 	/**
 	 * 

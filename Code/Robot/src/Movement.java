@@ -99,7 +99,7 @@ public class Movement {
 
 		}
 		m_pilot.stop();
-		m_pilot.steer(200, 4);
+		m_pilot.steer(200, 6);
 		return '1';
 	}
 	
@@ -113,7 +113,7 @@ public class Movement {
 			middleSensLightVal = middleSensor.getLightValue();
 		}
 
-		m_pilot.steer(200, -3);
+		m_pilot.steer(200, -5);
 		return '2';
 	}
 	
