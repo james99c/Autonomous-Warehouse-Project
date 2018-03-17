@@ -18,7 +18,7 @@ public class Job {
 	private Location startLocation;
 	private Location goalLocation;
 	
-	public Job(int id, ArrayList<JobObject> job, HashMap<String, Item> items, boolean cancel, Location startLocation, Location goalLocation){
+	public Job(int id, ArrayList<JobObject> job, HashMap<String, Item> items, boolean cancel){
 		this.id = id;
 		this.job = job;
 		this.items = items;
@@ -39,13 +39,6 @@ public class Job {
 		return id;
 	}
 	
-	public Location getStartLocation() {
-		return this.startLocation;
-	}
-	
-	public Location getGoalLocation() {
-		return this.goalLocation;
-	}
 
 	public ArrayList<String> getItems() {
 		ArrayList<String> item = new ArrayList<String>();

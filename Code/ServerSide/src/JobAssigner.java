@@ -51,14 +51,22 @@ public class JobAssigner implements JobAssignerInterface{
 		return jobMap;
 	}
 	
-	public ArrayList<Location> getRoute(Job _job) {
-		ArrayList<GridPoint> gridRoute = routePlanner.findRoute(_job.getStartLocation(),_job.getGoalLocation());
+	public ArrayList<Location> getRoute(Location _startLocation, Location _endLocation) {
+		ArrayList<GridPoint> gridRoute = routePlanner.findRoute(_startLocation, _endLocation);
 		ArrayList<Location> route = new ArrayList<Location>();
 		for (int i = 0; i < gridRoute.size(); i ++) {
 			route.add(new Location(gridRoute.get(i).getLocation().getX(),gridRoute.get(i).getLocation().getY()));
 			
 		}
 		return route;
+	}
+	
+	public static void main(String[] args) {
+		JobAssigner ja = new JobAssigner(new ArrayList<Job>());
+		ArrayList<Location> route = ja.getRoute(new Location(0,0), new Location(3,3));
+		for(int i = 0; i < route.size(); i++) {
+			logger.debug(route.get(i).getX() + " : " + route.get(i).getY() );
+		}
 	}
 
 }
