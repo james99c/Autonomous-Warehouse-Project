@@ -22,7 +22,7 @@ import lejos.pc.comm.NXTInfo;
  * @author James
  *
  */
-public class ServerComm extends Thread {
+public class ServerReceiver extends Thread {
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
@@ -37,7 +37,7 @@ public class ServerComm extends Thread {
 	 * @param newCommInfo Info about the specific robot including its name and comm streams
 	 * @param clientTable The client table currently in use by the server
 	 */
-	public ServerComm(CommInfo newCommInfo, ClientTable clientTable) {
+	public ServerReceiver(CommInfo newCommInfo, ClientTable clientTable) {
 		this.robotInfo = newCommInfo;
 		this.inputStream = newCommInfo.getInputStream();
 		this.outputStream = newCommInfo.getOutputStream();
