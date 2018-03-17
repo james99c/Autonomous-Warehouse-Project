@@ -6,6 +6,7 @@ public class Map {
 	private GridPoint[][] map;
 	private Integer height;
 	private Integer width;
+	private ArrayList<RobotInformation> robots;
 
 	
 	public Map(Integer _height, Integer _width, ArrayList<Location> unAvailableLocations){
@@ -30,6 +31,27 @@ public class Map {
 	}
 	
 	
+	public void addRobot(String _robotID, Location _location, Direction _direction) {
+		robots.add( new RobotInformation(_robotID, _location, _direction));
+	}
+	
+	public void updateRobotsLocation(String _robotID, Location _newLocation) {
+		RobotInformation toUpdate = null;
+		for(RobotInformation robot : this.robots) {
+			if(robot.robotID.equals(_robotID)) {
+				toUpdate = robot;
+				break;
+			}
+		}
+		assert(toUpdate != null);
+		
+		Location oldLocation = toUpdate.location;
+		toUpdate.location = _newLocation;
+		Location changeInLocation = new Location( _newLocation.getX() - oldLocation.getX(), _newLocation.getY() - oldLocation.getY());
+		
+		
+	}
+	
 	public void blockRoute(ArrayList<GridPoint> route){
 		for (GridPoint a: route){
 			this.map[a.getLocation().getX()][a.getLocation().getY()].setUnAvailability(a.getTimeFrames());
@@ -42,7 +64,6 @@ public class Map {
 		}
 		
 	}
-	
 	public void clearTimeFrames(){
 		for (int x=0 ; x < this.width; x++){
 			for( int y=0; y <this.height; y++){
@@ -52,7 +73,6 @@ public class Map {
 			}
 		}
 	}
-	
 	public ArrayList<GridPoint> getAvailableLocations(Location location, Float[] timeFrame){
 		ArrayList<GridPoint> surroundingLocations = new ArrayList<GridPoint>();
 		int x = location.getX();
