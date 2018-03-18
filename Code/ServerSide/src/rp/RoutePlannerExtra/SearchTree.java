@@ -66,11 +66,8 @@ public class SearchTree implements Comparable {
 
 					ArrayList<Pair<GridPoint,Direction>> newPath = new ArrayList<Pair<GridPoint,Direction>>(currentPath);
 					newPath.add(gp);
-					// System.out.println(currentPath);
-					// for (int i = 0; i < newPath.size(); i++) {
-					// System.out.println(newPath.get(i).getLocation().getX()
-					// + " : " + newPath.get(i).getLocation().getY());
-					// }
+					System.out.println(gp.getKey().getTimeFrames().get(0)[0]);
+					System.out.println(gp.getKey().getTimeFrames().get(0)[1]);
 
 					this.childNodes.add(new SearchTree(gp.getKey().getLocation(), this.currentLocation,
 							currentCost + (timeFrameDifference(gp.getKey().getTimeFrames())), this.goalLocation, this, newPath, newPath.get(newPath.size() - 1).getValue()));
@@ -131,6 +128,7 @@ public class SearchTree implements Comparable {
 		return (int) (this.totalCost - compareage);
 	}
 
+	//
 	private float timeFrameDifference(ArrayList<Float[]> listOfTimeFrame) {
 		int size = listOfTimeFrame.size();
 		Float[] timeFrame = listOfTimeFrame.get(size - 1);
