@@ -74,6 +74,12 @@ import javax.swing.JTextField;
 	        JTextField y1 = new JTextField();
 	        JTextField y2 = new JTextField();
 	        JTextField y3 = new JTextField();
+	        x1.setPreferredSize(new Dimension(24,24));
+	        x2.setPreferredSize(new Dimension(24,24));
+	        x3.setPreferredSize(new Dimension(24,24));
+	        y1.setPreferredSize(new Dimension(24,24));
+	        y2.setPreferredSize(new Dimension(24,24));
+	        y3.setPreferredSize(new Dimension(24,24));
 	        
 	        JButton doneButton2 = new JButton("Done");
 	        doneButton2.addActionListener(new ActionListener() {
@@ -115,7 +121,7 @@ import javax.swing.JTextField;
 	        frame2.add(panel26);
 	        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame2.setTitle("Warehouse GUI");
-	        frame2.setPreferredSize(new Dimension(280, 280));
+	        frame2.setPreferredSize(new Dimension(400, 280));
 	        frame2.pack();
 	        frame2.setVisible(false);
 	        

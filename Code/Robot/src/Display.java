@@ -55,6 +55,7 @@ public class Display {
 			if (Button.waitForAnyPress() == /*MIDDLE BUTTON*/) {
 				//Pass the information to the client
 				waiting = false;
+				this.show();
 			}
 		}
 		
