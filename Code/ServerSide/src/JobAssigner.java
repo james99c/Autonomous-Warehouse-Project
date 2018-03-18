@@ -27,12 +27,12 @@ public class JobAssigner implements JobAssignerInterface{
 		jobs = unsortedJobs;
 	}
 	
-	public ArrayList<Location> assignJob(Location currentLocation){
+	public ArrayList<Location> assignJob(Location currentLocation, String robotName){
 		if(jobs.isEmpty()){
 			return null;
 		}
 		Job bestJob = getBestJob(currentLocation);
-		ArrayList<Location> route = getRoute(currentLocation, bestJob);
+		ArrayList<Location> route = getRoute(currentLocation, bestJob, robotName);
 		return route;
 	}
 	
@@ -85,8 +85,8 @@ public class JobAssigner implements JobAssignerInterface{
 		return jobMap;
 	}
 	*/
-	public ArrayList<Location> getRoute(Location _startLocation, Job job) {
-		ArrayList<GridPoint> gridRoute = routePlanner.findRoute(_startLocation, job);
+	public ArrayList<Location> getRoute(Location _startLocation, Job job, String robotName) {
+		ArrayList<GridPoint> gridRoute = routePlanner.findRoute(_startLocation, job, robotName );
 		ArrayList<Location> route = new ArrayList<Location>();
 		for (int i = 0; i < gridRoute.size(); i ++) {
 			route.add(new Location(gridRoute.get(i).getLocation().getX(),gridRoute.get(i).getLocation().getY()));
@@ -94,7 +94,7 @@ public class JobAssigner implements JobAssignerInterface{
 		}
 		return route;
 	}
-	
+	/*
 	public static void main(String[] args) {
 		JobAssigner ja = new JobAssigner(new ArrayList<Job>());
 		ArrayList<Location> route = ja.getRoute(new Location(0,0), new Location(3,3));
@@ -102,5 +102,5 @@ public class JobAssigner implements JobAssignerInterface{
 			logger.debug(route.get(i).getX() + " : " + route.get(i).getY() );
 		}
 	}
-
+	 */	
 }
