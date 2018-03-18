@@ -6,10 +6,7 @@ import java.util.Collections;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import DataObjects.Direction;
-import DataObjects.GridPoint;
-import DataObjects.Location;
-import DataObjects.Map;
+import rp.DataObjects.*;
 import javafx.util.Pair;
 
 public class SearchTree implements Comparable {
