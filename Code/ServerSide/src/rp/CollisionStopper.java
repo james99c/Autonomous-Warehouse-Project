@@ -1,6 +1,6 @@
 package rp;
 
-import Interfaces.CollisionStopperInterface;
+import rp.Interfaces.CollisionStopperInterface;
 
 
 public class CollisionStopper implements CollisionStopperInterface{
