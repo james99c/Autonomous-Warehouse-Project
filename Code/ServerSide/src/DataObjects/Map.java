@@ -203,10 +203,10 @@ public class Map {
 			Float[] first = unavailableTime.get(index-1);
 			GridPoint gp = unavailablePoint.get(index-1);
 			
-			gp.setUnAvailability(new Float[2] {first[0], second[1]});
+			gp.setUnAvailability(new Float[] {first[0], second[1]});
 		}
 		
-		unavailablePoint.get(index-1).setUnAvailability(new Float[2] {
+		unavailablePoint.get(index-1).setUnAvailability(new Float[] {
 				unavailableTime.get(index-1)[0], unavailableTime.get(index-1)[1]});
 		
 		return output;
