@@ -12,6 +12,7 @@ import DataObjects.Location;
 import DataObjects.Map;
 import Interfaces.JobAssignerInterface;
 import JobDecider.Item;
+import JobDecider.Reader;
 
 
 public class JobAssigner implements JobAssignerInterface{
@@ -20,11 +21,14 @@ public class JobAssigner implements JobAssignerInterface{
 	
 	private static ArrayList<Job> jobs;
 	// creates map of 5x5 with no unavailable co-ordinates
-	private Map map = new Map(5,5,new ArrayList());
-	private RoutePlanner routePlanner = new RoutePlanner(map);
+	private Map map;
+	private RoutePlanner routePlanner;
+	private Reader jobDecider;
 	
-	public JobAssigner(ArrayList<Job> unsortedJobs){
-		jobs = unsortedJobs;
+	public JobAssigner (Map map){
+		jobs = Reader.;
+		this.map = map;
+		routePlanner = new RoutePlanner(map);
 	}
 	
 	public ArrayList<Location> assignJob(Location currentLocation, String robotName){
