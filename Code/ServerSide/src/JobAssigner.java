@@ -11,6 +11,7 @@ import DataObjects.Job;
 import DataObjects.Location;
 import DataObjects.Map;
 import Interfaces.JobAssignerInterface;
+import JobDecider.Item;
 
 
 public class JobAssigner implements JobAssignerInterface{
@@ -27,10 +28,36 @@ public class JobAssigner implements JobAssignerInterface{
 	}
 	
 	public ArrayList<Location> assignJob(Location currentLocation){
-		Job bestJob = jobs.get(0);
-		jobs.remove(0);
+		if(jobs.isEmpty()){
+			return null;
+		}
+		Job bestJob = getBestJob(currentLocation);
 		ArrayList<Location> route = getRoute(bestJob);
 		return route;
+	}
+	
+	public Job getBestJob(Location currentLocation){
+		int currentX = currentLocation.getX();
+		int currentY = currentLocation.getY();
+		float bestDistance = Integer.MAX_VALUE;
+		Job bestJob = null;
+		for(int i = 0; i < 3 || i < jobs.size(); i++){
+			Job job = jobs.get(i);
+			HashMap<String, Item> map = job.getItemMap();
+			float distance = 0;
+			for(Item item: map.values()){
+				float differenceX = currentX - item.getX();
+				float differenceY = currentY - item.getY();
+				distance += Math.sqrt((differenceX * differenceX) + (differenceY * differenceY));
+			}
+			float averageDistance = distance / map.size();
+			if(averageDistance < bestDistance){
+				bestDistance = averageDistance;
+				bestJob = job;
+			}
+		}
+		jobs.remove(bestJob);
+		return bestJob;
 	}
 	/*
 	@Override

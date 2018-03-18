@@ -39,6 +39,9 @@ public class Job {
 		return id;
 	}
 	
+	public HashMap<String, Item> getItemMap(){
+		return items;
+	}
 
 	public ArrayList<String> getItems() {
 		ArrayList<String> item = new ArrayList<String>();
