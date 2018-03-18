@@ -132,6 +132,8 @@ public class Map {
 		
 		
 		ArrayList<Pair<GridPoint,Direction>> output = new ArrayList<Pair<GridPoint,Direction>>();
+		ArrayList<Float[]> unavailableTime = new ArrayList<>();
+		ArrayList<GridPoint> unavailablePoint = new ArrayList<>();
 		for (GridPoint a: surroundingLocations){
 			Float [] newTimeFrame = null;
 			Direction newDirection = null;
@@ -188,10 +190,24 @@ public class Map {
 			assert(newDirection != null);
 			
 			if(a.isAvailable(System.currentTimeMillis() + _time)){
-				a.setUnAvailability(newTimeFrame); 
+				//a.setUnAvailability(newTimeFrame); 
+				unavailableTime.add(newTimeFrame);
+				unavailablePoint.add(a);
 				output.add(new Pair<GridPoint, Direction>(a, newDirection));
 			}
 		}
+		
+		int index;
+		for (index = 1; index < unavailableTime.size(); index++) {
+			Float[] second = unavailableTime.get(index);
+			Float[] first = unavailableTime.get(index-1);
+			GridPoint gp = unavailablePoint.get(index-1);
+			
+			gp.setUnAvailability(new Float[2] {first[0], second[1]});
+		}
+		
+		unavailablePoint.get(index-1).setUnAvailability(new Float[2] {
+				unavailableTime.get(index-1)[0], unavailableTime.get(index-1)[1]});
 		
 		return output;
 	}
