@@ -29,7 +29,7 @@ SearchTree{
 
   searchForGoal(){
     if(! atGoalLocation){
-      NewLocationList = virtualMap.findAllMovementOptions(currentLocation);
+      NewLocationList = virtualMap.findAllMovementOptions(currentLocation, currentCost);
       if(NewLocationList.size() == 0){
         try{
           usableLeafNodes.get(0).remove().search();
@@ -42,7 +42,7 @@ SearchTree{
       }
       else{
         for (i in NewLocationList){                                                                                                   // need to have time frame and currentCost
-          this.childNodes.add(new Node(NewLocationList.get(i), this.currentLocation, currentCost + 1, this.goalLocation, this, currentPath.add(NewLocationList.get(i), currentCost), this.inputVariable, this.usableLeafNodes));
+          this.childNodes.add(new Node(NewLocationList.get(i), this.currentLocation, currentCost + 1, this.goalLocation, this, currentPath.add(GridPoint(NewLocationList.get(i), Timeframe), this.inputVariable, this.usableLeafNodes));
         }
         then sort child nodes from lowest to highest totalCost
 
