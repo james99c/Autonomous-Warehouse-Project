@@ -15,8 +15,6 @@ public class Job {
 	private HashMap<String, Item> items;
 	private boolean cancel;
 	private float reward;
-	private Location startLocation;
-	private Location goalLocation;
 	
 	public Job(int id, ArrayList<JobObject> job, HashMap<String, Item> items, boolean cancel){
 		this.id = id;

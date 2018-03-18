@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 import DataObjects.GridPoint;
+import DataObjects.Item;
+import DataObjects.Job;
 import DataObjects.Location;
 import DataObjects.Map;
 import Interfaces.RoutePlannerInterface;
@@ -24,7 +26,7 @@ public class RoutePlanner implements RoutePlannerInterface{
         SearchTree.currentMap = map;
     }
 
-    public ArrayList<GridPoint> findRoute(Location currentLocation, Location goalLocation){
+    public ArrayList<GridPoint> findIndividualRoute(Location currentLocation, Location goalLocation){
         //ArrayList<Location> outputVariable = new ArrayList<Location>();
         SearchTree searchTree = new SearchTree(
             currentLocation,
@@ -36,7 +38,20 @@ public class RoutePlanner implements RoutePlannerInterface{
         );     
         searchTree.search();
         ArrayList<GridPoint> outputVariable = searchTree.getOutputVariable();
+        
         return outputVariable;
+    }
+    
+    public ArrayList<Location> findRoute(Location _startLocation, Job _job, String robotName){
+    		Item[] listOfItems = new Item[] {};
+    		_job.getItems().toArray(listOfItems);
+    		ArrayList<GridPoint> totalRoute = new ArrayList<GridPoint>();
+    		ArrayList<Location> output = new ArrayList<Location>();
+    		// sort the array as to which points it's going to go to first
+    		totalRoute.addAll(findIndividualRoute(_startLocation, new Location(listOfItems[0].getX(), listOfItems[1].getY())));
+    		for(int i = 0; i < (listOfItems.length - 2); i++ ) {
+    			totalRoute.addAll(findIndividualRoute(new Location(listOfItems[i].getX(), listOfItems[i].getY()),new Location(listOfItems[i+1].getX(), listOfItems[i+1].getY())));
+    		}
     }
     
     public static void main(String[] args) {
@@ -47,10 +62,7 @@ public class RoutePlanner implements RoutePlannerInterface{
     		
 		Map map = new Map(5,5, unavailable);
 		RoutePlanner search = new RoutePlanner(map);
-		ArrayList<GridPoint> route = search.findRoute(new Location(0,0), new Location(3,4));
-		for(int i = 0; i < route.size(); i++) {
-			logger.debug(route.get(i).getLocation().getX() + " : " + route.get(i).getLocation().getY() );
-		}
+		
 	}
 
 
