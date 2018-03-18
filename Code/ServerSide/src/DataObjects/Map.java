@@ -2,11 +2,20 @@ package DataObjects;
 
 import java.util.ArrayList;
 
+import javafx.util.Pair;
+
+
+
 public class Map {
 	private GridPoint[][] map;
 	private Integer height;
 	private Integer width;
 	private ArrayList<RobotInformation> robots;
+	private final float STRAIGHT_TIME = 1.0f;
+	private final float ROTATE_90_TIME = 0.5f;
+	private final float ROTATE_180_TIME = 0.5f;
+	
+	
 
 	
 	public Map(Integer _height, Integer _width, ArrayList<Location> unAvailableLocations){
@@ -48,6 +57,22 @@ public class Map {
 		Location oldLocation = toUpdate.location;
 		toUpdate.location = _newLocation;
 		Location changeInLocation = new Location( _newLocation.getX() - oldLocation.getX(), _newLocation.getY() - oldLocation.getY());
+		if(changeInLocation.getY() == 1) {
+			toUpdate.direction = Direction.NORTH;
+			return;
+		}
+		if(changeInLocation.getX() == 1) {
+			toUpdate.direction = Direction.EAST;
+			return;
+		}
+		if(changeInLocation.getY() == -1) {
+			toUpdate.direction = Direction.SOUTH;
+			return;
+		}
+		if(changeInLocation.getX() == -1) {
+			toUpdate.direction = Direction.WEST;
+			return;
+		}
 		
 		
 	}
@@ -73,41 +98,98 @@ public class Map {
 			}
 		}
 	}
-	public ArrayList<GridPoint> getAvailableLocations(Location location, Float[] timeFrame){
+	
+	// returns an array of how long it takes to get to each location, however the time frames are
+	// not perfect for how long each node needs to be blocked off for as we need to account for error
+	public ArrayList<Pair<GridPoint, Direction>> getAvailableLocations(Location _location, Float _time, Direction _direction){
 		ArrayList<GridPoint> surroundingLocations = new ArrayList<GridPoint>();
-		int x = location.getX();
-		int y = location.getY();
+		int x = _location.getX();
+		int y = _location.getY();
 		try {
-			surroundingLocations.add(map[x+1][y]);
+			surroundingLocations.add(map[x+1][y].clone());
 			
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
 		try {
-			surroundingLocations.add(map[x-1][y]);
+			surroundingLocations.add(map[x-1][y].clone());
 			
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
 		try {
-			surroundingLocations.add(map[x][y+1]);
+			surroundingLocations.add(map[x][y+1].clone());
 			
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
 		try {
-			surroundingLocations.add(map[x][y-1]);
+			surroundingLocations.add(map[x][y-1].clone());
 			
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
 		
 		
-		ArrayList<GridPoint> output = new ArrayList<GridPoint>();
+		ArrayList<Pair<GridPoint,Direction>> output = new ArrayList<Pair<GridPoint,Direction>>();
 		for (GridPoint a: surroundingLocations){
-			if(a.getAvailability(timeFrame)){
-				a.setUnAvailability(timeFrame); 
-				output.add(a);
+			Float [] newTimeFrame = null;
+			Direction newDirection = null;
+			if((a.getLocation().getX() - x) == 1) {
+				newDirection = Direction.EAST;
+				if(_direction == Direction.EAST) {
+					newTimeFrame = new Float[] {_time, STRAIGHT_TIME};
+				}
+				else if (_direction == Direction.WEST){
+					newTimeFrame = new Float[] {_time, ROTATE_180_TIME};
+				}
+				else {
+					newTimeFrame = new Float[] {_time, ROTATE_90_TIME};
+				}
+			}
+			else if((a.getLocation().getX() - x) == -1) {
+				newDirection = Direction.WEST;
+				if(_direction == Direction.WEST) {
+					newTimeFrame = new Float[] {_time, STRAIGHT_TIME};
+				}
+				else if (_direction == Direction.EAST){
+					newTimeFrame = new Float[] {_time, ROTATE_180_TIME};
+				}
+				else {
+					newTimeFrame = new Float[] {_time, ROTATE_90_TIME};
+				}
+			}
+			else if((a.getLocation().getY() - y) == 1) {
+				newDirection = Direction.NORTH;
+				if(_direction == Direction.NORTH) {
+					newTimeFrame = new Float[] {_time, STRAIGHT_TIME};
+				}
+				else if (_direction == Direction.SOUTH){
+					newTimeFrame = new Float[] {_time, ROTATE_180_TIME};
+				}
+				else {
+					newTimeFrame = new Float[] {_time, ROTATE_90_TIME};
+				}
+			}
+			else if((a.getLocation().getY() - y) == -1) {
+				newDirection = Direction.SOUTH;
+				if(_direction == Direction.SOUTH) {
+					newTimeFrame = new Float[] {_time, STRAIGHT_TIME};
+				}
+				else if (_direction == Direction.NORTH){
+					newTimeFrame = new Float[] {_time, ROTATE_180_TIME};
+				}
+				else {
+					newTimeFrame = new Float[] {_time, ROTATE_90_TIME};
+				}
+			}
+			
+			assert(newTimeFrame != null);
+			assert(newDirection != null);
+			
+			if(a.isAvailable(System.currentTimeMillis() + _time)){
+				a.setUnAvailability(newTimeFrame); 
+				output.add(new Pair<GridPoint, Direction>(a, newDirection));
 			}
 		}
 		

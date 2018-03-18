@@ -22,7 +22,7 @@ public class GridPoint {
 		this.timeFrames = new ArrayList<Float[]>();
 	}
 
-	public Boolean getAvailability(Float[] timeFrame) {
+	public Boolean isAvailable(Float[] timeFrame) {
 		if (unavailable) {
 			return false;
 		} else {
@@ -32,6 +32,23 @@ public class GridPoint {
 						| timeFrame[0] < a[0] && timeFrame[1] > a[1]
 						| timeFrame[0] > a[1] && timeFrame[1] < a[1]) {
 					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public Boolean isAvailable(Float time) {
+		if(unavailable) {
+			return false;
+		}
+		else {
+			for(Float[] a : this.timeFrames) {
+				if(time > a[0] && time < a[1]) {
+					return false;
+				}
+				else {
+					return true;
 				}
 			}
 		}
@@ -59,6 +76,11 @@ public class GridPoint {
 
 	// returns the time frames for which it is an unavailable location
 	public ArrayList<Float[]> getTimeFrames() {
+
 		return timeFrames;
+	}
+
+	public GridPoint clone() {
+		return new GridPoint(this.location, this.unavailable);
 	}
 }

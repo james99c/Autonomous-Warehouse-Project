@@ -6,25 +6,27 @@ import java.util.Collections;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import DataObjects.Direction;
 import DataObjects.GridPoint;
 import DataObjects.Location;
 import DataObjects.Map;
+import javafx.util.Pair;
 
 public class SearchTree implements Comparable {
-    private static final Logger logger = LogManager.getLogger(SearchTree.class);
+	private static final Logger logger = LogManager.getLogger(SearchTree.class);
 	Location currentLocation, previousLocation, goalLocation;
 	Float currentCost, heuristicCost, totalCost;
 	SearchTree parentNode;
-	ArrayList<GridPoint> currentPath;
+	ArrayList<Pair<GridPoint,Direction>> currentPath;
 	ArrayList<SearchTree> childNodes = new ArrayList<SearchTree>();
+	Direction currentDirection;
 
 	public static Map currentMap;
-	static ArrayList<GridPoint> outputVariable = new ArrayList<GridPoint>();
+	static ArrayList<Pair<GridPoint,Direction>> outputVariable = new ArrayList<Pair<GridPoint,Direction>>();
 	static ArrayList<SearchTree> usableLeafNodes = new ArrayList<SearchTree>();
 
-	public SearchTree(Location _currentLocation, Location _previousLocation,
-			float _currentCost, Location _goalLocation, SearchTree _parentNode,
-			ArrayList<GridPoint> _currentPath) {
+	public SearchTree(Location _currentLocation, Location _previousLocation, float _currentCost, Location _goalLocation,
+			SearchTree _parentNode, ArrayList<Pair<GridPoint, Direction>> _currentPath, Direction _currentDirection) {
 		this.currentLocation = _currentLocation;
 		this.previousLocation = _previousLocation;
 		this.goalLocation = _goalLocation;
@@ -33,6 +35,7 @@ public class SearchTree implements Comparable {
 		this.currentCost = _currentCost;
 		this.heuristicCost = getHeuristicCost(_currentLocation, _goalLocation);
 		this.totalCost = _currentCost + heuristicCost;
+		this.currentDirection = _currentDirection;
 	}
 
 	// searches this particular node for goal
@@ -46,9 +49,8 @@ public class SearchTree implements Comparable {
 			// take to
 			// move that
 			// junction
-			ArrayList<GridPoint> NewLocationList = currentMap
-					.getAvailableLocations(currentLocation, new Float[] {
-							currentCost, currentCost + 1 });
+			ArrayList<Pair<GridPoint, Direction>> NewLocationList = currentMap.getAvailableLocations(currentLocation,
+					 currentCost, currentDirection );
 			// if there are no movement options
 			if (NewLocationList.size() == 0) {
 				// if there is another usable node
@@ -61,53 +63,31 @@ public class SearchTree implements Comparable {
 				}
 
 			} else { // when there are movement options
-				for (GridPoint gp : NewLocationList) {
+				for (Pair<GridPoint,Direction> gp : NewLocationList) {
 					// need to have time frame and currentCost as the estimated
 					// time
 
-					ArrayList<GridPoint> newPath = new ArrayList<GridPoint>(
-							currentPath);
+					ArrayList<Pair<GridPoint,Direction>> newPath = new ArrayList<Pair<GridPoint,Direction>>(currentPath);
 					newPath.add(gp);
-//					System.out.println(currentPath);
-//					for (int i = 0; i < newPath.size(); i++) {
-//						System.out.println(newPath.get(i).getLocation().getX()
-//								+ " : " + newPath.get(i).getLocation().getY());
-//					}
+					// System.out.println(currentPath);
+					// for (int i = 0; i < newPath.size(); i++) {
+					// System.out.println(newPath.get(i).getLocation().getX()
+					// + " : " + newPath.get(i).getLocation().getY());
+					// }
 
-					this.childNodes
-							.add(new SearchTree(gp.getLocation(),
-									this.currentLocation, currentCost
-											+ (timeFrameDifference(gp
-													.getTimeFrames())),
-									this.goalLocation, this, newPath));
+					this.childNodes.add(new SearchTree(gp.getKey().getLocation(), this.currentLocation,
+							currentCost + (timeFrameDifference(gp.getKey().getTimeFrames())), this.goalLocation, this, newPath, newPath.get(newPath.size() - 1).getValue()));
 				}
 				// then sort usableLeafNodes from lowest to highest totalCost
 				usableLeafNodes.addAll(childNodes);
 				Collections.sort(usableLeafNodes);
-//				for (int i = 0; i < usableLeafNodes.size(); i++) {
-//					System.out.println(usableLeafNodes.get(i).totalCost);
-//				}
+
 				ArrayList<SearchTree> newList = new ArrayList<SearchTree>();
 				SearchTree smallestNode = usableLeafNodes.get(0);
 
-				// System.out.println();
-				// while (usableLeafNodes.size() > 1) {
-				// Integer indexOfSmallest = 0;
-				// for (int i = 0; i < usableLeafNodes.size(); i++) {
-				// if (usableLeafNodes.get(i).totalCost <
-				// smallestNode.totalCost) {
-				// smallestNode = usableLeafNodes.get(i);
-				// indexOfSmallest = i;
-				// }
-				// }
-				// newList.add(smallestNode);
-				// usableLeafNodes.remove(indexOfSmallest);
-				// }
-				// usableLeafNodes = newList;
-
-//				System.out.println(usableLeafNodes);
+				// System.out.println(usableLeafNodes);
 				// searches the child node with the lowest total cost
-//				System.out.println(currentLocation.getX() + " : " + currentLocation.getY());
+				// System.out.println(currentLocation.getX() + " : " + currentLocation.getY());
 				usableLeafNodes.remove(0).search();
 				return;
 			}
@@ -126,20 +106,15 @@ public class SearchTree implements Comparable {
 		}
 	}
 
-	public ArrayList<GridPoint> getOutputVariable() {
-		ArrayList<GridPoint> ret = new ArrayList<GridPoint>(this.outputVariable);
+	public ArrayList<Pair<GridPoint,Direction>> getOutputVariable() {
+		ArrayList<Pair<GridPoint,Direction>> ret = new ArrayList<Pair<GridPoint,Direction>>(this.outputVariable);
 		this.outputVariable.clear();
 		return ret;
 	}
 
-
-
-	public Float getHeuristicCost(Location currentLocation,
-			Location goalLocation) {
-		Integer changeInX = Math.abs(goalLocation.getX()
-				- currentLocation.getX());
-		Integer changeInY = Math.abs(goalLocation.getY()
-				- currentLocation.getY());
+	public Float getHeuristicCost(Location currentLocation, Location goalLocation) {
+		Integer changeInX = Math.abs(goalLocation.getX() - currentLocation.getX());
+		Integer changeInY = Math.abs(goalLocation.getY() - currentLocation.getY());
 		return (Float) (changeInX.floatValue() + changeInY.floatValue());
 	}
 
