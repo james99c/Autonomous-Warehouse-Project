@@ -3,8 +3,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.*;
 import java.io.File;
-
 import javax.swing.*;
+;
 
 import Interfaces.GUIInterface;
 
@@ -16,6 +16,10 @@ public class GUI {
 	String job1;
 	String job2;
 	String job3;
+	Location location1;
+	Location location2;
+	Location location3;
+	
 	//String filePath = "";
 	
 	
@@ -88,6 +92,10 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
             	frame2.dispose();
             	frame3.setVisible(true);
+            	location1 = new Location(x1, y1);
+            	location2 = new Location(x1, y1);
+            	location3 = new Location(x1, y1);
+            	
                     }} );
         
         panel21.add(title1);
@@ -167,7 +175,30 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
             	//Cancel the robot's operation
                     }} );   
+        JButton reconnect1 = new JButton("Reconnect");
+        reconnect1.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		//Reconnect the robot
+        	}
+        } );
         
+        JButton reconnect2 = new JButton("Reconnect");
+        reconnect1.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		//Reconnect the robot
+        	}
+        } );
+        
+        JButton reconnect3 = new JButton("Reconnect");
+        reconnect1.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		//Reconnect the robot
+        	}
+        } );
+        		
         /*JButton readFile = new JButton("Select file");
         readFile.addActionListener(new ActionListener() {
         	@Override
@@ -190,14 +221,17 @@ public class GUI {
         panel32.add(robotlabel1);
         panel32.add(joblabel1);
         panel32.add(cancel1);
+        panel32.add(reconnect1);
         
         panel33.add(robotlabel2);
         panel33.add(joblabel2);
         panel33.add(cancel2);
+        panel33.add(reconnect2);
         
         panel34.add(robotlabel3);
         panel34.add(joblabel3);
         panel34.add(cancel3);
+        panel34.add(reconnect3);
         
         panel35.add(noneConnected);
         

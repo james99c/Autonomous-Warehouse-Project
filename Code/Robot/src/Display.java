@@ -57,7 +57,13 @@ public class Display {
 				waiting = false;
 				this.show();
 			}
+			if (Button.waitForAnyPress() == /*BOTTOM BUTTON*/) {
+				this.cancelJob();
 		}
+		}
+	public void cancelJob() {
+		//Cancel the proposed job
+	}
 		
 		
 	
