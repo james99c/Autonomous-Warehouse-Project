@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 import DataObjects.Direction;
 import DataObjects.GridPoint;
+import DataObjects.Item;
+import DataObjects.Job;
 import DataObjects.Location;
 import DataObjects.Map;
 import Interfaces.RoutePlannerInterface;
@@ -25,7 +27,11 @@ public class RoutePlanner implements RoutePlannerInterface{
         SearchTree.currentMap = map;
     }
 
+<<<<<<< HEAD
     public ArrayList<GridPoint> findRoute(Location currentLocation, Location goalLocation, Direction _robotsDirection){
+=======
+    public ArrayList<GridPoint> findIndividualRoute(Location currentLocation, Location goalLocation){
+>>>>>>> testing
         //ArrayList<Location> outputVariable = new ArrayList<Location>();
         SearchTree searchTree = new SearchTree(
             currentLocation,
@@ -37,6 +43,7 @@ public class RoutePlanner implements RoutePlannerInterface{
             _robotsDirection
         );     
         searchTree.search();
+<<<<<<< HEAD
         ArrayList<Pair<GridPoint, Direction>> searchTreeOutput = searchTree.getOutputVariable();
         ArrayList<GridPoint> output = new ArrayList<GridPoint>();
         for(Pair<GridPoint,Direction> item : searchTreeOutput) {
@@ -44,6 +51,23 @@ public class RoutePlanner implements RoutePlannerInterface{
         }
         // need to adjust the time frames
         return output;
+=======
+        ArrayList<GridPoint> outputVariable = searchTree.getOutputVariable();
+        
+        return outputVariable;
+>>>>>>> testing
+    }
+    
+    public ArrayList<Location> findRoute(Location _startLocation, Job _job, String robotName){
+    		Item[] listOfItems = new Item[] {};
+    		_job.getItems().toArray(listOfItems);
+    		ArrayList<GridPoint> totalRoute = new ArrayList<GridPoint>();
+    		ArrayList<Location> output = new ArrayList<Location>();
+    		// sort the array as to which points it's going to go to first
+    		totalRoute.addAll(findIndividualRoute(_startLocation, new Location(listOfItems[0].getX(), listOfItems[1].getY())));
+    		for(int i = 0; i < (listOfItems.length - 2); i++ ) {
+    			totalRoute.addAll(findIndividualRoute(new Location(listOfItems[i].getX(), listOfItems[i].getY()),new Location(listOfItems[i+1].getX(), listOfItems[i+1].getY())));
+    		}
     }
     
     public static void main(String[] args) {
@@ -52,12 +76,18 @@ public class RoutePlanner implements RoutePlannerInterface{
 //    		unavailable.add(new Location(2,2));
 //    		unavailable.add(new Location(3,2));
     		
+<<<<<<< HEAD
 //		Map map = new Map(5,5, unavailable);
 //		RoutePlanner search = new RoutePlanner(map);
 //		ArrayList<GridPoint> route = search.findRoute(new Location(0,0), new Location(3,4));
 //		for(int i = 0; i < route.size(); i++) {
 //			logger.debug(route.get(i).getLocation().getX() + " : " + route.get(i).getLocation().getY() );
 //		}
+=======
+		Map map = new Map(5,5, unavailable);
+		RoutePlanner search = new RoutePlanner(map);
+		
+>>>>>>> testing
 	}
 
 

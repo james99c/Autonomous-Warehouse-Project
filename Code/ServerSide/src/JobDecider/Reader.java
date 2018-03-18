@@ -6,13 +6,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-//import org.apache.log4j.Logger;
-
+import org.apache.log4j.Logger;
 import DataObjects.Job;
 
 public class Reader {
 
-	//final static Logger logger = Logger.getLogger(Reader.class);
+	final static Logger logger = Logger.getLogger(Reader.class);
 
 	public static void main(String[] args) {
 
@@ -33,7 +32,7 @@ public class Reader {
 
 			br = new BufferedReader(new FileReader(itemFile));
 			br1 = new BufferedReader(new FileReader(locationFile));
-			//logger.debug("Reading items and locations csv files");
+			logger.debug("Reading items and locations csv files");
 			while ((line = br.readLine()) != null && (line2 = br1.readLine()) != null) {
 				// use comma as separator
 				String[] item = line.split(cvsSplitBy);
@@ -48,7 +47,7 @@ public class Reader {
 			br1.close();
 			br = new BufferedReader(new FileReader(jobFile));
 			br1 = new BufferedReader(new FileReader(cancellationFile));
-			//logger.debug("Reading training_jobs and cancellations csv files");
+			logger.debug("Reading training_jobs and cancellations csv files");
 			
 			while ((line = br.readLine()) != null && (line2 = br1.readLine()) != null) {
 				String[] job = line.split(cvsSplitBy);
@@ -68,19 +67,19 @@ public class Reader {
 			br.close();
 			br1.close();
 			
-//			int jobIndexToTest = 3;
-//			logger.debug("Is job cancelled? " + jobNumber.get(jobIndexToTest).getCancellation());
-//			logger.debug("Job ID: " + jobNumber.get(jobIndexToTest).getID());
-//			logger.debug("Is file cancelled?" + jobNumber.get(jobIndexToTest).getCancellation());
-//			logger.debug("One of the items that is in the job ID: " + jobNumber.get(jobIndexToTest).getJob().get(3).getID());
-//			logger.debug("The quantity of that item in the job: " + jobNumber.get(jobIndexToTest).getJob().get(3).getQuantity());
-//			logger.debug("The total job reward:  " + jobNumber.get(jobIndexToTest).getJobReward());
-//			logger.debug("The total job weight:  " + jobNumber.get(jobIndexToTest).getJobWeight());
+			int jobIndexToTest = 3;
+			logger.debug("Is job cancelled? " + jobNumber.get(jobIndexToTest).getCancellation());
+			logger.debug("Job ID: " + jobNumber.get(jobIndexToTest).getID());
+			logger.debug("Is file cancelled?" + jobNumber.get(jobIndexToTest).getCancellation());
+			logger.debug("One of the items that is in the job ID: " + jobNumber.get(jobIndexToTest).getJob().get(3).getID());
+			logger.debug("The quantity of that item in the job: " + jobNumber.get(jobIndexToTest).getJob().get(3).getQuantity());
+			logger.debug("The total job reward:  " + jobNumber.get(jobIndexToTest).getJobReward());
+			logger.debug("The total job weight:  " + jobNumber.get(jobIndexToTest).getJobWeight());
 
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			//logger.error("One or more files are not found");
+			logger.error("One or more files are not found");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
