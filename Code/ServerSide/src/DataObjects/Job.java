@@ -16,7 +16,7 @@ public class Job {
 	private boolean cancel;
 	private float reward;
 	private Location startLocation;
-	private Location goalLocation;
+	private static Location goalLocation;
 	
 	public Job(int id, ArrayList<JobObject> job, HashMap<String, Item> items, boolean cancel){
 		this.id = id;
@@ -24,7 +24,6 @@ public class Job {
 		this.items = items;
 		this.cancel = cancel;
 		this.startLocation = startLocation;
-		this.goalLocation = goalLocation;
 	}
 	
 	public Job(float reward){
