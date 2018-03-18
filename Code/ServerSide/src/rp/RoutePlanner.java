@@ -2,12 +2,12 @@ package rp;
 
 import java.util.ArrayList;
 
-import DataObjects.Direction;
-import DataObjects.GridPoint;
-import DataObjects.Location;
-import DataObjects.Map;
-import Interfaces.RoutePlannerInterface;
-import RoutePlannerExtra.SearchTree;
+import rp.DataObjects.Direction;
+import rp.DataObjects.GridPoint;
+import rp.DataObjects.Location;
+import rp.DataObjects.Map;
+import rp.Interfaces.RoutePlannerInterface;
+import rp.RoutePlannerExtra.SearchTree;
 import javafx.util.Pair;
 
 import org.apache.log4j.Logger;
