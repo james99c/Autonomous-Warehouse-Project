@@ -6,17 +6,11 @@ import java.util.Collections;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-<<<<<<< HEAD:Code/ServerSide/src/rp/RoutePlannerExtra/SearchTree.java
-import rp.DataObjects.Direction;
-import rp.DataObjects.GridPoint;
-import rp.DataObjects.Location;
-import rp.DataObjects.Map;
+import DataObjects.Direction;
+import DataObjects.GridPoint;
+import DataObjects.Location;
+import DataObjects.Map;
 import javafx.util.Pair;
-=======
-import rp.DataObjects.GridPoint;
-import rp.DataObjects.Location;
-import rp.DataObjects.Map;
->>>>>>> testing:Code/ServerSide/src/rp/RoutePlannerExtra/SearchTree.java
 
 public class SearchTree implements Comparable {
 	private static final Logger logger = LogManager.getLogger(SearchTree.class);
