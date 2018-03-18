@@ -17,15 +17,22 @@ public class JobAssigner implements JobAssignerInterface{
 	
 	final static Logger logger = Logger.getLogger(JobAssigner.class);
 	
-	private ArrayList<Job> jobs;
+	private static ArrayList<Job> jobs;
 	// creates map of 5x5 with no unavailable co-ordinates
 	private Map map = new Map(5,5,new ArrayList());
 	private RoutePlanner routePlanner = new RoutePlanner(map);
 	
 	public JobAssigner(ArrayList<Job> unsortedJobs){
-		this.jobs = unsortedJobs;
+		jobs = unsortedJobs;
 	}
-
+	
+	public ArrayList<Location> assignJob(Location currentLocation){
+		Job bestJob = jobs.get(0);
+		jobs.remove(0);
+		ArrayList<Location> route = getRoute(bestJob);
+		return route;
+	}
+	/*
 	@Override
 	public void sortJobs() {
 		logger.debug("sorting job based on reward value");
@@ -50,7 +57,7 @@ public class JobAssigner implements JobAssignerInterface{
 		logger.debug(jobMap.toString());
 		return jobMap;
 	}
-	
+	*/
 	public ArrayList<Location> getRoute(Location _startLocation, Location _endLocation) {
 		ArrayList<GridPoint> gridRoute = routePlanner.findRoute(_startLocation, _endLocation);
 		ArrayList<Location> route = new ArrayList<Location>();
