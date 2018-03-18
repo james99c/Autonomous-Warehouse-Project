@@ -99,9 +99,6 @@ public class Map {
 		}
 	}
 	
-	public GridPoint getGridpoint(int x,int y) {
-		return map[x][y];
-	}
 	// returns an array of how long it takes to get to each location, however the time frames are
 	// not perfect for how long each node needs to be blocked off for as we need to account for error
 	public ArrayList<Pair<GridPoint, Direction>> getAvailableLocations(Location _location, Float _time, Direction _direction){
@@ -135,6 +132,8 @@ public class Map {
 		
 		
 		ArrayList<Pair<GridPoint,Direction>> output = new ArrayList<Pair<GridPoint,Direction>>();
+		ArrayList<Float[]> unavailableTime = new ArrayList<>();
+		ArrayList<GridPoint> unavailablePoint = new ArrayList<>();
 		for (GridPoint a: surroundingLocations){
 			Float [] newTimeFrame = null;
 			Direction newDirection = null;
@@ -191,11 +190,24 @@ public class Map {
 			assert(newDirection != null);
 			
 			if(a.isAvailable(System.currentTimeMillis() + _time)){
-				a.setUnAvailability(newTimeFrame); 
+				//a.setUnAvailability(newTimeFrame); 
+				unavailableTime.add(newTimeFrame);
+				unavailablePoint.add(a);
 				output.add(new Pair<GridPoint, Direction>(a, newDirection));
 			}
 		}
 		
+		int index;
+		for (index = 1; index < unavailableTime.size(); index++) {
+			Float[] second = unavailableTime.get(index);
+			Float[] first = unavailableTime.get(index-1);
+			GridPoint gp = unavailablePoint.get(index-1);
+			
+			gp.setUnAvailability(new Float[] {first[0], second[1]});
+		}
+		
+		unavailablePoint.get(index-1).setUnAvailability(new Float[] {
+				unavailableTime.get(index-1)[0], unavailableTime.get(index-1)[1]});
 		
 		return output;
 	}
