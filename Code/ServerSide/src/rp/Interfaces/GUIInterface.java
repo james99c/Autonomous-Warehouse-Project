@@ -1,5 +1,8 @@
 package rp.Interfaces;
 
-public interface GUIInterface {
+import java.util.ArrayList;
 
+
+public interface GUIInterface {
+	
 }

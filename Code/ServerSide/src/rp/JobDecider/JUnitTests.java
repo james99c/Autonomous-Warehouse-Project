@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import DataObjects.Job;
+import rp.DataObjects.Job;
 
 public class JUnitTests {
 

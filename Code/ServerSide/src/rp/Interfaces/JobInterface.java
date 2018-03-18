@@ -1,6 +1,6 @@
 package rp.Interfaces;
 
-import DataObjects.Location;
+import rp.DataObjects.Location;
 
 public interface JobInterface {
 	public Location getStartingLocation();

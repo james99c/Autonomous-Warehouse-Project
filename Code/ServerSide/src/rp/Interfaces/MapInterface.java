@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.sun.tools.javac.util.Pair;
 
-import DataObjects.Location;
+import rp.DataObjects.Location;
 
 public interface MapInterface {
 	public Integer getNumberOfRobots();

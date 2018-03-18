@@ -1,5 +1,8 @@
 package rp;
+<<<<<<< HEAD:Code/ServerSide/src/rp/JobAssignerTest.java
 
+=======
+>>>>>>> testing:Code/ServerSide/src/rp/JobAssignerTest.java
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -7,7 +10,7 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import DataObjects.Job;
+import rp.DataObjects.Job;
 
 
 public class JobAssignerTest {
