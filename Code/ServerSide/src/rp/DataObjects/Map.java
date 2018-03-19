@@ -17,8 +17,6 @@ public class Map {
 	private final float ROTATE_180_TIME = 2.0f;
     public long startOfTime;
 	
-
-	
 	public Map(Integer _height, Integer _width, ArrayList<Location> unAvailableLocations){
 		
 		this.height = _height + 1;
@@ -158,7 +156,7 @@ public class Map {
 					newTimeFrame = new Float[] {_time, _time + STRAIGHT_TIME};
 				}
 				else if (_direction == Direction.WEST){
-					newTimeFrame = new Float[] {_time, _time +ROTATE_180_TIME};
+					newTimeFrame = new Float[] {_time, _time + ROTATE_180_TIME};
 				}
 				else {
 					newTimeFrame = new Float[] {_time, _time + ROTATE_90_TIME};
@@ -170,34 +168,34 @@ public class Map {
 					newTimeFrame = new Float[] {_time, _time + STRAIGHT_TIME};
 				}
 				else if (_direction == Direction.EAST){
-					newTimeFrame = new Float[] {_time, _time +ROTATE_180_TIME};
+					newTimeFrame = new Float[] {_time, _time + ROTATE_180_TIME};
 				}
 				else {
-					newTimeFrame = new Float[] {_time, _time +ROTATE_90_TIME};
+					newTimeFrame = new Float[] {_time, _time + ROTATE_90_TIME};
 				}
 			}
 			else if((a.getLocation().getY() - y) == 1) {
 				newDirection = Direction.NORTH;
 				if(_direction == Direction.NORTH) {
-					newTimeFrame = new Float[] {_time, _time +STRAIGHT_TIME};
+					newTimeFrame = new Float[] {_time, _time + STRAIGHT_TIME};
 				}
 				else if (_direction == Direction.SOUTH){
-					newTimeFrame = new Float[] {_time, _time +ROTATE_180_TIME};
+					newTimeFrame = new Float[] {_time, _time + ROTATE_180_TIME};
 				}
 				else {
-					newTimeFrame = new Float[] {_time, _time +ROTATE_90_TIME};
+					newTimeFrame = new Float[] {_time, _time + ROTATE_90_TIME};
 				}
 			}
 			else if((a.getLocation().getY() - y) == -1) {
 				newDirection = Direction.SOUTH;
 				if(_direction == Direction.SOUTH) {
-					newTimeFrame = new Float[] {_time, _time +STRAIGHT_TIME};
+					newTimeFrame = new Float[] {_time, _time + STRAIGHT_TIME};
 				}
 				else if (_direction == Direction.NORTH){
-					newTimeFrame = new Float[] {_time, _time +ROTATE_180_TIME};
+					newTimeFrame = new Float[] {_time, _time + ROTATE_180_TIME};
 				}
 				else {
-					newTimeFrame = new Float[] {_time, _time +ROTATE_90_TIME};
+					newTimeFrame = new Float[] {_time, _time + ROTATE_90_TIME};
 				}
 			}
 			
