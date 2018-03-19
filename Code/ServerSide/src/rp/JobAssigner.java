@@ -12,8 +12,8 @@ import rp.DataObjects.Job;
 import rp.DataObjects.Location;
 import rp.DataObjects.Map;
 import rp.Interfaces.JobAssignerInterface;
-import rp.JobDecider.Item;
-import rp.JobDecider.Reader;
+import rp.JobDeciderTest.Item;
+import rp.JobDeciderTest.Reader;
 
 
 public class JobAssigner implements JobAssignerInterface{

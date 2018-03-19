@@ -1,6 +1,6 @@
 package rp;
 
-import Interfaces.RobotCommunicatorInterface;
+import rp.Interfaces.RobotCommunicatorInterface;
 
 
 public class RobotCommunicator implements RobotCommunicatorInterface {

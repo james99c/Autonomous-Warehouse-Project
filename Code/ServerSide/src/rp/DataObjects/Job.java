@@ -1,24 +1,12 @@
 package rp.DataObjects;
-<<<<<<< HEAD:Code/ServerSide/src/rp/DataObjects/Job.java
 
-import rp.JobDecider.Item;
-import rp.JobDecider.JobObject;
-import rp.JobDecider.Reader;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-=======
-
-import rp.JobDecider.Item;
-import rp.JobDecider.JobObject;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import rp.DataObjects.Location;
-
->>>>>>> testing:Code/ServerSide/src/rp/DataObjects/Job.java
+import rp.JobDeciderTest.Item;
+import rp.JobDeciderTest.JobObject;
 public class Job {
 	private int id;
 	private ArrayList<JobObject> job;
@@ -53,6 +41,11 @@ public class Job {
 		}
 		return item;
 	}
+	
+	public HashMap<String, Item> getItemMap() {
+		return items;
+	}
+
 	
 	public ArrayList<Integer> getNumberOfItems() {
 		ArrayList<Integer> item = new ArrayList<Integer>();

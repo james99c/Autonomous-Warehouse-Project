@@ -1,6 +1,6 @@
 package rp;
 
-import Interfaces.JobDeciderInterface;
+import rp.Interfaces.JobDeciderInterface;
 
 
 // takes an input file, will read all the jobs off of it then choose the jobs it see's best

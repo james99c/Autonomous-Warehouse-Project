@@ -1,4 +1,4 @@
-package rp.JobDecider;
+package rp.JobDeciderTest;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -6,14 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-<<<<<<< HEAD:Code/ServerSide/src/rp/JobDecider/Reader.java
-//import org.apache.log4j.Logger;
-
-import DataObjects.Job;
-=======
 import org.apache.log4j.Logger;
 import rp.DataObjects.Job;
->>>>>>> testing:Code/ServerSide/src/rp/JobDecider/Reader.java
 
 public class Reader {
 

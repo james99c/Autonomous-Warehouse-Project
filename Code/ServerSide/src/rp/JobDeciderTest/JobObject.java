@@ -1,4 +1,4 @@
-package rp.JobDecider;
+package rp.JobDeciderTest;
 
 
 public class JobObject {

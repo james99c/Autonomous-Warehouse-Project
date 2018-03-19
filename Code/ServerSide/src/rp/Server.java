@@ -1,5 +1,7 @@
 package rp;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 
@@ -8,10 +10,14 @@ import lejos.pc.comm.NXTCommException;
 import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
 
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import com.intel.bluetooth.BlueCoveConfigProperties;
 
+import rp.DataObjects.Direction;
+import rp.DataObjects.GridPoint;
+import rp.DataObjects.Location;
+import rp.DataObjects.Map;
 import rp.DataObjects.RobotConnector;
 import rp.networking.ClientTable;
 import rp.networking.CommInfo;
@@ -26,11 +32,18 @@ public class Server {
 
 	private static HashMap<String, RobotConnector> connections;
 	private static ClientTable clientTable;
-	// final static Logger logger = Logger.getLogger(RobotConnector.class);
+	final static Logger logger = Logger.getLogger(RobotConnector.class);
+	private static ArrayList<Location> test = new ArrayList<>();
+	static String actualRoute;
+	private static GUI g;
 
 	public static void main(String[] args) {
+
 		
-		GUI g = new GUI();
+		actualRoute = testRoute();
+		logger.debug("------------------------Converted route:" + actualRoute);
+
+		
 
 		clientTable = new ClientTable();
 
@@ -46,9 +59,8 @@ public class Server {
 		// Initialise communications to each robot
 		for (String robotName : connections.keySet()) {
 			initComms(robotName);
+			g.connectRobot(robotName);
 		}
-		
-		
 
 		// Test routes
 		testRoutes(clientTable);
@@ -63,8 +75,8 @@ public class Server {
 	 */
 	private static NXTInfo[] addRobotInfo() {
 		NXTInfo[] newRobots = { new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"),
-				new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
-				new NXTInfo(NXTCommFactory.BLUETOOTH, "Sagittarius", "00165317B913") };
+		// new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
+		new NXTInfo(NXTCommFactory.BLUETOOTH, "Sagittarius", "00165317B913") };
 		return newRobots;
 	}
 
@@ -85,7 +97,7 @@ public class Server {
 			(new ServerSender(robotCommInfo, clientTable.getQueue(robotCommInfo.getRobotName()))).start();
 		}
 		catch (NXTCommException e) {
-			System.out.println("Couldn't create bluetooth connection to robot");
+			logger.error("Couldn't create bluetooth connection to robot");
 			e.printStackTrace();
 		}
 
@@ -102,24 +114,78 @@ public class Server {
 	private static void testRoutes(ClientTable clientTable) {
 		BlockingQueue<String> recipientsQueue = clientTable.getQueue("Pisces");
 		if (recipientsQueue != null) {
-			System.out.println("Trying to offer a route to Pisces");
-			recipientsQueue.offer("000000020");
-			System.out.println("Successfully offered: 000000020");
+			logger.debug("Trying to offer a route to Pisces");
+			recipientsQueue.offer(actualRoute);
+			logger.debug("Successfully offered: " + actualRoute);
 		}
 
-		BlockingQueue<String> recipientsQueue2 = clientTable.getQueue("Gemini");
-		if (recipientsQueue2 != null) {
-			System.out.println("Trying to offer a route to Gemini");
-			recipientsQueue2.offer("00100");
-			System.out.println("Successfully offered: 00100");
-		}
-
-		BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
-		if (recipientsQueue3 != null) {
-			System.out.println("Trying to offer a route to Sagittarius");
-			recipientsQueue3.offer("00200");
-			System.out.println("Successfully offered: 00200");
-		}
+		// BlockingQueue<String> recipientsQueue2 = clientTable.getQueue("Gemini");
+		// if (recipientsQueue2 != null) {
+		// logger.debug("Trying to offer a route to Gemini");
+		// recipientsQueue2.offer("00100");
+		// logger.debug("Successfully offered: 00100");
+		// }
+		//
+		 BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
+		 if (recipientsQueue3 != null) {
+		 logger.debug("Trying to offer a route to Sagittarius");
+		 recipientsQueue3.offer("00200");
+		 logger.debug("Successfully offered: 00200");
+		 }
 	}
+	
+	
+		// ALED'S TEST CODE FOR ROUTE CONVERSION
+		// double changeInX = nextX - currentX;
+		// double changeInY = nextY - currentY;
+		// if(changeInX == 1) {
+		// route += '2';
+		// }
+		// else if(changeInX == -1) {
+		// route += '1';
+		// }
+		// else {
+		// route += '0';
+		// }
+	
+	
+	
+	
+	private static String testRoute() {
+		
+		test.add(new Location(1, 1));
+		test.add(new Location(1, 2));
+		test.add(new Location(1, 3));
+		test.add(new Location(1, 4));
+		test.add(new Location(1, 5));
+		
+		g = new GUI();
+		Map map = new Map(10, 10, test);
+		RoutePlanner rPlanner = new RoutePlanner(map);
+		ArrayList<GridPoint> route = rPlanner.findRoute(new Location(0, 0), new Location(2, 5), Direction.NORTH);
+		for (GridPoint point : route) {
+			logger.debug(point.getLocation().getX() + " : " + point.getLocation().getY());
+		}
+
+		Point[] pointList = new Point[route.size()];
+
+		for (int i = 0; i < route.size(); i++) {
+			pointList[i] = new Point(route.get(i).getLocation().getX(), route.get(i).getLocation().getY());
+		}
+		logger.debug("Starting");
+		for (Point point : pointList) {
+			logger.debug(point);
+		}
+
+		logger.debug("------------Feedback from route converison:");
+		RouteConversion routeNew = new RouteConversion(pointList);
+		return routeNew.convertRoute();
+	}
+	
+	
+	
+	
+	
+	
 
 }
