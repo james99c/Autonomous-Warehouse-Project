@@ -67,7 +67,7 @@ public class RoutePlanner implements RoutePlannerInterface{
         return output;
     }
     
-
+    public ArrayList<Location> findEntireRoute(String _robotID, Location _robotLocation, )
     
     public static void main(String[] args) {
     		ArrayList<Location> unavailable = new ArrayList<Location>();
@@ -76,18 +76,18 @@ public class RoutePlanner implements RoutePlannerInterface{
 		Map map = new Map(5,5, unavailable);
 		
 		RoutePlanner rp = new RoutePlanner(map);
-		ArrayList<GridPoint> route = rp.findRoute(new Location(1,0), new Location(1,4), Direction.NORTH);
-		System.out.println("time frames");
-		System.out.println(map.getGridPoint(1, 1).getTimeFrames());
-		ArrayList<GridPoint> route2 = rp.findRoute(new Location(0,1), new Location(4,1), Direction.EAST);
-		System.out.println(route);
-		for(GridPoint g: route) {
-			System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY() + " | [" + g.getTimeFrames().get(0)[0] + ", " + g.getTimeFrames().get(0)[1]);
-		}
-		System.out.println(route2);
-		for(GridPoint g: route2) {
-			System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY() + " | [" + g.getTimeFrames().get(0)[0] + ", " + g.getTimeFrames().get(0)[1]);
-		}
+//		ArrayList<GridPoint> route = rp.findRoute(new Location(1,0), new Location(1,4), Direction.NORTH);
+//		System.out.println("time frames");
+//		System.out.println(map.getGridPoint(1, 1).getTimeFrames());
+//		ArrayList<GridPoint> route2 = rp.findRoute(new Location(0,1), new Location(4,1), Direction.EAST);
+//		System.out.println(route);
+//		for(GridPoint g: route) {
+//			System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY() + " | [" + g.getTimeFrames().get(0)[0] + ", " + g.getTimeFrames().get(0)[1]);
+//		}
+//		System.out.println(route2);
+//		for(GridPoint g: route2) {
+//			System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY() + " | [" + g.getTimeFrames().get(0)[0] + ", " + g.getTimeFrames().get(0)[1]);
+//		}
 
 	}
 

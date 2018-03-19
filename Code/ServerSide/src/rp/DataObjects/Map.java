@@ -79,6 +79,15 @@ public class Map {
 		
 	}
 	
+	public RobotInformation getRobotInformation(String _robotID) {
+		for(RobotInformation r: robots) {
+			if(r.robotID.equals(_robotID)) {
+				return r;
+			}
+		}
+		return null;
+	}
+
 	public void blockRoute(ArrayList<GridPoint> route){
 		for (GridPoint a: route){
 			this.map[a.getLocation().getX()][a.getLocation().getY()].setUnAvailability(a.getTimeFrames());
