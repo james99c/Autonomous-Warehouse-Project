@@ -21,7 +21,7 @@ public class Job {
 		this.job = job;
 		this.items = items;
 		this.cancel = cancel;
-		this.startLocation = startLocation;
+		//this.startLocation = startLocation;
 	}
 
 	public Job(float reward) {

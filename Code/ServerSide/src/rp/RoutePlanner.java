@@ -1,5 +1,6 @@
 package rp;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import rp.DataObjects.GridPoint;
 import rp.DataObjects.Item;
@@ -43,16 +44,36 @@ public class RoutePlanner implements RoutePlannerInterface{
         return outputVariable;
     }
     
-    public ArrayList<Location> findRoute(Location _startLocation, Job _job, String robotName){
-    		Item[] listOfItems = new Item[] {};
-    		_job.getItems().toArray(listOfItems);
-    		ArrayList<GridPoint> totalRoute = new ArrayList<GridPoint>();
-    		ArrayList<Location> output = new ArrayList<Location>();
-    		// sort the array as to which points it's going to go to first
-    		totalRoute.addAll(findIndividualRoute(_startLocation, new Location(listOfItems[0].getX(), listOfItems[1].getY())));
-    		for(int i = 0; i < (listOfItems.length - 2); i++ ) {
-    			totalRoute.addAll(findIndividualRoute(new Location(listOfItems[i].getX(), listOfItems[i].getY()),new Location(listOfItems[i+1].getX(), listOfItems[i+1].getY())));
-    		}
+    public ArrayList<GridPoint> findRoute(Location _startLocation, Job _job, String robotName){
+    	HashMap<String, rp.JobDecider.Item> itemMap = _job.getItemMap();
+    	ArrayList<String> itemsID = _job.getItems();
+    	ArrayList<Location> itemsLocation = new ArrayList<>();
+    	ArrayList<GridPoint> route = new ArrayList<>();
+    	
+    	for (String s: itemsID) {
+    		rp.JobDecider.Item item = itemMap.get(s);
+    		itemsLocation.add(new Location(item.getX(), item.getY()));
+    	}
+    	Location startLocation = _startLocation;
+    	while (!itemsLocation.isEmpty()) {
+    		Location goalLocation = findShortestDistance(startLocation, itemsLocation);
+    		route.addAll(findIndividualRoute(startLocation, goalLocation));
+    		startLocation = goalLocation;
+    		itemsLocation.remove(startLocation);
+    	}
+    	return route;
+    	
+    	/*
+		Item[] listOfItems = new Item[] {};
+		_job.getItems().toArray(listOfItems);
+		ArrayList<GridPoint> totalRoute = new ArrayList<GridPoint>();
+		ArrayList<Location> output = new ArrayList<Location>();
+		// sort the array as to which points it's going to go to first
+		totalRoute.addAll(findIndividualRoute(_startLocation, new Location(listOfItems[0].getX(), listOfItems[1].getY())));
+		for(int i = 0; i < (listOfItems.length - 1); i++ ) {
+			totalRoute.addAll(findIndividualRoute(new Location(listOfItems[i].getX(), listOfItems[i].getY()),new Location(listOfItems[i+1].getX(), listOfItems[i+1].getY())));
+		}
+    	 */
     }
     
     public static void main(String[] args) {
@@ -70,5 +91,32 @@ public class RoutePlanner implements RoutePlannerInterface{
     private Location getLastItemFromArrayList(ArrayList<Location> list) {
         int size = list.size();
         return list.get(size-1);
+    }
+    
+    private Location findShortestDistance(Location start, ArrayList<Location> rest) {
+    	int startX = start.getX();
+    	int startY = start.getY();
+    	Location shortestLocation = new Location(startX, startY);
+    	float shortestDistance = Float.MAX_VALUE;
+    	
+    	for (Location e: rest) {
+    		float distance = straightDistance(start, e);
+    		if (distance < shortestDistance) {
+    			shortestDistance = distance;
+    			shortestLocation = e;
+    		}
+    	}
+    	
+    	return shortestLocation;
+    }
+    
+    /* The straight line distance between two locations */
+    private float straightDistance(Location x, Location y) {
+    	int xX = x.getX();
+    	int xY = x.getY();
+    	int yX = y.getX();
+    	int yY = y.getY();
+    	
+    	return (float)Math.sqrt(Math.pow(yY-xY, 2) + Math.pow(yX-xX, 2));
     }
 }

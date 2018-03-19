@@ -61,4 +61,9 @@ public class GridPoint {
 	public ArrayList<Float[]> getTimeFrames() {
 		return timeFrames;
 	}
+	
+	@Override
+	public String toString() {
+		return location.toString();
+	}
 }
