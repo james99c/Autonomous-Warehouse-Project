@@ -38,14 +38,7 @@ public class SearchTree implements Comparable {
 	// searches this particular node for goal
 	public void search() {
 		// if not at goal
-		if (!(getHeuristicCost(currentLocation, goalLocation) == 0)) { // need map to
-			// calculate
-			// how long
-			// it's
-			// gonna
-			// take to
-			// move that
-			// junction
+		if (!(getHeuristicCost(currentLocation, goalLocation) == 0)) {
 			ArrayList<GridPoint> NewLocationList = currentMap
 					.getAvailableLocations(currentLocation, new Float[] {
 							currentCost, currentCost + 1 });
@@ -55,12 +48,14 @@ public class SearchTree implements Comparable {
 				if (usableLeafNodes.size() > 0) {
 					usableLeafNodes.remove(0).search();
 					return;
-				} else { // when there are no other usable nodes
+				} else { 
+					// when there are no other usable nodes
 					System.out.println("there are no paths to the object");
 					return;
 				}
 
-			} else { // when there are movement options
+			} else {
+				// when there are movement options
 				for (GridPoint gp : NewLocationList) {
 					// need to have time frame and currentCost as the estimated
 					// time
@@ -68,46 +63,24 @@ public class SearchTree implements Comparable {
 					ArrayList<GridPoint> newPath = new ArrayList<GridPoint>(
 							currentPath);
 					newPath.add(gp);
-//					System.out.println(currentPath);
-//					for (int i = 0; i < newPath.size(); i++) {
-//						System.out.println(newPath.get(i).getLocation().getX()
-//								+ " : " + newPath.get(i).getLocation().getY());
-//					}
 
 					this.childNodes
 							.add(new SearchTree(gp.getLocation(),
-									this.currentLocation, currentCost
-											+ (timeFrameDifference(gp
-													.getTimeFrames())),
-									this.goalLocation, this, newPath));
+									this.currentLocation,
+									currentCost	+ (timeFrameDifference(gp.getTimeFrames())),
+									this.goalLocation,
+									this, newPath
+								)
+							);
 				}
 				// then sort usableLeafNodes from lowest to highest totalCost
 				usableLeafNodes.addAll(childNodes);
 				Collections.sort(usableLeafNodes);
-//				for (int i = 0; i < usableLeafNodes.size(); i++) {
-//					System.out.println(usableLeafNodes.get(i).totalCost);
-//				}
+				
 				ArrayList<SearchTree> newList = new ArrayList<SearchTree>();
 				SearchTree smallestNode = usableLeafNodes.get(0);
 
-				// System.out.println();
-				// while (usableLeafNodes.size() > 1) {
-				// Integer indexOfSmallest = 0;
-				// for (int i = 0; i < usableLeafNodes.size(); i++) {
-				// if (usableLeafNodes.get(i).totalCost <
-				// smallestNode.totalCost) {
-				// smallestNode = usableLeafNodes.get(i);
-				// indexOfSmallest = i;
-				// }
-				// }
-				// newList.add(smallestNode);
-				// usableLeafNodes.remove(indexOfSmallest);
-				// }
-				// usableLeafNodes = newList;
-
-//				System.out.println(usableLeafNodes);
 				// searches the child node with the lowest total cost
-//				System.out.println(currentLocation.getX() + " : " + currentLocation.getY());
 				usableLeafNodes.remove(0).search();
 				return;
 			}
