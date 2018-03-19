@@ -3,6 +3,8 @@ package rp.networking;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import rp.DataObjects.Map;
 import java.util.concurrent.BlockingQueue;
 
 //import org.apache.log4j.Logger;
@@ -10,6 +12,7 @@ import java.util.concurrent.BlockingQueue;
 //import com.sun.deploy.util.SessionState.Client;
 
 import lejos.pc.comm.NXTInfo;
+import rp.DataObjects.GridPoint;
 
 /**
  * 
@@ -28,6 +31,9 @@ public class ServerReceiver extends Thread {
 	private DataOutputStream outputStream;
 	CommInfo robotInfo;
 	private ClientTable clientTable;
+	private String overallRoute = "";
+	private String instruction = "";
+	private Map map;
 	//final static Logger logger = Logger.getLogger(RobotConnector.class);
 
 	/**
@@ -37,7 +43,7 @@ public class ServerReceiver extends Thread {
 	 * @param newCommInfo Info about the specific robot including its name and comm streams
 	 * @param clientTable The client table currently in use by the server
 	 */
-	public ServerReceiver(CommInfo newCommInfo, ClientTable clientTable) {
+	public ServerReceiver(CommInfo newCommInfo, ClientTable clientTable, Map map) {
 		this.robotInfo = newCommInfo;
 		this.inputStream = newCommInfo.getInputStream();
 		this.outputStream = newCommInfo.getOutputStream();
@@ -61,7 +67,17 @@ public class ServerReceiver extends Thread {
 					if (answer == null || answer.equals("")) {
 					}
 					else {
-						System.out.println("Robot's route: " + answer);
+						if (answer.length() > 1) {
+							overallRoute = answer;
+						}
+						else {
+							instruction = answer;
+							if(instruction.equals("0")) {
+								//Map.updateRobotsLocation(robotInfo.robotName, overallRoute.remove(0));
+							}
+							System.out.println("Robot's instruction: " + answer);
+						}
+						
 					}
 					
 			}
@@ -70,4 +86,14 @@ public class ServerReceiver extends Thread {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	
+	private void giveRoute(ArrayList<GridPoint> route) {
+		//this.overallRoute = route;
+		
+	}
+	
+	
 }
