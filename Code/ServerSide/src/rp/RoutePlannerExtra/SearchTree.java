@@ -38,14 +38,7 @@ public class SearchTree implements Comparable {
 	// searches this particular node for goal
 	public void search() {
 		// if not at goal
-		if (!(getHeuristicCost(currentLocation, goalLocation) == 0)) { // need map to
-			// calculate
-			// how long
-			// it's
-			// gonna
-			// take to
-			// move that
-			// junction
+		if (!(getHeuristicCost(currentLocation, goalLocation) == 0)) {
 			ArrayList<Pair<GridPoint, Direction>> NewLocationList = currentMap.getAvailableLocations(currentLocation,
 					 currentCost, currentDirection );
 			// if there are no movement options
@@ -74,9 +67,6 @@ public class SearchTree implements Comparable {
 				// then sort usableLeafNodes from lowest to highest totalCost
 				usableLeafNodes.addAll(childNodes);
 				Collections.sort(usableLeafNodes);
-
-				ArrayList<SearchTree> newList = new ArrayList<SearchTree>();
-				SearchTree smallestNode = usableLeafNodes.get(0);
 
 				// System.out.println(usableLeafNodes);
 				// searches the child node with the lowest total cost

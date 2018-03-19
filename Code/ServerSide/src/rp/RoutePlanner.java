@@ -20,15 +20,11 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 
 public class RoutePlanner implements RoutePlannerInterface {
-	private ArrayList<Integer> jobs;
-	private ArrayList<GridPoint> route;
-	private ArrayList<Location> prevLocation;
 	private Map map;
 
 	private static final Logger logger = LogManager.getLogger(RoutePlanner.class);
 
 	public RoutePlanner(Map _map) {
-		prevLocation = new ArrayList<Location>();
 		this.map = _map;
 		SearchTree.currentMap = map;
 
@@ -36,7 +32,6 @@ public class RoutePlanner implements RoutePlannerInterface {
 
 	public Pair<ArrayList<GridPoint>, Direction> findIndividualRoute(Location currentLocation, Location goalLocation,
 			Direction _robotsDirection) {
-		// ArrayList<Location> outputVariable = new ArrayList<Location>();
 		SearchTree searchTree = new SearchTree(currentLocation, currentLocation, 0f, goalLocation, null,
 				new ArrayList<Pair<GridPoint, Direction>>(), _robotsDirection);
 		searchTree.search();
@@ -74,13 +69,6 @@ public class RoutePlanner implements RoutePlannerInterface {
 				searchTreeOutput.get(searchTreeOutput.size() - 1).getValue());
 	}
 
-	// public ArrayList<Location> findEntireRoute(String _robotID, Location
-	// _robotLocation, Job job){
-	// RobotInformation robotInfo = map.getRobotInformation(_robotID);
-	// findRoute()
-	// }
-	//
-
 	public ArrayList<GridPoint> findOverallRoute(Location _startLocation, Job _job, String robotName) {
 		HashMap<String, Item> itemMap = _job.getItemMap();
 		ArrayList<String> itemsID = _job.getItems();
@@ -110,50 +98,11 @@ public class RoutePlanner implements RoutePlannerInterface {
 	}
 
 	public static void main(String[] args) {
-		ArrayList<Job> jobs = new ArrayList<>();
-		ArrayList<JobObject> jobObj = new ArrayList<>();
-		HashMap<String, Item> itemMap = new HashMap<>();
 		ArrayList<Location> blocks = new ArrayList<>();
 
 		Map map = new Map(4, 4, blocks);
 		map.addRobot("Awesome", new Location(4, 4), Direction.NORTH);
 		map.addRobot("Fantastic", new Location(0, 0), Direction.NORTH);
-
-		jobObj.add(new JobObject("a", 1));
-		jobObj.add(new JobObject("b", 1));
-		jobObj.add(new JobObject("c", 1));
-		jobObj.add(new JobObject("d", 1));
-		jobObj.add(new JobObject("e", 1));
-		jobObj.add(new JobObject("f", 1));
-		itemMap.put("a", new Item(1f, 1f, 1, 0));
-		itemMap.put("b", new Item(1f, 1f, 1, 3));
-		itemMap.put("c", new Item(1f, 1f, 2, 1));
-		itemMap.put("d", new Item(1f, 1f, 3, 4));
-		itemMap.put("e", new Item(1f, 1f, 4, 0));
-		itemMap.put("f", new Item(1f, 1f, 4, 2));
-
-		jobs.add(new Job(1, jobObj, itemMap, false));
-
-		RoutePlanner planner = new RoutePlanner(map);
-		ArrayList<GridPoint> route = planner.findOverallRoute(new Location(4, 4), jobs.get(0), "Awesome");
-		System.out.println(route);
-		ArrayList<JobObject> j1 = new ArrayList<>();
-		ArrayList<JobObject> j2 = new ArrayList<>();
-		// j1.add(jobObj.get(0));
-		// j1.add(jobObj.get(2));
-		// j1.add(jobObj.get(3));
-		// j2.add(jobObj.get(1));
-		// j2.add(jobObj.get(4));
-		// j2.add(jobObj.get(5));
-		// jobs.add(new Job(1, j1, itemMap, false));
-		//// jobs.add(new Job(2, j2, itemMap, false));
-		// ArrayList<GridPoint> r1 = planner.findOverallRoute(new Location(4,4),
-		// jobs.get(0), "Awesome");
-		// ArrayList<GridPoint> r2 = planner.findOverallRoute(new Location(0,0),
-		// jobs.get(1), "Fantastic");
-		// System.out.println(r1);
-		// System.out.println("-----");
-		// System.out.println(r2);
 
 		// ArrayList<GridPoint> route = rp.findIndividualRoute(new Location(1,0), new
 		// Location(1,4), Direction.NORTH).getKey();
