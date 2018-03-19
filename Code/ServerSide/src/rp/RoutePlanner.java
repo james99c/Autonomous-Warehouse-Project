@@ -5,8 +5,10 @@ import java.util.concurrent.TimeUnit;
 
 import rp.DataObjects.Direction;
 import rp.DataObjects.GridPoint;
+import rp.DataObjects.Job;
 import rp.DataObjects.Location;
 import rp.DataObjects.Map;
+import rp.DataObjects.RobotInformation;
 import rp.Interfaces.RoutePlannerInterface;
 import rp.RoutePlannerExtra.SearchTree;
 import javafx.util.Pair;
@@ -30,7 +32,7 @@ public class RoutePlanner implements RoutePlannerInterface{
        
     }
 
-    public ArrayList<GridPoint> findRoute(Location currentLocation, Location goalLocation, Direction _robotsDirection){
+    public Pair<ArrayList<GridPoint>,Direction> findRoute(Location currentLocation, Location goalLocation, Direction _robotsDirection){
         //ArrayList<Location> outputVariable = new ArrayList<Location>();
         SearchTree searchTree = new SearchTree(
             currentLocation,
@@ -67,7 +69,10 @@ public class RoutePlanner implements RoutePlannerInterface{
         return output;
     }
     
-    public ArrayList<Location> findEntireRoute(String _robotID, Location _robotLocation, )
+    public ArrayList<Location> findEntireRoute(String _robotID, Location _robotLocation, Job job){
+    		RobotInformation robotInfo = map.getRobotInformation(_robotID);
+    		findRoute()
+    }
     
     public static void main(String[] args) {
     		ArrayList<Location> unavailable = new ArrayList<Location>();
