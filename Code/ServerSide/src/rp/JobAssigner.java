@@ -91,7 +91,7 @@ public class JobAssigner implements JobAssignerInterface{
 	}
 	*/
 	public ArrayList<Location> getRoute(Location _startLocation, Job job, String robotName) {
-		ArrayList<GridPoint> gridRoute = routePlanner.findRoute(_startLocation, job, robotName );
+		ArrayList<GridPoint> gridRoute = routePlanner.findOverallRoute(_startLocation, job, robotName );
 		ArrayList<Location> route = new ArrayList<Location>();
 		for (int i = 0; i < gridRoute.size(); i ++) {
 			route.add(new Location(gridRoute.get(i).getLocation().getX(),gridRoute.get(i).getLocation().getY()));

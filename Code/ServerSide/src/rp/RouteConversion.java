@@ -3,7 +3,6 @@ package rp;
 import java.awt.Point;
 
 import lejos.robotics.navigation.DifferentialPilot;
-import rp.robotics.example.MovableSimExample;
 
 public class RouteConversion {
 
