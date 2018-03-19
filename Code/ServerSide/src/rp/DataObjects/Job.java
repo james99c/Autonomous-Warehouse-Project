@@ -14,22 +14,22 @@ public class Job {
 	private HashMap<String, Item> items;
 	private boolean cancel;
 	private float reward;
-	
+
 	public Job(int id, ArrayList<JobObject> job, HashMap<String, Item> items, boolean cancel){
 		this.id = id;
 		this.job = job;
 		this.items = items;
 		this.cancel = cancel;
 	}
-	
+
 	public Job(float reward){
 		this.reward = reward;
 	}
-	
+
 	public float getReward(){
 		return reward;
 	}
-	
+
 	public int getID() {
 		return id;
 	}
@@ -41,12 +41,12 @@ public class Job {
 		}
 		return item;
 	}
-	
+
 	public HashMap<String, Item> getItemMap() {
 		return items;
 	}
 
-	
+
 	public ArrayList<Integer> getNumberOfItems() {
 		ArrayList<Integer> item = new ArrayList<Integer>();
 		for(JobObject job : job){
@@ -54,34 +54,32 @@ public class Job {
 		}
 		return item;
 	}
-	
+
 	public float getJobReward() {
 		float reward = 0;
-		for(int i=0; i < getItems().size(); i++) 
+		for(int i=0; i < getItems().size(); i++)
 			reward += items.get(job.get(i).getID()).getReward() * job.get(i).getQuantity();
 		return reward;
-		
+
 	}
-	
+
 	public float getJobWeight() {
 		float weight = 0;
-		for(int i=0; i < getItems().size(); i++) 
+		for(int i=0; i < getItems().size(); i++)
 			weight += items.get(job.get(i).getID()).getWeight() * job.get(i).getQuantity();;
 		return weight;
 	}
 	public boolean getCancellation(){
-		
+
 		return cancel;
 	}
 
-		
-		
 
-		
-		
+
+
+
+
 		public ArrayList<JobObject> getJob(){
 			return job;
 		}
 	}
-
-

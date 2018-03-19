@@ -54,7 +54,8 @@ public class SearchTree implements Comparable {
 				if (usableLeafNodes.size() > 0) {
 					usableLeafNodes.remove(0).search();
 					return;
-				} else { // when there are no other usable nodes
+				} else {
+					// when there are no other usable nodes
 					System.out.println("there are no paths to the object");
 					return;
 				}
