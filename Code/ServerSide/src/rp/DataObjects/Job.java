@@ -42,6 +42,11 @@ public class Job {
 		return item;
 	}
 	
+	public HashMap<String, Item> getItemMap() {
+		return items;
+	}
+
+	
 	public ArrayList<Integer> getNumberOfItems() {
 		ArrayList<Integer> item = new ArrayList<Integer>();
 		for(JobObject job : job){
