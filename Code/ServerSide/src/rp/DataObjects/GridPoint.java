@@ -39,7 +39,7 @@ public class GridPoint {
 		}
 		return true;
 	}
-	
+
 	public Boolean isAvailable(Float time) {
 		// I am receiving a wierd number for times
 //		System.out.println(time);
@@ -70,7 +70,7 @@ public class GridPoint {
 	public void setUnAvailability(Float[] _timeFrame) {
 		timeFrames.add(_timeFrame);
 	}
-	
+
 	public void setUnAvailability(ArrayList<Float[]> _timeFrames){
 		for(Float[] a: _timeFrames){
 			timeFrames.add(a);
@@ -91,5 +91,9 @@ public class GridPoint {
 		GridPoint newGridPoint = new GridPoint(this.location, this.unavailable);
 		newGridPoint.setUnAvailability(this.timeFrames);
 		return newGridPoint;
+
+	@Override
+	public String toString() {
+		return location.toString();
 	}
 }

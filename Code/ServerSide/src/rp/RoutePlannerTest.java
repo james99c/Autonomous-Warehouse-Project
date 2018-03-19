@@ -1,18 +1,18 @@
 package rp;
-<<<<<<< HEAD:Code/ServerSide/src/rp/RoutePlannerTest.java
 
 import DataObjects.*;
 =======
-import rp.DataObjects.*;
->>>>>>> testing:Code/ServerSide/src/rp/RoutePlannerTest.java
+import rp.JobDecider.JobObject;
+>>>>>>> RoutePlannerRefactor
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import org.junit.*;
 
 public class RoutePlannerTest {
-
+	/*
 	// Map = no obstables
 	@Test
 	public void test1() {
@@ -58,10 +58,50 @@ public class RoutePlannerTest {
 		ArrayList<GridPoint> result = planner.findRoute(start, end);
 		Assert.assertTrue(compareList(desired, result));
 	}
+	*/
 
 	@Test
 	public void test3() {
+		ArrayList<Job> jobs = new ArrayList<>();
+		ArrayList<JobObject> jobObj = new ArrayList<>();
+		HashMap<String, rp.JobDecider.Item> itemMap = new HashMap<>();
+		ArrayList<Location> blocks = new ArrayList<>();
+		Location startLocation = new Location(4, 4);
+		Map map = new Map(4, 4, blocks);
 
+		jobObj.add(new JobObject("a", 1));
+		jobObj.add(new JobObject("b", 1));
+		jobObj.add(new JobObject("c", 1));
+		jobObj.add(new JobObject("d", 1));
+		jobObj.add(new JobObject("e", 1));
+		jobObj.add(new JobObject("f", 1));
+		itemMap.put("a", new rp.JobDecider.Item(1f, 1f, 1, 0));
+		itemMap.put("b", new rp.JobDecider.Item(1f, 1f, 1, 3));
+		itemMap.put("c", new rp.JobDecider.Item(1f, 1f, 2, 1));
+		itemMap.put("d", new rp.JobDecider.Item(1f, 1f, 3, 4));
+		itemMap.put("e", new rp.JobDecider.Item(1f, 1f, 4, 0));
+		itemMap.put("f", new rp.JobDecider.Item(1f, 1f, 4, 2));
+
+		//jobs.add(new Job(1, jobObj, itemMap, false));
+
+		RoutePlanner planner = new RoutePlanner(map);
+		//ArrayList<GridPoint> route = planner.findRoute(startLocation, jobs.get(0), "Awesome");
+		//System.out.println(route);
+		ArrayList<JobObject> j1 = new ArrayList<>();
+		ArrayList<JobObject> j2 = new ArrayList<>();
+		j1.add(jobObj.get(0));
+		j1.add(jobObj.get(2));
+		j1.add(jobObj.get(3));
+		j2.add(jobObj.get(1));
+		j2.add(jobObj.get(4));
+		j2.add(jobObj.get(5));
+		jobs.add(new Job(1, j1, itemMap, false));
+		jobs.add(new Job(2, j2, itemMap, false));
+		ArrayList<GridPoint> r1 = planner.findRoute(startLocation, jobs.get(0), "Awesome");
+		ArrayList<GridPoint> r2 = planner.findRoute(startLocation, jobs.get(1), "Fantastic");
+		System.out.println(r1);
+		System.out.println("-----");
+		System.out.println(r2);
 	}
 
 	private static boolean compareList(ArrayList<GridPoint> a, ArrayList<GridPoint> b) {
@@ -78,4 +118,5 @@ public class RoutePlannerTest {
 
 		return true;
 	}
+
 }
