@@ -56,7 +56,6 @@ public class RoutePlanner implements RoutePlannerInterface {
 				ArrayList<Float[]> timeFramesOne = output.get(index - 1).getTimeFrames();
 				second = timeFramesTwo.get(timeFramesTwo.size() - 1);
 				first = timeFramesOne.get(timeFramesOne.size() - 1);
-				System.out.println((currentTime + first[0]) + " : " + (currentTime + second[1]));
 				map.getGridPoint(output.get(index - 1).getLocation().getX(), output.get(index - 1).getLocation().getY())
 						.setUnAvailability(new Float[] { currentTime + first[0], currentTime + second[1] });
 			}

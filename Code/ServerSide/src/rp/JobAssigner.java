@@ -32,7 +32,6 @@ public class JobAssigner implements JobAssignerInterface{
 		//jobs = Reader.;
 		this.map = map;
 		routePlanner = new RoutePlanner(map);
-
 		ArrayList<JobObject> jobObj = new ArrayList<>();
 		HashMap<String, Item> itemMap = new HashMap<>();
 
