@@ -41,16 +41,11 @@ public class GridPoint {
 	}
 
 	public Boolean isAvailable(Float time) {
-		// I am receiving a wierd number for times
-//		System.out.println(time);
 		if(unavailable) {
 			return false;
 		}
 		else {
 			for(Float[] a : this.timeFrames) {
-				System.out.println("I have time frames");
-				System.out.println(a[0] + " , " + a[1]);
-				System.out.println(time);
 				if(time >= a[0] && time <= a[1]) {
 					return false;
 				}
