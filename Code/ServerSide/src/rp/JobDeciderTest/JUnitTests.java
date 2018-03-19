@@ -1,4 +1,4 @@
-package rp.JobDecider;
+package rp.JobDeciderTest;
 
 import static org.junit.Assert.*;
 

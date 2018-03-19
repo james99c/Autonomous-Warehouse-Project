@@ -87,9 +87,9 @@ public class GUI {
         
         JLabel title1 = new JLabel("Connected Robots");
         JLabel noneConnected =  new JLabel("No robots connected");
-        JLabel connected1 = new JLabel(robot1);
-        JLabel connected2 = new JLabel(robot2);
-        JLabel connected3 = new JLabel(robot3);
+        JTextField connected1 = new JTextField();
+        JTextField connected2 = new JTextField();
+        JTextField connected3 = new JTextField();
         JLabel enterX = new JLabel("Enter x co-ordinate");
         JLabel enterY = new JLabel("Enter y co-ordinate");
         JTextField x1 = new JTextField();
@@ -111,7 +111,6 @@ public class GUI {
             @Override            
             public void actionPerformed(ActionEvent e) {
             	frame2.dispose();
-            	runFrame3();
             	String tx1 = x1.getText();
             	String tx2 = x2.getText();
             	String tx3 = x3.getText();
@@ -127,7 +126,10 @@ public class GUI {
             	location1 = new Location(vx1, vy1);
             	location2 = new Location(vx2, vy2);
             	location3 = new Location(vx3, vy3);
-            	
+            	robot1 = connected1.getText();
+            	robot2 = connected2.getText();
+            	robot3 = connected3.getText();
+            	runFrame3();
                     }} );
         
         panel21.add(title1);

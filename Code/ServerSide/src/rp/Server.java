@@ -34,11 +34,13 @@ public class Server {
 	private static ClientTable clientTable;
 	final static Logger logger = Logger.getLogger(RobotConnector.class);
 	private static ArrayList<Location> test = new ArrayList<>();
+	static String actualRoute;
+	private static GUI g;
 
 	public static void main(String[] args) {
 
 		
-		String actualRoute = testRoute();
+		actualRoute = testRoute();
 		logger.debug("------------------------Converted route:" + actualRoute);
 
 		
@@ -72,9 +74,9 @@ public class Server {
 	 * @return A list containing info about robots
 	 */
 	private static NXTInfo[] addRobotInfo() {
-		NXTInfo[] newRobots = { new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"), };
+		NXTInfo[] newRobots = { new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"),
 		// new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
-		// new NXTInfo(NXTCommFactory.BLUETOOTH, "Sagittarius", "00165317B913") };
+		new NXTInfo(NXTCommFactory.BLUETOOTH, "Sagittarius", "00165317B913") };
 		return newRobots;
 	}
 
@@ -113,8 +115,8 @@ public class Server {
 		BlockingQueue<String> recipientsQueue = clientTable.getQueue("Pisces");
 		if (recipientsQueue != null) {
 			logger.debug("Trying to offer a route to Pisces");
-			recipientsQueue.offer(actuaRoute);
-			logger.debug("Successfully offered: " + actuaRoute);
+			recipientsQueue.offer(actualRoute);
+			logger.debug("Successfully offered: " + actualRoute);
 		}
 
 		// BlockingQueue<String> recipientsQueue2 = clientTable.getQueue("Gemini");
@@ -124,12 +126,12 @@ public class Server {
 		// logger.debug("Successfully offered: 00100");
 		// }
 		//
-		// BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
-		// if (recipientsQueue3 != null) {
-		// logger.debug("Trying to offer a route to Sagittarius");
-		// recipientsQueue3.offer("00200");
-		// logger.debug("Successfully offered: 00200");
-		// }
+		 BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
+		 if (recipientsQueue3 != null) {
+		 logger.debug("Trying to offer a route to Sagittarius");
+		 recipientsQueue3.offer("00200");
+		 logger.debug("Successfully offered: 00200");
+		 }
 	}
 	
 	
@@ -157,7 +159,7 @@ public class Server {
 		test.add(new Location(1, 4));
 		test.add(new Location(1, 5));
 		
-		GUI g = new GUI();
+		g = new GUI();
 		Map map = new Map(10, 10, test);
 		RoutePlanner rPlanner = new RoutePlanner(map);
 		ArrayList<GridPoint> route = rPlanner.findRoute(new Location(0, 0), new Location(2, 5), Direction.NORTH);
