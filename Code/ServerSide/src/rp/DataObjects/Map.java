@@ -12,9 +12,9 @@ public class Map {
 	private Integer height;
 	private Integer width;
 	private ArrayList<RobotInformation> robots = new ArrayList<>();
-	private final float STRAIGHT_TIME = 1.0f;
-	private final float ROTATE_90_TIME = 1.5f;
-	private final float ROTATE_180_TIME = 2.0f;
+	private final float STRAIGHT_TIME = 3.2f;
+	private final float ROTATE_90_TIME = 5.0f;
+	private final float ROTATE_180_TIME = 6.8f;
     public long startOfTime;
 	
 
