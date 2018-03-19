@@ -80,7 +80,7 @@ public class RoutePlannerTest {
 		itemMap.put("a", new Item(1f, 1f, 1, 0));
 		itemMap.put("b", new Item(1f, 1f, 1, 3));
 		itemMap.put("c", new Item(1f, 1f, 2, 1));
-		itemMap.put("d", new Item(1f, 1f, 3, 4));
+		itemMap.put("d", new Item(1f, 1f, 3, 4));  
 		itemMap.put("e", new Item(1f, 1f, 4, 0));
 		itemMap.put("f", new Item(1f, 1f, 4, 2));
 
@@ -101,6 +101,7 @@ public class RoutePlannerTest {
 		jobs.add(new Job(2, j2, itemMap, false));
 		ArrayList<GridPoint> r1 = planner.findOverallRoute(startLocation, jobs.get(0), "Awesome");
 		ArrayList<GridPoint> r2 = planner.findOverallRoute(new Location(0,0), jobs.get(1), "Fantastic");
+
 		System.out.println(r1);
 		System.out.println("-----");
 		System.out.println(r2);

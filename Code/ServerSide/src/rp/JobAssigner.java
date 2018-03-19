@@ -22,7 +22,7 @@ public class JobAssigner implements JobAssignerInterface{
 	
 	final static Logger logger = Logger.getLogger(JobAssigner.class);
 	
-	private static ArrayList<Job> jobs;
+	private static ArrayList<Job> jobs = new ArrayList<>();
 	// creates map of 5x5 with no unavailable co-ordinates
 	private Map map;
 	private RoutePlanner routePlanner;
@@ -33,7 +33,7 @@ public class JobAssigner implements JobAssignerInterface{
 		this.map = map;
 		routePlanner = new RoutePlanner(map);
 
-		ArrayList<Job> jobs = new ArrayList<>();
+
 		ArrayList<JobObject> jobObj = new ArrayList<>();
 		HashMap<String, Item> itemMap = new HashMap<>();
 
