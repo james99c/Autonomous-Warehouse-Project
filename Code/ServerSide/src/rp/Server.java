@@ -1,8 +1,13 @@
 package rp;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
+import lejos.nxt.Sound;
 import lejos.pc.comm.NXTComm;
 import lejos.pc.comm.NXTCommException;
 import lejos.pc.comm.NXTCommFactory;
@@ -12,6 +17,10 @@ import lejos.pc.comm.NXTInfo;
 
 import com.intel.bluetooth.BlueCoveConfigProperties;
 
+import rp.DataObjects.Direction;
+import rp.DataObjects.GridPoint;
+import rp.DataObjects.Location;
+import rp.DataObjects.Map;
 import rp.DataObjects.RobotConnector;
 import rp.networking.ClientTable;
 import rp.networking.CommInfo;
@@ -27,11 +36,42 @@ public class Server {
 	private static HashMap<String, RobotConnector> connections;
 	private static ClientTable clientTable;
 	// final static Logger logger = Logger.getLogger(RobotConnector.class);
+	private static ArrayList<Location> test = new ArrayList<>();
+	private static String actuaRoute = "";
+	
 
 	public static void main(String[] args) {
 		
+		test.add(new Location(1, 1));
+		test.add(new Location(1, 2));
+		test.add(new Location(1, 3));
+		test.add(new Location(1, 4));
+		test.add(new Location(1, 5));
+		
 		GUI g = new GUI();
-
+		Map map = new Map(10, 10, test);
+		RoutePlanner rPlanner = new RoutePlanner(map);
+		ArrayList<GridPoint> route = rPlanner.findRoute(new Location(0, 0), new Location(2, 5), Direction.NORTH);
+		for(GridPoint point : route)
+		System.out.println(point.getLocation().getX() + " : " + point.getLocation().getY());
+		
+		Point[] pointList = new Point[route.size()];
+		
+		
+		for(int i = 0; i < route.size(); i++) {
+			pointList[i] = new Point(route.get(i).getLocation().getX(), route.get(i).getLocation().getY());
+		}
+		System.out.println("STarting");
+		for(Point test1 : pointList) {
+			System.out.println(test1);
+		}
+		
+		System.out.println("Hello");
+		RouteConversion routeNew = new RouteConversion(pointList);
+		
+		actuaRoute = routeNew.convertRoute();
+		System.out.println(actuaRoute);
+		
 		clientTable = new ClientTable();
 
 		// Add the hard-coded info about the robots to be used
@@ -46,6 +86,7 @@ public class Server {
 		// Initialise communications to each robot
 		for (String robotName : connections.keySet()) {
 			initComms(robotName);
+			g.connectRobot(robotName);
 		}
 		
 		
@@ -62,9 +103,9 @@ public class Server {
 	 * @return A list containing info about robots
 	 */
 	private static NXTInfo[] addRobotInfo() {
-		NXTInfo[] newRobots = { new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"),
-				new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
-				new NXTInfo(NXTCommFactory.BLUETOOTH, "Sagittarius", "00165317B913") };
+		NXTInfo[] newRobots = { new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"),};
+				//new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
+				//new NXTInfo(NXTCommFactory.BLUETOOTH, "Sagittarius", "00165317B913") };
 		return newRobots;
 	}
 
@@ -103,23 +144,40 @@ public class Server {
 		BlockingQueue<String> recipientsQueue = clientTable.getQueue("Pisces");
 		if (recipientsQueue != null) {
 			System.out.println("Trying to offer a route to Pisces");
-			recipientsQueue.offer("000000020");
-			System.out.println("Successfully offered: 000000020");
+			recipientsQueue.offer(actuaRoute);
+			System.out.println("Successfully offered: " + actuaRoute);
 		}
 
-		BlockingQueue<String> recipientsQueue2 = clientTable.getQueue("Gemini");
-		if (recipientsQueue2 != null) {
-			System.out.println("Trying to offer a route to Gemini");
-			recipientsQueue2.offer("00100");
-			System.out.println("Successfully offered: 00100");
-		}
-
-		BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
-		if (recipientsQueue3 != null) {
-			System.out.println("Trying to offer a route to Sagittarius");
-			recipientsQueue3.offer("00200");
-			System.out.println("Successfully offered: 00200");
-		}
+//		BlockingQueue<String> recipientsQueue2 = clientTable.getQueue("Gemini");
+//		if (recipientsQueue2 != null) {
+//			System.out.println("Trying to offer a route to Gemini");
+//			recipientsQueue2.offer("00100");
+//			System.out.println("Successfully offered: 00100");
+//		}
+//
+//		BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
+//		if (recipientsQueue3 != null) {
+//			System.out.println("Trying to offer a route to Sagittarius");
+//			recipientsQueue3.offer("00200");
+//			System.out.println("Successfully offered: 00200");
+//		}
+		
+		
+		
+		
+		
+		
+//		double changeInX = nextX - currentX;
+//		double changeInY = nextY - currentY;
+//		if(changeInX == 1) {
+//			route += '2';
+//		}
+//		else if(changeInX == -1) {
+//			route += '1';
+//		}
+//		else {
+//			route += '0';
+//		}
 	}
 
 }

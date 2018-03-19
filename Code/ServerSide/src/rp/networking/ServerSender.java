@@ -1,6 +1,5 @@
 package rp.networking;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
@@ -37,7 +36,7 @@ public class ServerSender extends Thread {
 					output.writeInt(route.length());
 					output.writeBytes(route);
 					output.flush();
-					System.out.println("We're writing ints! ---------- " + route);
+					System.out.println("We're writing  ---- " + route + " ---- " + robotName);
 			}
 		}
 		catch (InterruptedException | IOException e) {

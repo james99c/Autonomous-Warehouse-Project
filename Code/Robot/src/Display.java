@@ -6,10 +6,10 @@ public class Display {
 	String status = "Idle";
 	String route = "No route";
 	int weight = 0;
-	int number = 0;
+	int num = 0;
 	public void show(){
 		LCD.drawString(jobID, 0, 5);
-		LCD.drawString(status, 2, 0)
+		LCD.drawString(status, 2, 0);
 		//LCD.drawInt(weight, 4, 7);
 		LCD.drawString(route, 4, 3);
 		//LCD.drawString("< pick  cancel >", 6, 0);
@@ -18,7 +18,7 @@ public class Display {
 		LCD.drawString(jobID, 0, 5);
 		LCD.drawString(status, 2, 0);
 		LCD.drawString(route, 4, 3);
-		LCD.drawInt(number, 6, 7);
+		LCD.drawInt(num, 6, 7);
 	}
 	public void updateID(String x) {
 		jobID = x;
@@ -44,23 +44,24 @@ public class Display {
 		this.updateStatus("Pick jobs");
 		this.showWithNum();
 		while(waiting) {
-			if (Button.waitForAnyPress() == /*LEFT BUTTON*/ ) {
+			if (Button.waitForAnyPress() == 2 ) {
 				--num;
 				this.showWithNum();
 			}
-			if (Button.waitForAnyPress() == /*RIGHT BUTTON*/) {
+			if (Button.waitForAnyPress() == 4) {
 				++num;
 				this.showWithNum();
 			}
-			if (Button.waitForAnyPress() == /*MIDDLE BUTTON*/) {
+			if (Button.waitForAnyPress() == 1) {
 				//Pass the information to the client
 				waiting = false;
 				this.show();
 			}
-			if (Button.waitForAnyPress() == /*BOTTOM BUTTON*/) {
+			if (Button.waitForAnyPress() == 8) {
 				this.cancelJob();
+			}
 		}
-		}
+	}
 	public void cancelJob() {
 		//Cancel the proposed job
 	}

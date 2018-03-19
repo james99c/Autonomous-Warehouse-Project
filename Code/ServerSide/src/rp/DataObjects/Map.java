@@ -12,8 +12,8 @@ public class Map {
 	private Integer width;
 	private ArrayList<RobotInformation> robots;
 	private final float STRAIGHT_TIME = 1.0f;
-	private final float ROTATE_90_TIME = 0.5f;
-	private final float ROTATE_180_TIME = 0.5f;
+	private final float ROTATE_90_TIME = 1.5f;
+	private final float ROTATE_180_TIME = 1.5f;
 	
 	
 
