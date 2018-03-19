@@ -1,9 +1,9 @@
 package rp;
 
-import DataObjects.*;
-=======
-import rp.JobDecider.JobObject;
->>>>>>> RoutePlannerRefactor
+import rp.DataObjects.*;
+
+import rp.JobDeciderTest.*;
+import rp.JobDeciderTest.Item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,10 +64,12 @@ public class RoutePlannerTest {
 	public void test3() {
 		ArrayList<Job> jobs = new ArrayList<>();
 		ArrayList<JobObject> jobObj = new ArrayList<>();
-		HashMap<String, rp.JobDecider.Item> itemMap = new HashMap<>();
+		HashMap<String, Item> itemMap = new HashMap<>();
 		ArrayList<Location> blocks = new ArrayList<>();
 		Location startLocation = new Location(4, 4);
 		Map map = new Map(4, 4, blocks);
+		map.addRobot("Awesome", startLocation, Direction.NORTH);
+		map.addRobot("Fantastic", new Location(0,0), Direction.NORTH);
 
 		jobObj.add(new JobObject("a", 1));
 		jobObj.add(new JobObject("b", 1));
@@ -75,12 +77,12 @@ public class RoutePlannerTest {
 		jobObj.add(new JobObject("d", 1));
 		jobObj.add(new JobObject("e", 1));
 		jobObj.add(new JobObject("f", 1));
-		itemMap.put("a", new rp.JobDecider.Item(1f, 1f, 1, 0));
-		itemMap.put("b", new rp.JobDecider.Item(1f, 1f, 1, 3));
-		itemMap.put("c", new rp.JobDecider.Item(1f, 1f, 2, 1));
-		itemMap.put("d", new rp.JobDecider.Item(1f, 1f, 3, 4));
-		itemMap.put("e", new rp.JobDecider.Item(1f, 1f, 4, 0));
-		itemMap.put("f", new rp.JobDecider.Item(1f, 1f, 4, 2));
+		itemMap.put("a", new Item(1f, 1f, 1, 0));
+		itemMap.put("b", new Item(1f, 1f, 1, 3));
+		itemMap.put("c", new Item(1f, 1f, 2, 1));
+		itemMap.put("d", new Item(1f, 1f, 3, 4));
+		itemMap.put("e", new Item(1f, 1f, 4, 0));
+		itemMap.put("f", new Item(1f, 1f, 4, 2));
 
 		//jobs.add(new Job(1, jobObj, itemMap, false));
 
@@ -97,8 +99,8 @@ public class RoutePlannerTest {
 		j2.add(jobObj.get(5));
 		jobs.add(new Job(1, j1, itemMap, false));
 		jobs.add(new Job(2, j2, itemMap, false));
-		ArrayList<GridPoint> r1 = planner.findRoute(startLocation, jobs.get(0), "Awesome");
-		ArrayList<GridPoint> r2 = planner.findRoute(startLocation, jobs.get(1), "Fantastic");
+		ArrayList<GridPoint> r1 = planner.findOverallRoute(startLocation, jobs.get(0), "Awesome");
+		ArrayList<GridPoint> r2 = planner.findOverallRoute(new Location(0,0), jobs.get(1), "Fantastic");
 		System.out.println(r1);
 		System.out.println("-----");
 		System.out.println(r2);

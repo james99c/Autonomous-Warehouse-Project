@@ -91,6 +91,7 @@ public class GridPoint {
 		GridPoint newGridPoint = new GridPoint(this.location, this.unavailable);
 		newGridPoint.setUnAvailability(this.timeFrames);
 		return newGridPoint;
+	}
 
 	@Override
 	public String toString() {
