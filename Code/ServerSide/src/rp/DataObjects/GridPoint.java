@@ -26,7 +26,9 @@ public class GridPoint {
 		if (unavailable) {
 			return false;
 		} else {
+			// for some reason every gridpoint is not triggering this
 			for (Float[] a : this.timeFrames) {
+				System.out.println("I have time frames");
 				if (a[0] < timeFrame[0] && a[1] > timeFrame[0]
 						| a[0] < timeFrame[1] && a[1] > timeFrame[1]
 						| timeFrame[0] < a[0] && timeFrame[1] > a[1]
@@ -39,12 +41,17 @@ public class GridPoint {
 	}
 	
 	public Boolean isAvailable(Float time) {
+		// I am receiving a wierd number for times
+//		System.out.println(time);
 		if(unavailable) {
 			return false;
 		}
 		else {
 			for(Float[] a : this.timeFrames) {
-				if(time > a[0] && time < a[1]) {
+				System.out.println("I have time frames");
+				System.out.println(a[0] + " , " + a[1]);
+				System.out.println(time);
+				if(time >= a[0] && time <= a[1]) {
 					return false;
 				}
 				else {
@@ -81,6 +88,8 @@ public class GridPoint {
 	}
 
 	public GridPoint clone() {
-		return new GridPoint(this.location, this.unavailable);
+		GridPoint newGridPoint = new GridPoint(this.location, this.unavailable);
+		newGridPoint.setUnAvailability(this.timeFrames);
+		return newGridPoint;
 	}
 }

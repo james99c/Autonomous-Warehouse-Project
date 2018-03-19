@@ -1,6 +1,7 @@
 package rp.DataObjects;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javafx.util.Pair;
 
@@ -12,9 +13,9 @@ public class Map {
 	private Integer width;
 	private ArrayList<RobotInformation> robots;
 	private final float STRAIGHT_TIME = 1.0f;
-	private final float ROTATE_90_TIME = 0.5f;
-	private final float ROTATE_180_TIME = 0.5f;
-	
+	private final float ROTATE_90_TIME = 1.5f;
+	private final float ROTATE_180_TIME = 2.0f;
+    public long startOfTime;
 	
 
 	
@@ -36,7 +37,8 @@ public class Map {
 		for (Location a: unAvailableLocations){
 			this.map[a.getX()][a.getY()] = new GridPoint(a.getX(),a.getY(), true);
 		}
-		
+		 this.startOfTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+
 	}
 	
 	
@@ -193,7 +195,7 @@ public class Map {
 			assert(newTimeFrame != null);
 			assert(newDirection != null);
 			
-			if(a.isAvailable(System.currentTimeMillis() + _time)){
+			if(a.isAvailable((TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - startOfTime) + _time)){
 				a.setUnAvailability(newTimeFrame); 
 				
 				output.add(new Pair<GridPoint, Direction>(a, newDirection));
