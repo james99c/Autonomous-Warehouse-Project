@@ -62,17 +62,24 @@ public class Server {
 
 	public static void main(String[] args) {
 		
+		for(int i = 1; i < 11; i+=3) {
+			for(int c = 1; c < 6; c++) {
+				test.add(new Location(i, c));
+			}
+		}
+		
+		ArrayList<Location> startLocations = new ArrayList<>();
+		ArrayList<String> robotNames = new ArrayList<>();
+		startLocations.add(new Location(11, 0));
+		//startLocations.add(new Location(1, 0));
+		startLocations.add(new Location(11, 7));
+		
 		// Create a new GUI object and run it to start the PC interface
-		pcInterface = new GUI(this);
+		pcInterface = new GUI(new Server());
 		pcInterface.runGUI();
-		
 
 		
-		//actualRoute = testRoute();
-		logger.debug("------------------------Converted route:" + actualRoute);
-
-		
-
+		// Create the client table to store the robots and their routes
 		clientTable = new ClientTable();
 
 		// Add the hard-coded info about the robots to be used
@@ -88,27 +95,40 @@ public class Server {
 		for (String robotName : connections.keySet()) {
 			initComms(robotName);
 			pcInterface.connectRobot(robotName);
+			robotNames.add(robotName);
+		}
+		
+//		while(!pcInterface.getGUIFinished() ) {
+//			logger.trace("While");
+//		}
+//		pcInterface.runFrame3();
+		
+		
+		map = new Map(7, 11, test);
+		
+			map.addRobot(robotNames.get(0), new Location(11, 0), Direction.NORTH);
+			map.addRobot(robotNames.get(1), new Location(11, 7), Direction.NORTH);
+		
+
 			
-		}
-		
-		while(!pcInterface.getGUIFinished() ) {
-			logger.trace("While");
-		}
-		pcInterface.runFrame3();
 		
 		
-		map = new Map(10, 10, test);
-		for(String robotName : connections.keySet()) {
-			System.out.println(robotName);
-			map.addRobot(robotName, new Location(0, 0), Direction.NORTH);
-		}
+		
 		
 		JobAssigner jobAssigner = new JobAssigner(map);
-		ArrayList<Location> route = jobAssigner.assignJob(new Location(0, 0), "Pisces");
-		System.out.println(route);
-
-		// Give each robot their first route to get them up and running
-		getFirstRoutes(clientTable);
+		System.out.println("Made the job assigner");
+		for (int i = 0; i < 2; i++) {
+			
+			ArrayList<Location> locationRoute = jobAssigner.assignJob(startLocations.get(i), robotNames.get(i));
+			RouteConversion newRoute = new RouteConversion(locationRoute);
+			String newNewRoute = newRoute.convertRoute(map.getRobotInformation(robotNames.get(i)).location);
+			System.out.println(locationRoute);
+			
+			System.out.println("Route: " + newNewRoute);
+			BlockingQueue<String> recipientsQueue = clientTable.getQueue(robotNames.get(i));
+			recipientsQueue.offer(newNewRoute);
+			System.out.println("Offered " + newNewRoute + " to " + robotNames.get(i));
+		}
 
 	}
 	
@@ -121,7 +141,7 @@ public class Server {
 	 */
 	private static NXTInfo[] addRobotInfo() {
 		NXTInfo[] newRobots = { new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"),
-		new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
+//		new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
 		new NXTInfo(NXTCommFactory.BLUETOOTH, "Sagittarius", "00165317B913") };
 		return newRobots;
 	}
@@ -141,8 +161,9 @@ public class Server {
 			CommInfo robotCommInfo = connections.get(robotName).connect(nxtComm, robotName);
 			clientTable.add(robotCommInfo.getRobotName());
 			ServerReceiver receiver = new ServerReceiver(robotCommInfo, clientTable, map);
-			receiver.start();
+			
 			(new ServerSender(receiver, robotCommInfo, clientTable.getQueue(robotCommInfo.getRobotName()))).start();
+			receiver.start();
 		}
 		catch (NXTCommException e) {
 			logger.error("Couldn't create bluetooth connection to robot");
@@ -184,36 +205,10 @@ public class Server {
 	}
 	
 	
-	
-	
-	private static String testRoute(ArrayList<GridPoint> test) {
-		
-		ArrayList<GridPoint> route = test;
-		for (GridPoint point : route) {
-			logger.debug(point.getLocation().getX() + " : " + point.getLocation().getY());
-		}
-
-		Point[] pointList = new Point[route.size()];
-
-		for (int i = 0; i < route.size(); i++) {
-			pointList[i] = new Point(route.get(i).getLocation().getX(), route.get(i).getLocation().getY());
-		}
-		logger.debug("Starting");
-		for (Point point : pointList) {
-			logger.debug(point);
-		}
-
-		logger.debug("------------Feedback from route converison:");
-		RouteConversion newRoute = new RouteConversion(pointList);
-		return newRoute.convertRoute();
-	}
-	
-	
 	void startRobots(HashMap<String, Location> robotLocations) {
 		
 		JobAssigner jobAssigner = new JobAssigner(map);
 		for (String robotName : robotLocations.keySet()) {
-			;
 			RouteConversion newRoute = new RouteConversion(jobAssigner.assignJob(robotLocations.get(robotName), robotName));
 		}
 		

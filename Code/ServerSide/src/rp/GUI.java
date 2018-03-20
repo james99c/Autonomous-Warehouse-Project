@@ -157,7 +157,7 @@ public class GUI {
                 	location3 = new Location(vx3, vy3);
                 	locations.put(connectedRobots.get(2), location3);
             	}
-            	server.startRobots(locations);
+            	//server.startRobots(locations);
                     }} );
         
         panel21.add(title1);

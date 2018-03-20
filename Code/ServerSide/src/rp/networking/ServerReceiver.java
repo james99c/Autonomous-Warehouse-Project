@@ -68,7 +68,7 @@ public class ServerReceiver extends Thread {
 						else {
 							instruction = answer;
 							if(instruction.equals("0")) {
-								map.updateRobotsLocation(robotInfo.robotName, overallRoute.remove(0));
+								//map.updateRobotsLocation(robotInfo.robotName, overallRoute.remove(0));
 							}
 							System.out.println("Robot's instruction: " + answer);
 						}
@@ -85,10 +85,10 @@ public class ServerReceiver extends Thread {
 	
 	
 	
-	private void giveRoute(ArrayList<GridPoint> route) {
-		//this.overallRoute = route;
-		
-	}
+//	private void giveRoute(ArrayList<GridPoint> route) {
+//		this.overallRoute = route;
+//		
+//	}
 	
 	
 }
