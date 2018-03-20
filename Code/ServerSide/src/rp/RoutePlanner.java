@@ -100,26 +100,24 @@ public class RoutePlanner implements RoutePlannerInterface {
 	public static void main(String[] args) {
 		ArrayList<Location> blocks = new ArrayList<>();
 
-		Map map = new Map(4, 4, blocks);
-		map.addRobot("Awesome", new Location(4, 4), Direction.NORTH);
-		map.addRobot("Fantastic", new Location(0, 0), Direction.NORTH);
+		Map map = new Map(10, 10, blocks);
+		RoutePlanner rp = new RoutePlanner(map);
 
-		// ArrayList<GridPoint> route = rp.findIndividualRoute(new Location(1,0), new
-		// Location(1,4), Direction.NORTH).getKey();
-		// System.out.println("time frames");
-		// System.out.println(map.getGridPoint(1, 1).getTimeFrames());
-		// ArrayList<GridPoint> route2 = rp.findIndividualRoute(new Location(0,1), new
-		// Location(4,1), Direction.EAST).getKey();
-		// System.out.println(route);
-		// for(GridPoint g: route) {
-		// System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY() +
-		// " | [" + g.getTimeFrames().get(0)[0] + ", " + g.getTimeFrames().get(0)[1]);
-		// }
-		// System.out.println(route2);
-		// for(GridPoint g: route2) {
-		// System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY() +
-		// " | [" + g.getTimeFrames().get(0)[0] + ", " + g.getTimeFrames().get(0)[1]);
-		// }
+		 ArrayList<GridPoint> route = rp.findIndividualRoute(new Location(2,0), new
+		 Location(2,4), Direction.NORTH).getKey();
+
+		 ArrayList<GridPoint> route2 = rp.findIndividualRoute(new Location(0,2), new
+		 Location(3,2), Direction.EAST).getKey();
+	
+		 for(GridPoint g: route) {
+		 System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY() +
+		 " | [" + g.getTimeFrames().get(0)[0] + ", " + g.getTimeFrames().get(0)[1]);
+		 }
+	
+		 for(GridPoint g: route2) {
+		 System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY() +
+		 " | [" + g.getTimeFrames().get(0)[0] + ", " + g.getTimeFrames().get(0)[1]);
+		 }
 
 	}
 
