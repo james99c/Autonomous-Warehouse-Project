@@ -36,27 +36,6 @@ public class JobAssigner implements JobAssignerInterface{
         jobs = jobDecider.getJobs();
 		this.map = map;
 		routePlanner = new RoutePlanner(map);
-		/*
-		ArrayList<Task> jobObj = new ArrayList<>();
-		HashMap<String, Item> itemMap = new HashMap<>();
-
-
-		jobObj.add(new Task("a", 1));
-		jobObj.add(new Task("b", 1));
-		jobObj.add(new Task("c", 1));
-		jobObj.add(new Task("d", 1));
-		jobObj.add(new Task("e", 1));
-		jobObj.add(new Task("f", 1));
-		itemMap.put("a", new Item(null, 1f, 1f, 1, 0));
-		itemMap.put("b", new Item(null, 1f, 1f, 1, 3));
-		itemMap.put("c", new Item(null, 1f, 1f, 2, 1));
-		itemMap.put("d", new Item(null, 1f, 1f, 3, 4));
-		itemMap.put("e", new Item(null, 1f, 1f, 4, 0));
-		itemMap.put("f", new Item(null, 1f, 1f, 4, 2));
-		
-
-		jobs.add(new Job(1, jobObj, itemMap, false));
-		*/
 	}
 	
 	public Job assignJob(Location currentLocation, String robotName){
