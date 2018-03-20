@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.apache.log4j.Logger;
 
 import rp.DataObjects.GridPoint;
-import rp.DataObjects.Job;
+import rp.jobDecider.Job;
 import rp.DataObjects.Location;
 import rp.DataObjects.Map;
 import rp.Interfaces.JobAssignerInterface;
