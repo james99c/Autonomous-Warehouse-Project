@@ -1,9 +1,11 @@
 package rp.jobDecider;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import java.util.HashMap;
@@ -13,16 +15,19 @@ import java.util.HashMap;
 public class Reader {
 
 	// final static Logger logger = Logger.getLogger(Reader.class);
-	HashMap<String, Item> items = new HashMap<>();
-	ArrayList<Job> jobs = new ArrayList<>();
-	ArrayList<Task> tasks = new ArrayList<>();
+	static HashMap<String, Item> items = new HashMap<>();
+	static ArrayList<Job> jobs = new ArrayList<>();
+	static ArrayList<Task> tasks = new ArrayList<>();
 
-	public void startReading() {
+	public static void main(String[] args) {
+		
+		File userMessagesFile = new File("csv");
+        String userMessagesPath = userMessagesFile.getAbsolutePath();
 
-		String itemFile = "/home/tomas/Dropbox/Mokslai/RP/job files/items.csv";
-		String locationFile = "/home/tomas/Dropbox/Mokslai/RP/job files/locations.csv";
-		String jobFile = "/home/tomas/Dropbox/Mokslai/RP/job files/training_jobs.csv";
-		String cancellationFile = "/home/tomas/Dropbox/Mokslai/RP/job files/cancellations.csv";
+		String itemFile = userMessagesPath + "/items.csv";
+		String locationFile = userMessagesPath + "/locations.csv";
+		String jobFile = userMessagesPath + "/training_jobs.csv";
+		String cancellationFile = userMessagesPath + "/cancellations.csv";
 		BufferedReader br = null;
 		BufferedReader br1 = null;
 		String line = "";
@@ -91,6 +96,23 @@ public class Reader {
 						jobs.set(i, jobs.get(j));
 						jobs.set(j, temp);
 					}
+			
+			System.out.println(jobs.size());
+			Classify classifier = new Classify();
+			
+			Writer writer = new Writer(classifier);
+			writer.startWriting(jobs);
+			ArrayList<String> predictions = classifier.getPredictions();
+			
+			for(int i = 0; i < predictions.size(); i++) {
+				if(predictions.get(i).split(", ")[1].equals("true")) {
+				//	System.out.println(jobs.get(i).getJobID() + " " + jobs.get(i).getJobCancel()  + " " + i);
+					
+					jobs.remove(i);
+					predictions.remove(i);
+				}
+			}
+			System.out.println(jobs.size());
 			// System.out.println("sdgaergdg");
 			// System.out.println(jobs.get(1));
 			// System.out.println(jobs.get(1).getRewardDivWeight());
