@@ -31,23 +31,24 @@ public class RouteConversion {
 
 	/**
 	 * Constructs a new route conversion object
-	 * 
-	 * @param coordinates A point array containing coordinates the robot must travel to
 	 */
-	public RouteConversion(ArrayList<Location> coordinates) {
-		this.coordinates = coordinates;
+	public RouteConversion() {
+		
 	}
 
 	/**
 	 * Converts the coordinates from the array into strings of movements
 	 * 
+	 * @param coordinates A point array containing coordinates the robot must travel to
 	 * @return route The route the robot will take
 	 */
-	public String convertRoute(Location _startLocation) {
+	public String convertRoute(Location _startLocation, String direction, ArrayList<Location> coordinates) {
+		
+		this.coordinates = coordinates;
 		
 		currentPosition = _startLocation;
 		// Initial direction robot is looking
-		String pointing = "North";
+		String pointing = direction	;
 		
 		/*
 		 * While there are still coordinates

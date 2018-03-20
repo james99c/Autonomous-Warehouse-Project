@@ -19,23 +19,37 @@ import rp.config.RobotConfigs;
  */
 public class Client {
 	
+	/**
+	 * Stores the movement class for the robot
+	 */
 	private static Movement robot;
+	
 	
 	public static void main(String[] args) {
 		
+		
 		initialiseSensors();
 		
-		System.out.println("Press any button to request bluetooth");
+		
+		Display display = new Display();
+		display.show();
+		
+		Button.waitForAnyPress();
+		
+		display.pickItem();
+		
+		System.out.println("Press for BT");
 		Button.waitForAnyPress();
 
-		System.out.println("Waiting for Bluetooth connection...");
+		System.out.println("Waiting for BT...");
 		BTConnection connection = Bluetooth.waitForConnection();
-		System.out.println("Successfully connected!");
+		System.out.println("BT connected!");
 
 		DataInputStream inputStream = connection.openDataInputStream();
 		DataOutputStream outputStream = connection.openDataOutputStream();
 
 		boolean run = true;
+		
 		/*
 		 * Read routes from the server,
 		 * then instantly execute them,
@@ -57,18 +71,18 @@ public class Client {
 				if (route == null || route.equals("")) {
 				}
 				else {
-					System.out.println("Route: " + route);
+					// Write the overall route
 					outputStream.writeInt(route.length());
 					outputStream.writeBytes(route);
 					outputStream.flush();
 					char[] instructions =  route.toCharArray();
 					for(Character instruction : instructions) {
+						// Execute the route
 						String routeExecuted = robot.executeRoute(route);
 						outputStream.writeInt(routeExecuted.length());
 						outputStream.writeBytes(routeExecuted);
 						outputStream.flush();
 					}
-					System.out.println("Route finished");
 					
 				}
 				

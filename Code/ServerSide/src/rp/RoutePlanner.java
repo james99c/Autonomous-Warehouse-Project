@@ -6,9 +6,6 @@ import java.util.HashMap;
 
 import rp.DataObjects.Direction;
 import rp.DataObjects.GridPoint;
-import rp.JobDeciderTest.Item;
-import rp.JobDeciderTest.JobObject;
-import rp.DataObjects.Job;
 import rp.DataObjects.Location;
 import rp.DataObjects.Map;
 import rp.DataObjects.RobotInformation;
