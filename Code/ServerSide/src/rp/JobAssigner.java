@@ -9,9 +9,7 @@ import rp.DataObjects.Job;
 import rp.DataObjects.Location;
 import rp.DataObjects.Map;
 import rp.Interfaces.JobAssignerInterface;
-import rp.JobDeciderTest.Item;
-import rp.JobDeciderTest.JobObject;
-import rp.JobDeciderTest.Reader;
+import rp.jobDecider.Reader;
 
 /**
  * 
