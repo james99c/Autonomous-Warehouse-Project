@@ -89,7 +89,9 @@ public class JobAssigner implements JobAssignerInterface{
 				bestJob = job;
 			}
 		}
-		jobs.remove(bestJob);
+		if(bestJob != null){
+			jobs.remove(bestJob);
+		}
 		logger.debug("found best job, removing it from list to give to robot");
 		return bestJob;
 	}
