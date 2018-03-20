@@ -1,12 +1,12 @@
 package rp.Test;
 
-<<<<<<< HEAD:Code/ServerSide/src/rp/Test/RoutePlannerTest.java
+
 import rp.RoutePlanner;
 import rp.DataObjects.*;
-=======
+
 import rp.DataObjects.*;
 import rp.RoutePlanner;
->>>>>>> testing:Code/ServerSide/src/rp/Test/RoutePlannerTest.java
+
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

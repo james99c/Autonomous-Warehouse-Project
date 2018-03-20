@@ -93,6 +93,7 @@ public class RoutePlanner implements RoutePlannerInterface {
 			startLocation = goalLocation;
 			itemsLocation.remove(startLocation);
 		}
+	
 		return route;
 	}
 
