@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.apache.log4j.Logger;
 
 import rp.DataObjects.GridPoint;
+import rp.jobDecider.Item;
 import rp.jobDecider.Job;
 import rp.DataObjects.Location;
 import rp.DataObjects.Map;
@@ -33,6 +34,7 @@ public class JobAssigner implements JobAssignerInterface{
 		//jobs = Reader.;
 		this.map = map;
 		routePlanner = new RoutePlanner(map);
+		/*
 		ArrayList<JobObject> jobObj = new ArrayList<>();
 		HashMap<String, Item> itemMap = new HashMap<>();
 
@@ -52,15 +54,17 @@ public class JobAssigner implements JobAssignerInterface{
 
 
 		jobs.add(new Job(1, jobObj, itemMap, false));
+		*/
 	}
 	
-	public ArrayList<Location> assignJob(Location currentLocation, String robotName){
+	public Job assignJob(Location currentLocation, String robotName){
 		if(jobs.isEmpty()){
 			return null;
 		}
 		Job bestJob = getBestJob(currentLocation);
-		ArrayList<Location> route = getRoute(currentLocation, bestJob, robotName);
-		return route;
+		return bestJob;
+		//ArrayList<Location> route = getRoute(currentLocation, bestJob, robotName);
+		//return route;
 	}
 	
 	public Job getBestJob(Location currentLocation){
@@ -70,11 +74,11 @@ public class JobAssigner implements JobAssignerInterface{
 		Job bestJob = null;
 		for(int i = 0; i < 3 || i < jobs.size(); i++){
 			Job job = jobs.get(i);
-			HashMap<String, Item> map = job.getItemMap();
+			HashMap<String, Item> map = job.getItems();
 			float distance = 0;
 			for(Item item: map.values()){
-				float differenceX = currentX - item.getX();
-				float differenceY = currentY - item.getY();
+				float differenceX = currentX - item.getItemXPos();
+				float differenceY = currentY - item.getItemYPos();
 				distance += Math.sqrt((differenceX * differenceX) + (differenceY * differenceY));
 			}
 			float averageDistance = distance / map.size();
@@ -112,6 +116,7 @@ public class JobAssigner implements JobAssignerInterface{
 		return jobMap;
 	}
 	*/
+	/*
 	public ArrayList<Location> getRoute(Location _startLocation, Job job, String robotName) {
 		ArrayList<GridPoint> gridRoute = routePlanner.findOverallRoute(_startLocation, job, robotName );
 		ArrayList<Location> route = new ArrayList<Location>();
@@ -121,5 +126,5 @@ public class JobAssigner implements JobAssignerInterface{
 		}
 		return route;
 	}
-	
+	*/
 }
