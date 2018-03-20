@@ -101,9 +101,37 @@ public class RoutePlannerTest {
 		jobs.add(new Job(2, j2, itemMap, false));
 		ArrayList<GridPoint> r1 = planner.findOverallRoute(startLocation, jobs.get(0), "Awesome");
 		ArrayList<GridPoint> r2 = planner.findOverallRoute(new Location(0,0), jobs.get(1), "Fantastic");
-
+		/*
 		System.out.println(r1);
 		System.out.println("-----");
+		System.out.println(r2);
+		*/
+	}
+	
+	@Test
+	public void test4_crash() {
+		ArrayList<Job> jobs = new ArrayList<>();
+		ArrayList<JobObject> jobObj1 = new ArrayList<>();
+		ArrayList<JobObject> jobObj2 = new ArrayList<>();
+		HashMap<String, Item> itemMap = new HashMap<>();
+		ArrayList<Location> blocks = new ArrayList<>();
+		Map map = new Map(4, 4, blocks);
+		RoutePlanner planner = new RoutePlanner(map);
+		map.addRobot("Awesome", new Location(0,2), Direction.NORTH);
+		map.addRobot("Fantastic", new Location(2,0), Direction.NORTH);
+
+		jobObj1.add(new JobObject("a", 1));
+		jobObj2.add(new JobObject("b", 1));
+		itemMap.put("a", new Item(1f, 1f, 3, 2));
+		itemMap.put("b", new Item(1f, 1f, 2, 3));
+		
+		jobs.add(new Job(1, jobObj1, itemMap, false));
+		jobs.add(new Job(2, jobObj2, itemMap, false));
+		ArrayList<GridPoint> r1 = planner.findOverallRoute(new Location(0,2), jobs.get(0), "Awesome");
+		ArrayList<GridPoint> r2 = planner.findOverallRoute(new Location(2,0), jobs.get(1), "Fantastic");
+		
+		System.out.println(r1);
+		System.out.println("---");
 		System.out.println(r2);
 	}
 
