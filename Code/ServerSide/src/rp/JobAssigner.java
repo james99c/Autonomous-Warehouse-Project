@@ -123,13 +123,5 @@ public class JobAssigner implements JobAssignerInterface{
 		}
 		return route;
 	}
-	/*
-	public static void main(String[] args) {
-		JobAssigner ja = new JobAssigner(new ArrayList<Job>());
-		ArrayList<Location> route = ja.getRoute(new Location(0,0), new Location(3,3));
-		for(int i = 0; i < route.size(); i++) {
-			logger.debug(route.get(i).getX() + " : " + route.get(i).getY() );
-		}
-	}
-	 */	
+	
 }
