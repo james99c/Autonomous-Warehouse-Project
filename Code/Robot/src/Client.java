@@ -62,11 +62,18 @@ public class Client {
 				}
 				else {
 					System.out.println("Route: " + route);
-					String routeExecuted = robot.executeRoute(route);
-					System.out.println("Route finished");
-					outputStream.writeInt(routeExecuted.length());
-					outputStream.writeBytes(routeExecuted);
+					outputStream.writeInt(route.length());
+					outputStream.writeBytes(route);
 					outputStream.flush();
+					char[] instructions =  route.toCharArray();
+					for(Character instruction : instructions) {
+						String routeExecuted = robot.executeRoute(route);
+						outputStream.writeInt(routeExecuted.length());
+						outputStream.writeBytes(routeExecuted);
+						outputStream.flush();
+					}
+					System.out.println("Route finished");
+					
 				}
 				
 			}

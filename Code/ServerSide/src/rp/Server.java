@@ -36,11 +36,18 @@ public class Server {
 	private static ArrayList<Location> test = new ArrayList<>();
 	static String actualRoute;
 	private static GUI g;
+	private static Map map;
 
 	public static void main(String[] args) {
+		
+		
+		
+//		g = new GUI();
+//		g.runGUI();
+		
 
 		
-		actualRoute = testRoute();
+		//actualRoute = testRoute();
 		logger.debug("------------------------Converted route:" + actualRoute);
 
 		
@@ -60,7 +67,24 @@ public class Server {
 		for (String robotName : connections.keySet()) {
 			initComms(robotName);
 			g.connectRobot(robotName);
+			
 		}
+		
+//		while(!g.getGUIFinished() ) {
+//			logger.trace("While");
+//		}
+//		g.runFrame3();
+		
+		
+		map = new Map(10, 10, test);
+		for(String robotName : connections.keySet()) {
+			System.out.println(robotName);
+			map.addRobot(robotName, new Location(0, 0), Direction.NORTH);
+		}
+		
+		JobAssigner jobAssigner = new JobAssigner(map);
+		ArrayList<Location> route = jobAssigner.assignJob(new Location(0, 0), "Pisces");
+		System.out.println(route);
 
 		// Test routes
 		testRoutes(clientTable);
@@ -93,8 +117,9 @@ public class Server {
 			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
 			CommInfo robotCommInfo = connections.get(robotName).connect(nxtComm, robotName);
 			clientTable.add(robotCommInfo.getRobotName());
-			(new ServerReceiver(robotCommInfo, clientTable)).start();
-			(new ServerSender(robotCommInfo, clientTable.getQueue(robotCommInfo.getRobotName()))).start();
+			ServerReceiver receiver = new ServerReceiver(robotCommInfo, clientTable, map);
+			receiver.start();
+			(new ServerSender(receiver, robotCommInfo, clientTable.getQueue(robotCommInfo.getRobotName()))).start();
 		}
 		catch (NXTCommException e) {
 			logger.error("Couldn't create bluetooth connection to robot");
@@ -126,12 +151,12 @@ public class Server {
 		// logger.debug("Successfully offered: 00100");
 		// }
 		//
-		 BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
-		 if (recipientsQueue3 != null) {
-		 logger.debug("Trying to offer a route to Sagittarius");
-		 recipientsQueue3.offer("00200");
-		 logger.debug("Successfully offered: 00200");
-		 }
+//		 BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
+//		 if (recipientsQueue3 != null) {
+//		 logger.debug("Trying to offer a route to Sagittarius");
+//		 recipientsQueue3.offer("00200");
+//		 logger.debug("Successfully offered: 00200");
+//		 }
 	}
 	
 	
@@ -151,18 +176,11 @@ public class Server {
 	
 	
 	
-	private static String testRoute() {
+	private static String testRoute(ArrayList<GridPoint> test) {
 		
-		test.add(new Location(1, 1));
-		test.add(new Location(1, 2));
-		test.add(new Location(1, 3));
-		test.add(new Location(1, 4));
-		test.add(new Location(1, 5));
 		
-		g = new GUI();
-		Map map = new Map(10, 10, test);
-		RoutePlanner rPlanner = new RoutePlanner(map);
-		ArrayList<GridPoint> route = rPlanner.findRoute(new Location(0, 0), new Location(2, 5), Direction.NORTH);
+		
+		ArrayList<GridPoint> route = test;
 		for (GridPoint point : route) {
 			logger.debug(point.getLocation().getX() + " : " + point.getLocation().getY());
 		}
@@ -181,6 +199,28 @@ public class Server {
 		RouteConversion routeNew = new RouteConversion(pointList);
 		return routeNew.convertRoute();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

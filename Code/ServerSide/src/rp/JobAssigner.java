@@ -1,13 +1,9 @@
 package rp;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
-import rp.DataObjects.Direction;
 import rp.DataObjects.GridPoint;
 import rp.DataObjects.Job;
 import rp.DataObjects.Location;
@@ -17,6 +13,13 @@ import rp.JobDeciderTest.Item;
 import rp.JobDeciderTest.JobObject;
 import rp.JobDeciderTest.Reader;
 
+/**
+ * 
+ * Job Assigner
+ * 
+ * @author Jacob, Cameron
+ *
+ */
 
 public class JobAssigner implements JobAssignerInterface{
 	
@@ -32,8 +35,6 @@ public class JobAssigner implements JobAssignerInterface{
 		//jobs = Reader.;
 		this.map = map;
 		routePlanner = new RoutePlanner(map);
-
-
 		ArrayList<JobObject> jobObj = new ArrayList<>();
 		HashMap<String, Item> itemMap = new HashMap<>();
 
@@ -69,7 +70,7 @@ public class JobAssigner implements JobAssignerInterface{
 		int currentY = currentLocation.getY();
 		float bestDistance = Integer.MAX_VALUE;
 		Job bestJob = null;
-		for(int i = 0; i < 3 || i < jobs.size(); i++){
+		for(int i = 0; i < jobs.size(); i++){
 			Job job = jobs.get(i);
 			HashMap<String, Item> map = job.getItemMap();
 			float distance = 0;

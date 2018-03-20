@@ -4,6 +4,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.*;
 
 
@@ -37,14 +40,26 @@ public class GUI {
 	String robot2 = "";
 	String robot3 = "";
 	
+	boolean GUIFinished = false;
+	HashMap<String, Location> locations = new HashMap<>();
+	ArrayList<String> connectedRobots = new ArrayList<String>();
+	
 	//String filePath = "";
 	
 	
+<<<<<<< HEAD
 	public GUI(Server _server) {
 		// 
 		server = _server;
+=======
+	public GUI() {
+        
+       
+	}
+	public void runGUI() {
+>>>>>>> 0888b71d8ed42a04869e2ca6d37d802d01346ea8
 		frame1 = new JFrame();
-	
+		
 		JPanel panel11 = new JPanel();
 		JPanel panel12 = new JPanel();
 		JPanel panel13 = new JPanel();
@@ -73,9 +88,6 @@ public class GUI {
         frame1.setPreferredSize(new Dimension(280, 280));
         frame1.pack();
         frame1.setVisible(true);
-        
-        
-       
 	}
 	
 	public void runFrame2() {
@@ -89,10 +101,19 @@ public class GUI {
         frame2.setLayout(new FlowLayout());
         
         JLabel title1 = new JLabel("Connected Robots");
+        JLabel connected1 = new JLabel("");
+        JLabel connected2 = new JLabel("");
+        JLabel connected3 = new JLabel("");
         JLabel noneConnected =  new JLabel("No robots connected");
-        JTextField connected1 = new JTextField();
-        JTextField connected2 = new JTextField();
-        JTextField connected3 = new JTextField();
+        if(robotsConnected > 0) {
+        	connected1.setText(connectedRobots.get(0));
+        }
+        if(robotsConnected > 1) {
+        	connected2.setText(connectedRobots.get(1));
+        }
+        if(robotsConnected > 2) {
+        	connected3.setText(connectedRobots.get(2));
+        }
         JLabel enterX = new JLabel("Enter x co-ordinate");
         JLabel enterY = new JLabel("Enter y co-ordinate");
         JTextField x1 = new JTextField();
@@ -114,25 +135,31 @@ public class GUI {
             @Override            
             public void actionPerformed(ActionEvent e) {
             	frame2.dispose();
-            	String tx1 = x1.getText();
-            	String tx2 = x2.getText();
-            	String tx3 = x3.getText();
-            	String ty1 = y1.getText();
-            	String ty2 = y2.getText();
-            	String ty3 = y3.getText();
-            	int vx1 = Integer.parseInt(tx1);
-            	int vx2 = Integer.parseInt(tx2);
-            	int vx3 = Integer.parseInt(tx3);
-            	int vy1 = Integer.parseInt(ty1);
-            	int vy2 = Integer.parseInt(ty2);
-            	int vy3 = Integer.parseInt(ty3);
-            	location1 = new Location(vx1, vy1);
-            	location2 = new Location(vx2, vy2);
-            	location3 = new Location(vx3, vy3);
-            	robot1 = connected1.getText();
-            	robot2 = connected2.getText();
-            	robot3 = connected3.getText();
-            	runFrame3();
+            	if(robotsConnected > 0) {
+            		String tx1 = x1.getText();
+            		String ty1 = y1.getText();
+            		int vx1 = Integer.parseInt(tx1);
+            		int vy1 = Integer.parseInt(ty1);
+            		location1 = new Location(vx1, vy1);
+            		locations.put(connectedRobots.get(0), location1);
+            	}
+            	if(robotsConnected > 1) {
+            		String tx2 = x2.getText();
+            		String ty2 = y2.getText();
+            		int vx2 = Integer.parseInt(tx2);
+            		int vy2 = Integer.parseInt(ty2);
+            		location2 = new Location(vx2, vy2);
+            		locations.put(connectedRobots.get(1), location2);
+            	}
+            	if(robotsConnected > 2) {
+            		String tx3 = x3.getText();
+                	String ty3 = y3.getText();
+                	int vx3 = Integer.parseInt(tx3);
+                	int vy3 = Integer.parseInt(ty3);
+                	location3 = new Location(vx3, vy3);
+                	locations.put(connectedRobots.get(2), location3);
+            	}
+            	GUIFinished = true;
                     }} );
         
         panel21.add(title1);
@@ -167,7 +194,7 @@ public class GUI {
         frame2.add(panel26);
         frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame2.setTitle("Warehouse GUI");
-        frame2.setPreferredSize(new Dimension(400, 280));
+        frame2.setPreferredSize(new Dimension(350, 280));
         frame2.pack();
         frame2.setVisible(true);
           
@@ -177,6 +204,9 @@ public class GUI {
 	        job1 = testString;
 	        job2 = testString;
 	        job3 = testString;
+	        JLabel robotlabel1 = new JLabel("");
+	        JLabel robotlabel2 = new JLabel("");
+	        JLabel robotlabel3 = new JLabel("");
 			frame3 = new JFrame();
 			frame3.setLayout(new FlowLayout());
 			JPanel panel31 = new JPanel();
@@ -187,9 +217,15 @@ public class GUI {
 	        
 	        JLabel title = new JLabel("Current Jobs");
 	        //JLabel fileName = new JLabel("No file selected");
-	        JLabel robotlabel1 = new JLabel(robot1);
-	        JLabel robotlabel2 = new JLabel(robot2);
-	        JLabel robotlabel3 = new JLabel(robot3);
+	        if (robotsConnected > 0) {
+	        	robotlabel1.setText(connectedRobots.get(0));
+	        }
+	        if (robotsConnected > 1) {
+	        	robotlabel2.setText(connectedRobots.get(1));
+	        }
+	        if (robotsConnected > 2) {
+	        	robotlabel3.setText(connectedRobots.get(2));
+	        }
 	        JLabel joblabel1 = new JLabel(job1);
 	        JLabel joblabel2 = new JLabel(job2);
 	        JLabel joblabel3 = new JLabel(job3);
@@ -281,14 +317,20 @@ public class GUI {
 	        if(robotsConnected == 0) {frame3.add(panel35); }
 	        frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame3.setTitle("Warehouse GUI");
-	        frame3.setPreferredSize(new Dimension(280, 280));
+	        frame3.setPreferredSize(new Dimension(400, 350));
 	        frame3.pack();
 	        frame3.setVisible(true);
 	}
 	public void connectRobot(String robotName) {
 		robotsConnected++;
 		counterLabel.setText(robotsConnected.toString() + " Robots connected");
-		robot1 = robotName;
+		connectedRobots.add(robotName);
 		
+	}
+	public Location getLocation(String robot) {
+		return locations.get(robot);
+	}
+	public boolean getGUIFinished() {
+		return GUIFinished;
 	}
 }
