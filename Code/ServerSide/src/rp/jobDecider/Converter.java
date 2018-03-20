@@ -46,6 +46,7 @@ public class Converter {
     ///home/tomas/Dropbox/Mokslai/RP/job files/WriterCon.arff
     saver.writeBatch();
   }
+  
   public void convertTest(String srcName, String outputName) throws Exception {
 	  
 	  // load CSV

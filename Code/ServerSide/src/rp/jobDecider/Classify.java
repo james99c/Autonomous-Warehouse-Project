@@ -21,18 +21,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.trees.RandomForest;
 
 public class Classify {
 
-	static ArrayList<String> classes = new ArrayList<>();
+	private ArrayList<String> classes = new ArrayList<>();
 	private final String NEW_LINE_SEPARATOR = "\n";
 	private String predictionAccuracy = "it didn't work";
 	private final String FILE_HEADER = "Actual Class, NB Predicted";
+	private File userMessagesFile = new File("csv");
+    private String userMessagesPath = userMessagesFile.getAbsolutePath();
 
 	public void classfy() throws Exception {
 		// load training dataset
-		DataSource source = new DataSource("/home/tomas/Dropbox/Mokslai/RP/job files/WriterCon.arff");
+		DataSource source = new DataSource(userMessagesPath + "/WriterCon.arff");
 		Instances trainDataset = source.getDataSet();
 		// set class index to the last attribute
 		trainDataset.setClassIndex(trainDataset.numAttributes() - 1);
@@ -45,11 +47,11 @@ public class Classify {
 			System.out.println("Class Value " + i + " is " + classValue);
 		}
 		// create and build the classifier
-		NaiveBayes nb = new NaiveBayes();
-		nb.buildClassifier(trainDataset);
+		RandomForest rf = new RandomForest();
+		rf.buildClassifier(trainDataset);
 
 		// load new dataset
-		DataSource source1 = new DataSource("/home/tomas/Dropbox/Mokslai/RP/job files/WriterDataSetCon.arff");
+		DataSource source1 = new DataSource(userMessagesPath + "/WriterDataSetCon.arff");
 		Instances testDataset = source1.getDataSet();
 		// set class index to the last attribute
 		testDataset.setClassIndex(testDataset.numAttributes() - 1);
@@ -68,7 +70,7 @@ public class Classify {
 			// get Instance object of current instance
 			Instance newInst = testDataset.instance(i);
 			// call classifyInstance, which returns a double value for the class
-			double predNB = nb.classifyInstance(newInst);
+			double predNB = rf.classifyInstance(newInst);
 			//System.out.println(predNB);
 			// use this value to get string value of the predicted class
 			String predString = testDataset.classAttribute().value((int) predNB);
@@ -82,7 +84,7 @@ public class Classify {
 		System.out.println("ARFF files were classified successfully with accuracy of: " + predictionAccuracy);
 
 
-		String fileName = "/home/tomas/Dropbox/Mokslai/RP/job files/Predictions.csv";
+		String fileName = userMessagesPath + "/Predictions.csv";
 		FileWriter fileWriter = null;
 		try {
 			fileWriter = new FileWriter(fileName);
@@ -105,7 +107,7 @@ public class Classify {
 			
 			//String[] array = predictionAccuracy.split(".");
 			//System.out.println(array);
-			String newFileName = "/home/tomas/Dropbox/Mokslai/RP/job files/Predictions" + predictionAccuracy + ".csv";
+			String newFileName = userMessagesPath + "/Predictions" + predictionAccuracy + ".csv";
 			
 			// File (or directory) with old name
 			File file = new File(fileName);
@@ -143,5 +145,9 @@ public class Classify {
 	
 	public String getAccuracy() {
 		return predictionAccuracy;
+	}
+	
+	public ArrayList<String> getPredictions(){
+		return classes;
 	}
 }
