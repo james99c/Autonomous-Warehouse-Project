@@ -1,0 +1,138 @@
+package rp.jobDecider;
+
+import java.io.*;
+import java.util.*;
+
+public class Writer {
+	private static final String COMMA_DELIMITER = ",";
+	private static final String NEW_LINE_SEPARATOR = "\n";
+
+	private static final String FILE_HEADER = "number of items, reward, weight, cancellation";
+
+	public static void main(String[] args) {
+
+		String trainFileName = "/home/tomas/Dropbox/Mokslai/RP/job files/writer.csv";
+		String testFileName = "/home/tomas/Dropbox/Mokslai/RP/job files/writerDataSet.csv";
+		//
+		Reader reader = new Reader();
+
+		reader.startReading();
+
+		ArrayList<Job> jobs = reader.getJobs();
+
+		FileWriter trainFileWriter = null;
+		FileWriter testFileWriter = null;
+
+		try {
+			trainFileWriter = new FileWriter(trainFileName);
+			testFileWriter = new FileWriter(testFileName);
+
+			// Write the CSV file header
+			trainFileWriter.append(FILE_HEADER.toString());
+			testFileWriter.append(FILE_HEADER.toString());
+
+			// Add a new line separator after the header
+			trainFileWriter.append(NEW_LINE_SEPARATOR);
+			testFileWriter.append(NEW_LINE_SEPARATOR);
+
+			// Write a new student object list to the CSV file
+
+			for (Job job : jobs) {
+				//Maybe we need to add something like the reward / numbOfTasks or weight / numbOfTasks or both
+				
+				
+			//	fileWriter.append(String.valueOf(job.getJobID()));
+			//	fileWriter.append(COMMA_DELIMITER);
+				trainFileWriter.append(String.valueOf(job.getNumberOfTasks()));
+				trainFileWriter.append(COMMA_DELIMITER);
+				//testFileWriter.append(String.valueOf(job.getNumberOfTasks()));
+				//testFileWriter.append(COMMA_DELIMITER);
+				
+				trainFileWriter.append(String.valueOf(Math.floor(job.getJobReward()/20)*20));
+				trainFileWriter.append(COMMA_DELIMITER);
+				//testFileWriter.append(String.valueOf(Math.floor(job.getJobReward()/20)*20));
+				//testFileWriter.append(COMMA_DELIMITER);
+				
+				trainFileWriter.append(String.valueOf(Math.floor(job.getJobWeight()/5)*5));
+				trainFileWriter.append(COMMA_DELIMITER);
+				//testFileWriter.append(String.valueOf(Math.floor(job.getJobWeight()/5)*5));
+				//testFileWriter.append(COMMA_DELIMITER);
+				
+			//	fileWriter.append(String.valueOf(job.getRewardDivWeight()));
+			//	fileWriter.append(COMMA_DELIMITER);
+				//testFileWriter.append("?");
+				//testFileWriter.append(NEW_LINE_SEPARATOR);
+				trainFileWriter.append(String.valueOf(job.getJobCancel()));
+				trainFileWriter.append(NEW_LINE_SEPARATOR);
+
+			}
+			
+			try {
+				trainFileWriter.flush();
+				trainFileWriter.close();
+			} catch (IOException e) {
+				System.out.println("Error while flushing/closing fileWriter !!!");
+				e.printStackTrace();
+			}
+
+			
+			for (Job job : jobs) {
+				//Maybe we need to add something like the reward / numbOfTasks or weight / numbOfTasks or both
+				
+				
+				//	fileWriter.append(String.valueOf(job.getJobID()));
+				//	fileWriter.append(COMMA_DELIMITER);
+				//trainFileWriter.append(String.valueOf(job.getNumberOfTasks()));
+				//trainFileWriter.append(COMMA_DELIMITER);
+				testFileWriter.append(String.valueOf(job.getNumberOfTasks()));
+				testFileWriter.append(COMMA_DELIMITER);
+				
+				//trainFileWriter.append(String.valueOf(Math.floor(job.getJobReward()/20)*20));
+				//trainFileWriter.append(COMMA_DELIMITER);
+				testFileWriter.append(String.valueOf(Math.floor(job.getJobReward()/20)*20));
+				testFileWriter.append(COMMA_DELIMITER);
+				
+				//trainFileWriter.append(String.valueOf(Math.floor(job.getJobWeight()/5)*5));
+				//trainFileWriter.append(COMMA_DELIMITER);
+				testFileWriter.append(String.valueOf(Math.floor(job.getJobWeight()/5)*5));
+				testFileWriter.append(COMMA_DELIMITER);
+				
+				//	fileWriter.append(String.valueOf(job.getRewardDivWeight()));
+				//	fileWriter.append(COMMA_DELIMITER);
+				testFileWriter.append("?");
+				testFileWriter.append(NEW_LINE_SEPARATOR);
+				//trainFileWriter.append(String.valueOf(job.getJobCancel()));
+				//trainFileWriter.append(NEW_LINE_SEPARATOR);
+				
+			}
+			
+			try {
+				testFileWriter.flush();
+				testFileWriter.close();
+			} catch (IOException e) {
+				System.out.println("Error while flushing/closing fileWriter !!!");
+				e.printStackTrace();
+			}
+
+
+			System.out.println("CSV files were created successfully !!!");
+			
+			Converter converter = new Converter();
+			converter.convertTrainFile(trainFileName, "/home/tomas/Dropbox/Mokslai/RP/job files/WriterCon.arff");
+			converter.convertTest(testFileName, "/home/tomas/Dropbox/Mokslai/RP/job files/WriterDataSetCon.arff");
+			
+			System.out.println("CSV files were converted successfully !!!");
+			
+			Classify classifier = new Classify();
+			classifier.classfy();	
+			
+			
+		} catch (Exception e) {
+			System.out.println("Error in CsvFileWriter !!!");
+			e.printStackTrace();
+		} finally {
+
+			
+		}
+	}
+}
