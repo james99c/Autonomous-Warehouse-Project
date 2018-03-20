@@ -1,4 +1,4 @@
-package JobDecider;
+package jobDecider;
 
 import static org.junit.Assert.*;
 
@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import DataObjects.Job;
 
 public class JUnitTests {
 
