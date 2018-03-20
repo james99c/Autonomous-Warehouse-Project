@@ -47,17 +47,15 @@ public class GUI {
 	//String filePath = "";
 	
 	
-<<<<<<< HEAD
+
 	public GUI(Server _server) {
 		// 
-		server = _server;
-=======
-	public GUI() {
-        
-       
+		this.server = _server;
 	}
+
+
 	public void runGUI() {
->>>>>>> 0888b71d8ed42a04869e2ca6d37d802d01346ea8
+
 		frame1 = new JFrame();
 		
 		JPanel panel11 = new JPanel();
@@ -159,7 +157,7 @@ public class GUI {
                 	location3 = new Location(vx3, vy3);
                 	locations.put(connectedRobots.get(2), location3);
             	}
-            	GUIFinished = true;
+            	server.startRobots(locations);
                     }} );
         
         panel21.add(title1);
