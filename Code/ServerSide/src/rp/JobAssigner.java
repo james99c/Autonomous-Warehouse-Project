@@ -25,7 +25,7 @@ public class JobAssigner implements JobAssignerInterface{
 	
 	final static Logger logger = Logger.getLogger(JobAssigner.class);
 	
-	private static ArrayList<Job> jobs = new ArrayList<>();
+	public static ArrayList<Job> jobs = new ArrayList<>();
 	// creates map of 5x5 with no unavailable co-ordinates
 	private Map map;
 	private RoutePlanner routePlanner;
@@ -38,6 +38,10 @@ public class JobAssigner implements JobAssignerInterface{
 		routePlanner = new RoutePlanner(map);
 	}
 	
+	public JobAssigner() {
+		
+	}
+
 	public Job assignJob(Location currentLocation, String robotName){
 		if(jobs.isEmpty()){
 			logger.debug("jobs list is empty");
