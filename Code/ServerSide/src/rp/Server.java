@@ -30,20 +30,41 @@ import rp.networking.ServerSender;
  */
 public class Server {
 
+	/**
+	 * HashMap containing the robots and their connections
+	 */
 	private static HashMap<String, RobotConnector> connections;
+	/**
+	 * The client table for the server
+	 */
 	private static ClientTable clientTable;
+	/**
+	 * The logger for debug/error messages
+	 */
 	final static Logger logger = Logger.getLogger(RobotConnector.class);
+	/**
+	 * Stores the route in terms of the locations the robot must reach
+	 */
 	private static ArrayList<Location> test = new ArrayList<>();
+	/**
+	 * THe actual route to be performed by the robot
+	 */
 	static String actualRoute;
-	private static GUI g;
+	/**
+	 * The pc interface for the server
+	 */
+	private static GUI pcInterface;
+	/**
+	 * The map to store the robots' location
+	 */
 	private static Map map;
+	
 
 	public static void main(String[] args) {
 		
-		
-		
-//		g = new GUI();
-//		g.runGUI();
+		// Create a new GUI object and run it to start the PC interface
+		pcInterface = new GUI(this);
+		pcInterface.runGUI();
 		
 
 		
@@ -66,14 +87,14 @@ public class Server {
 		// Initialise communications to each robot
 		for (String robotName : connections.keySet()) {
 			initComms(robotName);
-			g.connectRobot(robotName);
+			pcInterface.connectRobot(robotName);
 			
 		}
 		
-//		while(!g.getGUIFinished() ) {
-//			logger.trace("While");
-//		}
-//		g.runFrame3();
+		while(!pcInterface.getGUIFinished() ) {
+			logger.trace("While");
+		}
+		pcInterface.runFrame3();
 		
 		
 		map = new Map(10, 10, test);
@@ -86,10 +107,11 @@ public class Server {
 		ArrayList<Location> route = jobAssigner.assignJob(new Location(0, 0), "Pisces");
 		System.out.println(route);
 
-		// Test routes
-		testRoutes(clientTable);
+		// Give each robot their first route to get them up and running
+		getFirstRoutes(clientTable);
 
 	}
+	
 
 	/**
 	 * 
@@ -99,11 +121,12 @@ public class Server {
 	 */
 	private static NXTInfo[] addRobotInfo() {
 		NXTInfo[] newRobots = { new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"),
-		// new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
+		new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
 		new NXTInfo(NXTCommFactory.BLUETOOTH, "Sagittarius", "00165317B913") };
 		return newRobots;
 	}
 
+	
 	/**
 	 * 
 	 * Establish a communication interface with the robot, then attempt to connect
@@ -127,6 +150,7 @@ public class Server {
 		}
 
 	}
+	
 
 	/**
 	 * 
@@ -136,49 +160,33 @@ public class Server {
 	 * @param clientTable
 	 *            The client table containing the robots
 	 */
-	private static void testRoutes(ClientTable clientTable) {
+	private static void getFirstRoutes(ClientTable clientTable) {
 		BlockingQueue<String> recipientsQueue = clientTable.getQueue("Pisces");
 		if (recipientsQueue != null) {
 			logger.debug("Trying to offer a route to Pisces");
 			recipientsQueue.offer(actualRoute);
 			logger.debug("Successfully offered: " + actualRoute);
 		}
-
-		// BlockingQueue<String> recipientsQueue2 = clientTable.getQueue("Gemini");
-		// if (recipientsQueue2 != null) {
-		// logger.debug("Trying to offer a route to Gemini");
-		// recipientsQueue2.offer("00100");
-		// logger.debug("Successfully offered: 00100");
-		// }
-		//
-//		 BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
-//		 if (recipientsQueue3 != null) {
-//		 logger.debug("Trying to offer a route to Sagittarius");
-//		 recipientsQueue3.offer("00200");
-//		 logger.debug("Successfully offered: 00200");
-//		 }
+		
+		 BlockingQueue<String> recipientsQueue2 = clientTable.getQueue("Gemini");
+		 if (recipientsQueue2 != null) {
+		 logger.debug("Trying to offer a route to Gemini");
+		 recipientsQueue2.offer(actualRoute);
+		 logger.debug("Successfully offered: " + actualRoute);
+		 }
+		
+		 BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
+		 if (recipientsQueue3 != null) {
+		 logger.debug("Trying to offer a route to Sagittarius");
+		 recipientsQueue3.offer(actualRoute);
+		 logger.debug("Successfully offered: " + actualRoute);
+		 }
 	}
-	
-	
-		// ALED'S TEST CODE FOR ROUTE CONVERSION
-		// double changeInX = nextX - currentX;
-		// double changeInY = nextY - currentY;
-		// if(changeInX == 1) {
-		// route += '2';
-		// }
-		// else if(changeInX == -1) {
-		// route += '1';
-		// }
-		// else {
-		// route += '0';
-		// }
 	
 	
 	
 	
 	private static String testRoute(ArrayList<GridPoint> test) {
-		
-		
 		
 		ArrayList<GridPoint> route = test;
 		for (GridPoint point : route) {
@@ -196,8 +204,20 @@ public class Server {
 		}
 
 		logger.debug("------------Feedback from route converison:");
-		RouteConversion routeNew = new RouteConversion(pointList);
-		return routeNew.convertRoute();
+		RouteConversion newRoute = new RouteConversion(pointList);
+		return newRoute.convertRoute();
+	}
+	
+	
+	void startRobots(HashMap<String, Location> robotLocations) {
+		
+		JobAssigner jobAssigner = new JobAssigner(map);
+		for (String robotName : robotLocations.keySet()) {
+			;
+			RouteConversion newRoute = new RouteConversion(jobAssigner.assignJob(robotLocations.get(robotName), robotName));
+		}
+		
+		
 	}
 	
 	

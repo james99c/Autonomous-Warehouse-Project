@@ -1,17 +1,13 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Random;
-import java.util.stream.Stream;
 
 import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
-import lejos.nxt.debug.DebugMonitor;
 import rp.config.RobotConfigs;
-import rp.systems.RobotProgrammingDemo;
 
 /**
  * 

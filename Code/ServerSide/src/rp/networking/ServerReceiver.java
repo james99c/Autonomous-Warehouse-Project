@@ -1,18 +1,15 @@
 package rp.networking;
 
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import rp.DataObjects.Map;
 import java.util.concurrent.BlockingQueue;
 
-//import org.apache.log4j.Logger;
-
-//import com.sun.deploy.util.SessionState.Client;
-
+import org.apache.log4j.Logger;
 import lejos.pc.comm.NXTInfo;
 import rp.DataObjects.GridPoint;
+
 
 /**
  * 
@@ -28,7 +25,6 @@ import rp.DataObjects.GridPoint;
 public class ServerReceiver extends Thread {
 
 	private DataInputStream inputStream;
-	private DataOutputStream outputStream;
 	CommInfo robotInfo;
 	private ClientTable clientTable;
 	private String overallRoute = "";
@@ -46,9 +42,8 @@ public class ServerReceiver extends Thread {
 	public ServerReceiver(CommInfo newCommInfo, ClientTable clientTable, Map map) {
 		this.robotInfo = newCommInfo;
 		this.inputStream = newCommInfo.getInputStream();
-		this.outputStream = newCommInfo.getOutputStream();
 		this.clientTable = clientTable;
-		
+		this.map = map;
 	}
 
 	public void run() {
@@ -73,7 +68,7 @@ public class ServerReceiver extends Thread {
 						else {
 							instruction = answer;
 							if(instruction.equals("0")) {
-								//Map.updateRobotsLocation(robotInfo.robotName, overallRoute.remove(0));
+								map.updateRobotsLocation(robotInfo.robotName, overallRoute.remove(0));
 							}
 							System.out.println("Robot's instruction: " + answer);
 						}
