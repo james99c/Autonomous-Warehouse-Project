@@ -1,4 +1,4 @@
-package jobDecider;
+package rp.jobDecider;
 /*
  *  How to use WEKA API in Java 
  *  Copyright (C) 2014 

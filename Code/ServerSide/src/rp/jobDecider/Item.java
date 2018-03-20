@@ -1,4 +1,4 @@
-package jobDecider;
+package rp.jobDecider;
 
 public class Item {
 	

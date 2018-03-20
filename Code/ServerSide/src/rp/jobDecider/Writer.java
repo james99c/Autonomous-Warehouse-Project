@@ -1,4 +1,4 @@
-package jobDecider;
+package rp.jobDecider;
 
 import java.io.*;
 import java.util.*;

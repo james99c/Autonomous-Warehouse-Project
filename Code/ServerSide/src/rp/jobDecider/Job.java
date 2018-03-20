@@ -1,4 +1,4 @@
-package jobDecider;
+package rp.jobDecider;
 
 import java.util.ArrayList;
 import java.util.HashMap;

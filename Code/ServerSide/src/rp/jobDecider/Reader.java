@@ -1,4 +1,4 @@
-package jobDecider;
+package rp.jobDecider;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
