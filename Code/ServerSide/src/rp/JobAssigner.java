@@ -70,7 +70,7 @@ public class JobAssigner implements JobAssignerInterface{
 		int currentY = currentLocation.getY();
 		float bestDistance = Integer.MAX_VALUE;
 		Job bestJob = null;
-		for(int i = 0; i < jobs.size(); i++){
+		for(int i = 0; i < 3 || i < jobs.size(); i++){
 			Job job = jobs.get(i);
 			HashMap<String, Item> map = job.getItemMap();
 			float distance = 0;
