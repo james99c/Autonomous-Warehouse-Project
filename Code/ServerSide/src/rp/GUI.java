@@ -31,6 +31,7 @@ public class GUI {
 	Location location3;
 	Integer robotsConnected = 0;
 	JLabel counterLabel;
+	private Server server;
 	
 	String robot1 = "";
 	String robot2 = "";
@@ -39,7 +40,9 @@ public class GUI {
 	//String filePath = "";
 	
 	
-	public GUI() {
+	public GUI(Server _server) {
+		// 
+		server = _server;
 		frame1 = new JFrame();
 	
 		JPanel panel11 = new JPanel();
