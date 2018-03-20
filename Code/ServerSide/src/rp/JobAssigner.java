@@ -1,13 +1,9 @@
 package rp;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
-import rp.DataObjects.Direction;
 import rp.DataObjects.GridPoint;
 import rp.DataObjects.Job;
 import rp.DataObjects.Location;
@@ -17,6 +13,13 @@ import rp.JobDeciderTest.Item;
 import rp.JobDeciderTest.JobObject;
 import rp.JobDeciderTest.Reader;
 
+/**
+ * 
+ * Job Assigner
+ * 
+ * @author Jacob, Cameron
+ *
+ */
 
 public class JobAssigner implements JobAssignerInterface{
 	
