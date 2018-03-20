@@ -2,218 +2,131 @@ package rp;
 
 import java.awt.Point;
 
-import lejos.robotics.navigation.DifferentialPilot;
+/**
+ * 
+ * @author written by Aled
+ *		   refactored by Anthony
+ */
 
 public class RouteConversion {
 
+	/**	The array holding the list of coordinates for the robot to travel to */
 	private Point[] coordinates;
+	/** The position in the array */
 	private int i = 0;
+	/** The current position of the robot */
 	private Point currentPosition;
+	/** The next position of the robot */
 	private Point nextPosition;
-	private DifferentialPilot m_pilot;
+	/** Stores the route for the robot:
+	 *  forwards = 0
+	 *  left = 1 
+	 *  right = 2
+	 *  backwards = 3
+	*/
 	String route = "";
 
+	/**
+	 * Constructs a new route conversion object
+	 * 
+	 * @param coordinates A point array containing coordinates the robot must travel to
+	 */
 	public RouteConversion(Point[] coordinates) {
 		this.coordinates = coordinates;
 	}
 
+	/**
+	 * Converts the coordinates from the array into strings of movements
+	 * 
+	 * @return route The route the robot will take
+	 */
 	public String convertRoute() {
-		currentPosition = new Point(0, 0);
-		String  pointing = "North";
-		while(i < coordinates.length) {
-			
-			double currentY = currentPosition.getY();
-			double currentX = currentPosition.getX();
-			
-			
-			// route: forward = 0; left = 1 ; right = 2; backwards = 3
-			// pointing: north = 0; west = 1 ; east = 2; south = 3
 		
+		currentPosition = new Point(0, 0);
+		// Initial direction robot is looking
+		String pointing = "North";
+		
+		/*
+		 * While there are still coordinates
+		 * define movements for the robot
+		 * to take
+		 */
+		while (i < coordinates.length) {
+
+			double currentX = currentPosition.getX();
+			double currentY = currentPosition.getY();
+			
 			nextPosition = coordinates[i];
 			double nextX = nextPosition.getX();
 			double nextY = nextPosition.getY();
-			 i++;
-			
+			i++;
+
 			double changeInX = nextX - currentX;
 			double changeInY = nextY - currentY;
 			System.out.println(pointing);
 			System.out.println(changeInX + " : " + changeInY);
-			// facing east
-			if(changeInX == 1) {
-				if(pointing.equals("East")) {
+			
+			// The robot wants to go East
+			if (changeInX == 1) {
+				switch (pointing) {
+				case "East":
 					route += "0";
-				}
-				else if (pointing.equals("West")) {
-					route += "110";
-				}
-				
-				else if (pointing.equals("South")) {
+				case "West":
+					route += "30";
+				case "South":
 					route += "10";
-				}
-				else {
+				default:
 					route += "20";
 				}
 				pointing = "East";
-				
 			}
-			else if(changeInX == -1) {
-				if(pointing.equals("East")) {
-					route += "110";
-				}
-				else if (pointing.equals("West")) {
+			// The robot wants to go West
+			else if (changeInX == -1) {
+				switch (pointing) {
+				case "East":
+					route += "30";
+				case "West":
 					route += "0";
-				}
-				
-				else if (pointing.equals("South")) {
+				case "South":
 					route += "20";
-				}
-				else {
+				default:
 					route += "10";
 				}
+
 				pointing = "West";
 			}
-			else if(changeInY == 1) {
-				if(pointing.equals("East")) {
+			// The robot wants to go North
+			else if (changeInY == 1) {
+				switch (pointing) {
+				case "East":
 					route += "10";
-				}
-				else if (pointing.equals("West")) {
+				case "West":
 					route += "20";
-				}
-				
-				else if (pointing.equals("South")) {
-					route += "110";
-				}
-				else {
+				case "South":
+					route += "30";
+				default:
 					route += "0";
 				}
+
 				pointing = "North";
 			}
+			// The robot wants to go South
 			else {
-				if(pointing.equals("East")) {
+				switch (pointing) {
+				case "East":
 					route += "20";
-				}
-				else if (pointing.equals("West")) {
+				case "West":
 					route += "10";
-				}
-				
-				else if (pointing.equals("South")) {
+				case "South":
 					route += "0";
-				}
-				else {
-					route += "110";
+				default:
+					route += "30";
 				}
 				pointing = "South";
 			}
-//			if(pointing == "East") {
-//				//turn left
-//				if (currentX < nextX && currentY==nextY) {
-//					route += '1';
-//					route += '0';
-//					pointing = "North";
-//				}	
-//				//forward
-//				if (currentX == nextX && currentY<nextY){
-//					route += '0';
-//				}
-//				//turn right
-//				if (currentX > nextX && currentY==nextY) {
-//					route += '2';
-//					route += '0';
-//					pointing = "South";
-//				}
-//				
-//				//go back
-//				if (currentX == nextX && currentY>nextY) {
-//					route += '3';
-//					route += '0';
-//					pointing = "West";
-//				}
-//	
-//	
-//			}
-//			else if(pointing == "North") {
-//				//turn left
-//				if (currentX == nextX && currentY>nextY) {
-//					route += '1';
-//					route += '0';
-//					pointing = "West";
-//				}	
-//				//forward
-//				if (currentX < nextX && currentY==nextY){
-//					route += '0';
-//					}
-//				
-//				//turn right
-//				if (currentX == nextX && currentY<nextY) {
-//					route += '2';
-//					route += '0';
-//					pointing = "East";
-//				}
-//				
-//				//go back
-//				if (currentX > nextX && currentY==nextY) {
-//					route += '3';
-//					route += '0';
-//					pointing = "South";
-//				}
-//			}
-//			else if(pointing == "West") {
-//				//turn left
-//				if (currentX > nextX && currentY==nextY) {
-//					route += '1';
-//					route += '0';
-//					pointing = "South";
-//				}	
-//				//forward
-//				if (currentX == nextX && currentY>nextY){
-//					route += '0';			}
-//				
-//				//turn right
-//				if (currentX < nextX && currentY==nextY) {
-//					route += '2';
-//					route += '0';
-//					pointing = "North";
-//				}
-//				
-//				//go back
-//				if (currentX == nextX && currentY<nextY) {
-//					route += '3';
-//					route += '0';
-//					pointing ="East";
-//				}
-//			}
-//			else if(pointing == "South") {
-//				//turn left
-//				if (currentX == nextX && currentY<nextY) {
-//					route += '1';
-//					route += '0';
-//					pointing = "East";
-//				}	
-//				//forward
-//				if (currentX > nextX && currentY==nextY){
-//					route += '0';
-//					}
-//				
-//				//turn right
-//				if (currentX == nextX && currentY>nextY) {
-//					route += '2';
-//					route += '0';
-//					pointing = "West";
-//				}
-//				
-//				//go back
-//				if (currentX < nextX && currentY==nextY) {
-//					route += '3';
-//					route += '0';
-//					pointing = "North";
-//				}
-//			}
-//			currentX = nextX;
-//			currentY = nextY;
-//			i++;
 			currentPosition = nextPosition;
-			}
+		}
 		return route;
 	}
-	
+
 }
