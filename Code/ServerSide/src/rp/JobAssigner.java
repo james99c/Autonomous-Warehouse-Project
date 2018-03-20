@@ -31,7 +31,8 @@ public class JobAssigner implements JobAssignerInterface{
 	private Reader jobDecider;
 	
 	public JobAssigner (Map map){
-		//jobs = Reader.;
+		jobDecider.startReading();
+        jobs = jobDecider.getJobs();
 		this.map = map;
 		routePlanner = new RoutePlanner(map);
 		/*
@@ -59,6 +60,7 @@ public class JobAssigner implements JobAssignerInterface{
 	
 	public Job assignJob(Location currentLocation, String robotName){
 		if(jobs.isEmpty()){
+			logger.debug("jobs list is empty");
 			return null;
 		}
 		Job bestJob = getBestJob(currentLocation);
@@ -88,6 +90,7 @@ public class JobAssigner implements JobAssignerInterface{
 			}
 		}
 		jobs.remove(bestJob);
+		logger.debug("found best job, removing it from list to give to robot");
 		return bestJob;
 	}
 	/*
