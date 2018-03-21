@@ -439,18 +439,52 @@ public class GUI {
 	        frame3.pack();
 	        frame3.setVisible(true);
 	}
+	
+	/**
+	 * 
+	 * A method to add a connected robot's name to the appropriate ArrayLists
+	 * 
+	 * @param robotName The name of the connected robot
+	 * 
+	 */
 	public void connectRobot(String robotName) {
 		robotsConnected++;
 		counterLabel.setText(robotsConnected.toString() + " Robots connected");
 		connectedRobots.add(robotName);
 		
 	}
+	
+	/**
+	 * 
+	 * A method to retrieve the location of a specified robot
+	 * 
+	 * @param robot The name of the robot you're looking for
+	 * 
+	 * @return A location object from the HashMap corresponding to the robot
+	 * 
+	 */
 	public Location getLocation(String robot) {
 		return locations.get(robot);
 	}
+	
+	/**
+	 * 
+	 * Check if the user has finished inputting the coordinates
+	 * 
+	 * @return True if the done button on the second frame has been pressed
+	 */
 	public boolean getGUIFinished() {
 		return GUIFinished;
 	}
+	
+	/**
+	 * 
+	 * A method to set the labels in the GUI to correspond with the current jobs
+	 * 
+	 * @param robot The name of the robot
+	 * @param ID The ID of the current job
+	 * 
+	 */
 	public void setJobID(String robot, int ID) {
 		if (robotJobs.containsKey(robot)) {
 			robotJobs.put(robot, ID);
