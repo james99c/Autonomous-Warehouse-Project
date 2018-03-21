@@ -62,13 +62,10 @@ public class Display {
 				this.show();
 			}
 			if (buttonPress == 8) { //Bottom Button
-				this.cancelJob();
+				return -1;
 			}
 		}
 		return num;
-	}
-	public void cancelJob() {
-		//Cancel the proposed job
 	}
 
 }
