@@ -349,9 +349,10 @@ public class GUI {
 	        	robotlabel3.setText(connectedRobots.get(2));
 	        }
 	        
+	        //A label saying that no robots are connected
 	        JLabel noneConnected =  new JLabel("No robots connected");
 	        
-	        JButton cancel1 = new JButton("Cancel job");
+	       /* JButton cancel1 = new JButton("Cancel job");
 	        cancel1.addActionListener(new ActionListener() {
 	            @Override            
 	            public void actionPerformed(ActionEvent e) {
@@ -370,7 +371,10 @@ public class GUI {
 	            @Override            
 	            public void actionPerformed(ActionEvent e) {
 	            	//Cancel the robot's operation
-	                    }} );   
+	                    }} ); 
+	                    */
+	                    
+	        //A button to reconnect the first robot
 	        JButton reconnect1 = new JButton("Reconnect");
 	        reconnect1.addActionListener(new ActionListener() {
 	        	@Override
@@ -379,6 +383,7 @@ public class GUI {
 	        	}
 	        } );
 	        
+	         //A button to reconnect the second robot
 	        JButton reconnect2 = new JButton("Reconnect");
 	        reconnect1.addActionListener(new ActionListener() {
 	        	@Override
@@ -387,6 +392,7 @@ public class GUI {
 	        	}
 	        } );
 	        
+	         //A button to reconnect the third robot
 	        JButton reconnect3 = new JButton("Reconnect");
 	        reconnect1.addActionListener(new ActionListener() {
 	        	@Override
@@ -394,47 +400,39 @@ public class GUI {
 	        		//Reconnect the robot
 	        	}
 	        } );
-	        		
-	        /*JButton readFile = new JButton("Select file");
-	        readFile.addActionListener(new ActionListener() {
-	        	@Override
-	        	public void actionPerformed(ActionEvent e) {
-	        		JFileChooser chooser1 = new JFileChooser();
-	                int result = chooser1.showOpenDialog(frame);
-	                if(result == JFileChooser.APPROVE_OPTION) {
-	                    File selectedFile1 = chooser1.getSelectedFile();
-	                    filePath = selectedFile1.getAbsolutePath();
-	                    fileName.setText(filePath);
-	                	}
-	        	}
-	        } ); */
-	        
+	        	
+	        //The title is added to the panel
 	        panel31.add(title);
-	        //panel1.add(readFile);
-	        //panel1.add(fileName);
 	        
+	        //The items regarding the first robot are added to a panel
 	        panel32.add(robotlabel1);
 	        panel32.add(joblabel1);
 	        panel32.add(cancel1);
 	        panel32.add(reconnect1);
 	        
+	        //The items regarding the second robot are added to a panel
 	        panel33.add(robotlabel2);
 	        panel33.add(joblabel2);
 	        panel33.add(cancel2);
 	        panel33.add(reconnect2);
 	        
+	        //The items regarding the third robot are added to a panel
 	        panel34.add(robotlabel3);
 	        panel34.add(joblabel3);
 	        panel34.add(cancel3);
 	        panel34.add(reconnect3);
 	        
+	        //A panel to display if no robots are connected is created
 	        panel35.add(noneConnected);
 	        
+	        //The panels are added to the frame, as appropriate
 	        frame3.add(panel31);
 	        if(robotsConnected > 0) {frame3.add(panel32); }
 	        if(robotsConnected > 1) {frame3.add(panel33); }
 	        if(robotsConnected > 2) {frame3.add(panel34); }
 	        if(robotsConnected == 0) {frame3.add(panel35); }
+	        
+	        //The closeOperation, title and size are set, and the frame is made
 	        frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame3.setTitle("Warehouse GUI");
 	        frame3.setPreferredSize(new Dimension(400, 350));
