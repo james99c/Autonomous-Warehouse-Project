@@ -7,7 +7,8 @@ public class Writer {
 	private static final String COMMA_DELIMITER = ",";
 	private static final String NEW_LINE_SEPARATOR = "\n";
 	private final Classify classifier;
-	private static final String FILE_HEADER = "aa, ab, ac,ad, be, bf, bg, bh, ca, cb, ci, cj, dc, dd, de, df, eg, eh, ei, ej, fa, fb, fc, fd, ge, gf, gg, gh, hi, hj, reward, weight, cancellation";
+	private static final String FILE_HEADER = "aa, ab, ac,ad, be, bf, bg, bh, ca, cb, ci, cj, dc, dd, de, df, eg, eh,"
+			+ " ei, ej, fa, fb, fc, fd, ge, gf, gg, gh, hi, hj, reward, weight, reward/numbOfTasks, cancellation";
 	private File userMessagesFile = new File("csv");
     private String userMessagesPath = userMessagesFile.getAbsolutePath();
 
@@ -39,7 +40,7 @@ public class Writer {
 			String[] items = { "aa", "ab", "ac", "ad", "be", "bf", "bg", "bh", "ca", "cb", "ci", "cj", "dc", "dd", "de",
 					"df", "eg", "eh", "ei", "ej", "fa", "fb", "fc", "fd", "ge", "gf", "gg", "gh", "hi", "hj" };
 
-			for (int i = 0; i < jobs.size() / 4; i++) {
+			for (int i = 0; i < jobs.size(); i++) {
 				// Maybe we need to add something like the reward / numbOfTasks or weight /
 				// numbOfTasks or both
 
@@ -65,7 +66,8 @@ public class Writer {
 				trainFileWriter.append(COMMA_DELIMITER);
 				// testFileWriter.append(String.valueOf(Math.floor(job.getJobWeight()/5)*5));
 				// testFileWriter.append(COMMA_DELIMITER);
-
+				trainFileWriter.append(String.valueOf(jobs.get(i).getJobWeight() / jobs.get(i).getNumberOfTasks()));
+				trainFileWriter.append(COMMA_DELIMITER);
 				// fileWriter.append(String.valueOf(job.getRewardDivWeight()));
 				// fileWriter.append(COMMA_DELIMITER);
 				// testFileWriter.append("?");
@@ -83,9 +85,7 @@ public class Writer {
 				e.printStackTrace();
 			}
 
-			for (int i = 0; i < jobs.size() / 4; i++) {
-				// Maybe we need to add something like the reward / numbOfTasks or weight /
-				// numbOfTasks or both
+			for (int i = 0; i < jobs.size(); i++) {
 
 				// fileWriter.append(String.valueOf(job.getJobID()));
 				// fileWriter.append(COMMA_DELIMITER);
@@ -109,7 +109,9 @@ public class Writer {
 				testFileWriter.append(COMMA_DELIMITER);
 				// testFileWriter.append(String.valueOf(Math.floor(job.getJobWeight()/5)*5));
 				// testFileWriter.append(COMMA_DELIMITER);
-
+				
+				testFileWriter.append(String.valueOf(jobs.get(i).getJobWeight() / jobs.get(i).getNumberOfTasks()));
+				testFileWriter.append(COMMA_DELIMITER);
 				// fileWriter.append(String.valueOf(job.getRewardDivWeight()));
 				// fileWriter.append(COMMA_DELIMITER);
 				testFileWriter.append("?");
