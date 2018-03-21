@@ -41,7 +41,7 @@ public class Display {
 		this.show();		
 	}
 	
-	public void pickItem() {
+	public int pickItem() {
 		boolean waiting = true;
 		this.updateStatus("Pick jobs");
 		this.showItemNumber();
@@ -65,6 +65,7 @@ public class Display {
 				this.cancelJob();
 			}
 		}
+		return num;
 	}
 	public void cancelJob() {
 		//Cancel the proposed job
