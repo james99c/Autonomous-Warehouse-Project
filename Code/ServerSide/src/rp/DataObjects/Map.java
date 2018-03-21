@@ -16,21 +16,21 @@ public class Map {
 	private final float ROTATE_90_TIME = 5.0f;
 	private final float ROTATE_180_TIME = 6.8f;
     public long startOfTime;
-	
+
 	public Map(Integer _height, Integer _width, ArrayList<Location> unAvailableLocations){
-		
+
 		this.height = _height + 1;
 		this.width = _width + 1;
 		this.map = new GridPoint[width][height];
-		
+
 		// generates all the gridpoints for locations
 		for (int x=0 ; x < width ; x++){
 			for( int y=0; y < height; y++){
 				this.map[x][y] = new GridPoint(x, y, false);
-				
+
 			}
 		}
-		
+
 		// sets unavailable locations
 		for (Location a: unAvailableLocations){
 			this.map[a.getX()][a.getY()] = new GridPoint(a.getX(),a.getY(), true);
@@ -38,12 +38,12 @@ public class Map {
 		 this.startOfTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 
 	}
-	
-	
+
+
 	public void addRobot(String _robotID, Location _location, Direction _direction) {
 		robots.add( new RobotInformation(_robotID, _location, _direction));
 	}
-	
+
 	public void updateRobotsLocation(String _robotID, Location _newLocation) {
 		RobotInformation toUpdate = null;
 		for(RobotInformation robot : this.robots) {
@@ -53,7 +53,7 @@ public class Map {
 			}
 		}
 		assert(toUpdate != null);
-		
+
 		Location oldLocation = toUpdate.location;
 		toUpdate.location = _newLocation;
 		Location changeInLocation = new Location( _newLocation.getX() - oldLocation.getX(), _newLocation.getY() - oldLocation.getY());
@@ -73,10 +73,10 @@ public class Map {
 			toUpdate.direction = Direction.WEST;
 			return;
 		}
-		
-		
+
+
 	}
-	
+
 	public RobotInformation getRobotInformation(String _robotID) {
 		for(RobotInformation r: robots) {
 			if(r.robotID.equals(_robotID)) {
@@ -90,25 +90,25 @@ public class Map {
 		for (GridPoint a: route){
 			this.map[a.getLocation().getX()][a.getLocation().getY()].setUnAvailability(a.getTimeFrames());
 		}
-		
+
 	}
 	public void unBlockRoute(ArrayList<GridPoint> route){
 		for (GridPoint a: route){
 			this.map[a.getLocation().getX()][a.getLocation().getY()].setUnAvailability(a.getTimeFrames());
 		}
-		
+
 	}
 	public void clearTimeFrames(){
 		for (int x=0 ; x < this.width; x++){
 			for( int y=0; y <this.height; y++){
 
 				this.map[x][y].removeTimeFrames();
-				
+
 			}
 		}
 	}
-	
-	
+
+
 	public GridPoint getGridPoint(int x, int y) {
 		return map[x][y];
 	}
@@ -120,31 +120,31 @@ public class Map {
 		int y = _location.getY();
 		try {
 			surroundingLocations.add(map[x+1][y].clone());
-			
+
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
 		try {
 			surroundingLocations.add(map[x-1][y].clone());
-			
+
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
 		try {
 			surroundingLocations.add(map[x][y+1].clone());
-			
+
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
 		try {
 			surroundingLocations.add(map[x][y-1].clone());
-			
+
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
-		
 
-		
+
+
 		ArrayList<Pair<GridPoint,Direction>> output = new ArrayList<Pair<GridPoint,Direction>>();
 
 		for (GridPoint a: surroundingLocations){
@@ -198,18 +198,29 @@ public class Map {
 					newTimeFrame = new Float[] {_time, _time + ROTATE_90_TIME};
 				}
 			}
-			
+
 			assert(newTimeFrame != null);
 			assert(newDirection != null);
-			
+
 			if(a.isAvailable((TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - startOfTime) + _time)){
-				a.setUnAvailability(newTimeFrame); 
-				
+				a.setUnAvailability(newTimeFrame);
+
 				output.add(new Pair<GridPoint, Direction>(a, newDirection));
 			}
 		}
-		
-		
+
 		return output;
+	}
+
+	public GridPoint[][] getMapArray(){
+		return map;
+	}
+
+	public int getHeight() {
+		return this.height;
+	}
+
+	public int getWidth() {
+		return this.width;
 	}
 }
