@@ -43,11 +43,11 @@ public class RoutePlanner implements RoutePlannerInterface {
 		Float[] third = new Float[] {};
 		Float[] first = new Float[] {};
 		long currentTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - map.startOfTime;
-		
+
 		// I apologise for being so lazy
 		if (output.size() == 1) {
 			map.getGridPoint(output.get(0).getLocation().getX(), output.get(0).getLocation().getY())
-			.setUnAvailability(output.get(0).getTimeFrames());
+					.setUnAvailability(output.get(0).getTimeFrames());
 		} else {
 			for (index = 2; index < output.size(); index++) {
 				ArrayList<Float[]> timeFramesThree = output.get(index).getTimeFrames();
@@ -57,12 +57,13 @@ public class RoutePlanner implements RoutePlannerInterface {
 				map.getGridPoint(output.get(index - 2).getLocation().getX(), output.get(index - 2).getLocation().getY())
 						.setUnAvailability(new Float[] { currentTime + first[0], currentTime + third[1] });
 			}
-			
+
 			map.getGridPoint(output.get(index - 2).getLocation().getX(), output.get(index - 2).getLocation().getY())
-					.setUnAvailability(new Float[] { currentTime + output.get(index - 2).getTimeFrames().get(0)[0], currentTime + third[1] });
-			
+					.setUnAvailability(
+							new Float[] { currentTime + output.get(index - 2).getTimeFrames().get(0)[0], currentTime + third[1] });
+
 			map.getGridPoint(output.get(index - 1).getLocation().getX(), output.get(index - 1).getLocation().getY())
-			.setUnAvailability(new Float[] { currentTime + third[0], currentTime + third[1] });
+					.setUnAvailability(new Float[] { currentTime + third[0], currentTime + third[1] });
 		}
 
 		// need to adjust the time frames
@@ -70,69 +71,67 @@ public class RoutePlanner implements RoutePlannerInterface {
 				searchTreeOutput.get(searchTreeOutput.size() - 1).getValue());
 	}
 
- 
-	
-//	public ArrayList<GridPoint> findOverallRoute(Location _startLocation, Job _job, String robotName) {
-//		HashMap<String, Item> itemMap = _job.getItemMap();
-//		ArrayList<String> itemsID = _job.getItems();
-//		ArrayList<Location> itemsLocation = new ArrayList<>();
-//		ArrayList<GridPoint> route = new ArrayList<>();
-//
-//		for (String s : itemsID) {
-//			Item item = itemMap.get(s);
-//			itemsLocation.add(new Location(item.getX(), item.getY()));
-//		}
-//		Location startLocation = _startLocation;
-//		Location goalLocation = findShortestDistance(startLocation, itemsLocation);
-//
-//		Pair<ArrayList<GridPoint>, Direction> output = findIndividualRoute(startLocation, goalLocation,
-//				map.getRobotInformation(robotName).direction);
-//		route.addAll(output.getKey());
-//		startLocation = goalLocation;
-//		itemsLocation.remove(startLocation);
-//		while (!itemsLocation.isEmpty()) {
-//			goalLocation = findShortestDistance(startLocation, itemsLocation);
-//			output = findIndividualRoute(startLocation, goalLocation, output.getValue());
-//			route.addAll(output.getKey());
-//			startLocation = goalLocation;
-//			itemsLocation.remove(startLocation);
-//		}
-//	
-//		return route;
-//	}
+	//	public ArrayList<GridPoint> findOverallRoute(Location _startLocation, Job _job, String robotName) {
+	//		HashMap<String, Item> itemMap = _job.getItemMap();
+	//		ArrayList<String> itemsID = _job.getItems();
+	//		ArrayList<Location> itemsLocation = new ArrayList<>();
+	//		ArrayList<GridPoint> route = new ArrayList<>();
+	//
+	//		for (String s : itemsID) {
+	//			Item item = itemMap.get(s);
+	//			itemsLocation.add(new Location(item.getX(), item.getY()));
+	//		}
+	//		Location startLocation = _startLocation;
+	//		Location goalLocation = findShortestDistance(startLocation, itemsLocation);
+	//
+	//		Pair<ArrayList<GridPoint>, Direction> output = findIndividualRoute(startLocation, goalLocation,
+	//				map.getRobotInformation(robotName).direction);
+	//		route.addAll(output.getKey());
+	//		startLocation = goalLocation;
+	//		itemsLocation.remove(startLocation);
+	//		while (!itemsLocation.isEmpty()) {
+	//			goalLocation = findShortestDistance(startLocation, itemsLocation);
+	//			output = findIndividualRoute(startLocation, goalLocation, output.getValue());
+	//			route.addAll(output.getKey());
+	//			startLocation = goalLocation;
+	//			itemsLocation.remove(startLocation);
+	//		}
+	//
+	//		return route;
+	//	}
 
 	public static void main(String[] args) {
 		ArrayList<Location> blocks = new ArrayList<>();
-		blocks.add(new Location(1,1));
-		blocks.add(new Location(1,2));
-		blocks.add(new Location(1,3));
-		blocks.add(new Location(1,4));
+		blocks.add(new Location(1, 1));
+		blocks.add(new Location(1, 2));
+		blocks.add(new Location(1, 3));
+		blocks.add(new Location(1, 4));
 		Map map = new Map(6, 6, blocks);
 		RoutePlanner rp = new RoutePlanner(map);
 
-		 ArrayList<GridPoint> route = rp.findIndividualRoute(new Location(0,0), new
-		 Location(0,6), Direction.NORTH).getKey();
-		 System.out.println("found first route");
+		ArrayList<GridPoint> route = rp.findIndividualRoute(new Location(0, 0), new Location(0, 6), Direction.NORTH)
+				.getKey();
+		System.out.println("found first route");
 
-		 ArrayList<GridPoint> route2 = rp.findIndividualRoute(new Location(0,6), new
-		 Location(0,0), Direction.SOUTH).getKey();
+		ArrayList<GridPoint> route2 = rp.findIndividualRoute(new Location(0, 6), new Location(0, 0), Direction.SOUTH)
+				.getKey();
 
-		 System.out.println("found second route");
-		 
-		 for(GridPoint g: route) {
-			 System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY());
-			 
-			 Float[] timeFrame = map.getGridPoint(g.getLocation().getX(), g.getLocation().getY()).getTimeFrames().get(0);
-			 System.out.println("[ " + timeFrame[0] + " , " + timeFrame[1] + " ]");
-		 }
-	
-		 System.out.println("second route:");
-		 for(GridPoint g: route2) {
-			 System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY());
-			 
-			 Float[] timeFrame = map.getGridPoint(g.getLocation().getX(), g.getLocation().getY()).getTimeFrames().get(0);
-			 System.out.println("[ " + timeFrame[0] + " , " + timeFrame[1] + " ]");
-		 }
+		System.out.println("found second route");
+
+		for (GridPoint g : route) {
+			System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY());
+
+			Float[] timeFrame = map.getGridPoint(g.getLocation().getX(), g.getLocation().getY()).getTimeFrames().get(0);
+			System.out.println("[ " + timeFrame[0] + " , " + timeFrame[1] + " ]");
+		}
+
+		System.out.println("second route:");
+		for (GridPoint g : route2) {
+			System.out.println(g.getLocation().getX() + " : " + g.getLocation().getY());
+
+			Float[] timeFrame = map.getGridPoint(g.getLocation().getX(), g.getLocation().getY()).getTimeFrames().get(0);
+			System.out.println("[ " + timeFrame[0] + " , " + timeFrame[1] + " ]");
+		}
 
 	}
 
