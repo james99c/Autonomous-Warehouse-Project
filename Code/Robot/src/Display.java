@@ -22,7 +22,7 @@ public class Display {
 	/**
 	 * The number of items to be picked
 	 */
-	int num = 0;
+	int num = 1;
 	
 	/**
 	 * Display the job ID and status on the screen
@@ -82,8 +82,10 @@ public class Display {
 		while(waiting) {
 			buttonPress = Button.waitForAnyPress();
 			if (buttonPress == 2 ) { //Left Button
-				--num;
-				this.showItemNumber();
+			    if (num > 1) {
+				    --num;
+			    	this.showItemNumber();
+			    }
 			}
 			if (buttonPress == 4) { //Right Button
 			    if(currentWeight + itemWeight < 50.0f) {
@@ -99,9 +101,12 @@ public class Display {
 				//Pass the information to the client
 				waiting = false;
 				this.show();
+				num = 1;
 			}
 			if (buttonPress == 8) { //Bottom Button
+			    num = 1;
 				return originalWeight;
+				
 			}
 		}
 		return currentWeight;
