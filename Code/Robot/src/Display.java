@@ -67,5 +67,14 @@ public class Display {
 		}
 		return num;
 	}
-
+    public boolean dropItem() {
+        int buttonPress = Button.waitForAnyPress();
+        this.updateStatus("Drop items");
+        if(buttonPress == 1) {
+            return true;
+        }
+        if(buttonPress == 8) {
+            return false;
+        }
+    }
 }
