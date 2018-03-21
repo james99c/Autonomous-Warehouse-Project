@@ -17,55 +17,104 @@ import rp.Interfaces.GUIInterface;
 
 /**
  * 
- * PC Interface
+ * PC Warehouse Interface
  * 
  * @author Paul
  *
  */
 public class GUI {
+    /**
+     * The first frame to be displayed
+     * Shows robots connecting
+     */
 	private JFrame frame1;
+	/**
+	 * The second frame to be displayed
+	 * Here the starting coordinates are input
+	 */
 	private JFrame frame2;
+	/**
+	 * The third frame to be displayed
+	 * Shows the robots and their current jobs
+	 * Allows the user to reconnect disconnected robots
+	 */
 	private JFrame frame3;
-	String job1;
-	String job2;
-	String job3;
+	/**
+	 * The starting location of the first robot
+	 */
 	Location location1;
+	/**
+	 * The starting location of the second robot
+	 */
 	Location location2;
+	/**
+	 * The starting location of the third robot
+	 */
 	Location location3;
+	/**
+	 * The number of robots connected
+	 */
 	Integer robotsConnected = 0;
+	/**
+	 * A label displaying the number of connected robots
+	 */
 	JLabel counterLabel;
+	/**
+	 * The server
+	 */
 	private Server server;
 	
-	String robot1 = "";
-	String robot2 = "";
-	String robot3 = "";
-	
+	/**
+	 * A boolean showing whether the second frame is finished
+	 * with, so the starting coordinates can be passed
+	 */
 	boolean GUIFinished = false;
+	/**
+	 * A hashmap storing the robot name and its starting
+	 * location
+	 */
 	HashMap<String, Location> locations = new HashMap<>();
+	/**
+	 * An ArrayList of the names of the connected robots
+	 */
 	ArrayList<String> connectedRobots = new ArrayList<String>();
 	
-	//String filePath = "";
 	
-	
-
+	/**
+	 * 
+	 * The constructor for the GUI, where a server is created
+	 */
 	public GUI(Server _server) {
 		// 
 		this.server = _server;
 	}
 
-
+    /**
+     * 
+     * The method which starts and runs the first frame of the GUI
+     * It shows the robots connecting
+     */
 	public void runGUI() {
-
+        //The frame is declared
 		frame1 = new JFrame();
 		
+		//The panels for the first frame are declared and the layout set
 		JPanel panel11 = new JPanel();
 		JPanel panel12 = new JPanel();
 		JPanel panel13 = new JPanel();
 		frame1.setLayout(new FlowLayout());
 		
+		//A label saying the robots are connecting is created
 		JLabel connectingLabel = new JLabel("Connecting to robots");
+		/* A label showing the number of robots connected is added.
+		It had to be declared outside this method
+		*/
 		counterLabel = new JLabel(robotsConnected.toString() + " Robots connected");
-		
+	    
+	    /* The done button
+	    The actionlistener waits for the button to be clicked,
+	    then disposes of this frame and calls the runFrame2 method
+	    */
 		JButton doneButton = new JButton("Done");
         doneButton.addActionListener(new ActionListener() {
             @Override            
@@ -74,22 +123,36 @@ public class GUI {
             	runFrame2();
                     }} );
         
+        //The labels are added to their corresponding panels
 		panel11.add(connectingLabel);
 		panel12.add(counterLabel);
 		panel13.add(doneButton);
 		
+		//The panels are added to the frame
 		frame1.add(panel11);
         frame1.add(panel12);
         frame1.add(panel13);
+        //The closeOperation, title and size are set, and the frame displayed
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame1.setTitle("Warehouse GUI");
         frame1.setPreferredSize(new Dimension(280, 280));
         frame1.pack();
         frame1.setVisible(true);
 	}
-	
+
+    /**
+     * 
+     * The method which starts and runs the second frame
+     * This is called by the runGUI method
+     * It shows the robots which are connected, and prompts
+     * the user to input their start locations
+     * 
+     */
 	public void runFrame2() {
+	    //The frame is declared
 		frame2 = new JFrame();
+		
+		//The various panels are declared and the layout set
         JPanel panel21 = new JPanel();
         JPanel panel22 = new JPanel();
         JPanel panel23 = new JPanel();
@@ -98,7 +161,15 @@ public class GUI {
         JPanel panel26 = new JPanel();
         frame2.setLayout(new FlowLayout());
         
+        //This label acts as a title
         JLabel title1 = new JLabel("Connected Robots");
+        /* Labels displaying the names of the connected robots
+        These must first be instantiated empty, to prevent a null
+        pointed exception when referring to the arraylist containing
+        the names of the connected robots.
+        They are then set, but must be inside the if statements to prevent
+        more null pointer exceptions
+        */
         JLabel connected1 = new JLabel("");
         JLabel connected2 = new JLabel("");
         JLabel connected3 = new JLabel("");
@@ -112,6 +183,13 @@ public class GUI {
         if(robotsConnected > 2) {
         	connected3.setText(connectedRobots.get(2));
         }
+        
+        /*
+        Text fields for the user to input the start locations and labels to
+        indicate this
+        The dimensions of the text fields must be set to avoid them being
+        too small
+        */
         JLabel enterX = new JLabel("Enter x co-ordinate");
         JLabel enterY = new JLabel("Enter y co-ordinate");
         JTextField x1 = new JTextField();
@@ -127,7 +205,17 @@ public class GUI {
         y2.setPreferredSize(new Dimension(24,24));
         y3.setPreferredSize(new Dimension(24,24));
         
-        
+        /*
+        A button for the user to press once they've finished
+        inputting the coordinates
+        Upon pressing, the frame is disposed of.
+        Then, for each connected robot the values inputted as the
+        coordinates are first made into ints, then added to the appropriate 
+        location object, which is then added to the locations HashMap.
+        The if statements checking the number of robots connected prevent 
+        a null pointer exception
+        After this a call is made to the server to start the robots
+        */
         JButton doneButton2 = new JButton("Done");
         doneButton2.addActionListener(new ActionListener() {
             @Override            
@@ -159,31 +247,41 @@ public class GUI {
             	}
             	server.startRobots(locations);
                     }} );
-        
+                    
+        //The title is added to its panel
         panel21.add(title1);
         
+        //The information for the first robot is added
         panel22.add(connected1);
         panel22.add(enterX);
         panel22.add(x1);
         panel22.add(enterY);
         panel22.add(y1);
         
+        //And for the second
         panel23.add(connected2);
         panel23.add(enterX);
         panel23.add(x2);
         panel23.add(enterY);
         panel23.add(y2);
         
+        //And the third
         panel24.add(connected3);
         panel24.add(enterX);
         panel24.add(x3);
         panel24.add(enterY);
         panel24.add(y3);
         
+        //This panel will only be displayed if no robots are connected
 		panel25.add(noneConnected);
 		
+		//The done button is added to its panel
 		panel26.add(doneButton2);
 		
+		/* The panels are added to the frame. 
+		Depending on the number of robots connected different panels are added
+		If no robots are connected a panel is added to show this
+		*/
 		frame2.add(panel21);
         if(robotsConnected > 0) {frame2.add(panel22); }
         if(robotsConnected > 1) {frame2.add(panel23); }
@@ -198,10 +296,6 @@ public class GUI {
           
 	}
 	public void runFrame3() {
-		 String testString = "Test job ID";
-	        job1 = testString;
-	        job2 = testString;
-	        job3 = testString;
 	        JLabel robotlabel1 = new JLabel("");
 	        JLabel robotlabel2 = new JLabel("");
 	        JLabel robotlabel3 = new JLabel("");
@@ -224,9 +318,9 @@ public class GUI {
 	        if (robotsConnected > 2) {
 	        	robotlabel3.setText(connectedRobots.get(2));
 	        }
-	        JLabel joblabel1 = new JLabel(job1);
-	        JLabel joblabel2 = new JLabel(job2);
-	        JLabel joblabel3 = new JLabel(job3);
+	        JLabel joblabel1 = new JLabel("No job");
+	        JLabel joblabel2 = new JLabel("No job");
+	        JLabel joblabel3 = new JLabel("No job");
 	        JLabel noneConnected =  new JLabel("No robots connected");
 	        
 	        JButton cancel1 = new JButton("Cancel job");
