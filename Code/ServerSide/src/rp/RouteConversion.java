@@ -3,6 +3,7 @@ package rp;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import rp.DataObjects.Direction;
 import rp.DataObjects.Location;
 
 /**
@@ -42,13 +43,13 @@ public class RouteConversion {
 	 * @param coordinates A point array containing coordinates the robot must travel to
 	 * @return route The route the robot will take
 	 */
-	public String convertRoute(Location _startLocation, String direction, ArrayList<Location> coordinates) {
+	public String convertRoute(Location _startLocation, Direction direction, ArrayList<Location> coordinates) {
 		
 		this.coordinates = coordinates;
 		
 		currentPosition = _startLocation;
 		// Initial direction robot is looking
-		String pointing = direction	;
+		Direction pointing = direction;
 		
 		/*
 		 * While there are still coordinates
@@ -72,61 +73,61 @@ public class RouteConversion {
 			
 			// The robot wants to go East
 			if (changeInX == 1) {
-				switch (pointing) {
-				case "East":
+				switch (direction) {
+				case EAST:
 					route += "0";
-				case "West":
+				case WEST:
 					route += "30";
-				case "South":
+				case SOUTH:
 					route += "10";
 				default:
 					route += "20";
 				}
-				pointing = "East";
+				pointing = direction.EAST;
 			}
 			// The robot wants to go West
 			else if (changeInX == -1) {
 				switch (pointing) {
-				case "East":
+				case EAST:
 					route += "30";
-				case "West":
+				case WEST:
 					route += "0";
-				case "South":
+				case SOUTH:
 					route += "20";
 				default:
 					route += "10";
 				}
 
-				pointing = "West";
+				pointing = direction.WEST;
 			}
 			// The robot wants to go North
 			else if (changeInY == 1) {
 				switch (pointing) {
-				case "East":
+				case EAST:
 					route += "10";
-				case "West":
+				case WEST:
 					route += "20";
-				case "South":
+				case SOUTH:
 					route += "30";
 				default:
 					route += "0";
 				}
 
-				pointing = "North";
+				pointing = direction.NORTH;
 			}
 			// The robot wants to go South
 			else {
 				switch (pointing) {
-				case "East":
+				case EAST:
 					route += "20";
-				case "West":
+				case WEST:
 					route += "10";
-				case "South":
+				case SOUTH:
 					route += "0";
 				default:
 					route += "30";
 				}
-				pointing = "South";
+				pointing = direction.SOUTH;
 			}
 			currentPosition = nextPosition;
 		}

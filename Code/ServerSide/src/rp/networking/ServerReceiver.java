@@ -40,10 +40,6 @@ public class ServerReceiver extends Thread {
 	 */
 	private ClientTable clientTable;
 	/**
-	 * Stores the overall route the robot will perform
-	 */
-	private String overallRoute = "";
-	/**
 	 * Stores the last instruction the robot performed
 	 */
 	private String instruction = "";
@@ -78,7 +74,7 @@ public class ServerReceiver extends Thread {
 	/**
 	 * Stores the direction the robot is facing
 	 */
-	private String direction = "North";
+	private Direction direction = Direction.NORTH;
 	/**
 	 * Stores the list of items that need to be picked up for the current job
 	 */
@@ -134,17 +130,12 @@ public class ServerReceiver extends Thread {
 
 				}
 				else {
-					if (answer.length() > 1) {
-						overallRoute = answer;
+					instruction = answer;
+					if (instruction.equals("0")) {
+						map.updateRobotsLocation(robotInfo.robotName, routeAsLocations.remove(0));
+						direction = map.getRobotInformation(robotInfo.robotName).direction;
 					}
-					else {
-						instruction = answer;
-						if (instruction.equals("0")) {
-							map.updateRobotsLocation(robotInfo.robotName, overallRoute.remove(0));
-							direction = map.getDirection();
-						}
-						logger.debug("Robot's instruction: " + answer);
-					}
+					logger.debug("Robot's instruction: " + answer);
 
 				}
 
@@ -173,7 +164,7 @@ public class ServerReceiver extends Thread {
 		 * Get the route in terms of locations that must be reached and convert it to
 		 * movement instructions
 		 */
-		routeAsLocations = rPlanner.getRoute(items.get(0));
+		routeAsLocations = rPlanner.findRouteToItem(robotInfo.getRobotName(), items.get(0));
 		items.remove(0);
 		String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
 

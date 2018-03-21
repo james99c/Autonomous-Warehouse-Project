@@ -71,13 +71,9 @@ public class Client {
 				if (route == null || route.equals("")) {
 				}
 				else {
-					// Write the overall route
-					outputStream.writeInt(route.length());
-					outputStream.writeBytes(route);
-					outputStream.flush();
 					char[] instructions =  route.toCharArray();
 					for(Character instruction : instructions) {
-						// Execute the route
+						// Execute the route and write the individual locations
 						String routeExecuted = robot.executeRoute(route);
 						outputStream.writeInt(routeExecuted.length());
 						outputStream.writeBytes(routeExecuted);
