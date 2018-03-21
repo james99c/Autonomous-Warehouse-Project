@@ -25,6 +25,11 @@ public class Display {
 	int num = 1;
 	
 	/**
+	 * Whether the robot is full
+	 */
+	 boolean isFull = false;
+	
+	/**
 	 * Display the job ID and status on the screen
 	 */
 	public void show(){
@@ -111,7 +116,15 @@ public class Display {
 		}
 		return currentWeight;
 	}
-	
+	/**
+	 * 
+	 * Getter for isFull
+	 * 
+	 * @return true if full, false if not
+	 */
+	public boolean getIsFull() {
+	    return isFull;
+	}
 //	/** 
 //	 * The method to be called when the robot must drop
 //	 * the items at the destination
