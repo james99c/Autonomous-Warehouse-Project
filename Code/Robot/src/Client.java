@@ -26,8 +26,6 @@ public class Client {
 	
 	private static String currentRoute = "";
 	
-	private static final float MAX_WEIGHT = 50.0f;
-	
 	private static float currentWeight = 0.0f;
 	
 	private static float itemsWeight = 0.0f;
@@ -102,7 +100,7 @@ public class Client {
 							currentWeight = display.pickItem(currentWeight, itemsWeight);
 						}
 						
-						if (isFull) {
+						if (display.isFull) {
 							outputStream.writeInt(1);
 							outputStream.writeBytes("f");
 							outputStream.flush();
