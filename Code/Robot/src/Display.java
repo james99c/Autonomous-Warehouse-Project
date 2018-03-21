@@ -85,7 +85,7 @@ public class Display {
 				this.showItemNumber();
 			}
 			if (buttonPress == 4) { //Right Button
-			    if(currentWeight + itemWeight > 50.0f) {
+			    if(currentWeight + itemWeight < 50.0f) {
 			        ++num;
 				    this.showItemNumber();
 				    currentWeight = currentWeight + itemWeight;

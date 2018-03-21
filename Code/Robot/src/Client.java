@@ -28,6 +28,8 @@ public class Client {
 	
 	private static final float MAX_WEIGHT = 50.0f;
 	
+	private static float currentWeight = 0.0f; 
+	
 	
 	public static void main(String[] args) {
 		
