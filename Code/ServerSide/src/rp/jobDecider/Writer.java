@@ -16,7 +16,7 @@ public class Writer {
 		this.classifier = classifier;
 	}
 
-	public void startWriting(ArrayList<Job> jobs) {
+	public void startWriting(ArrayList<Job> jobs, ArrayList<Job> jobsTraining) {
 
 		String trainFileName = userMessagesPath + "/writer.csv";
 		String testFileName = userMessagesPath + "/writerDataSet.csv";
@@ -47,9 +47,9 @@ public class Writer {
 				// fileWriter.append(String.valueOf(job.getJobID()));
 				// fileWriter.append(COMMA_DELIMITER);
 				for (int i1 = 0; i1 <= 29; i1++) {
-					for (int j = 0; j <= jobs.get(i).getJobTasks().size() - 1; j++)
-						if (jobs.get(i).getJobTasks().get(j).taskID == items[i1])
-							trainFileWriter.append(String.valueOf(jobs.get(i).getJobTasks().get(j).quantity));
+					for (int j = 0; j <= jobsTraining.get(i).getJobTasks().size() - 1; j++)
+						if (jobsTraining.get(i).getJobTasks().get(j).taskID == items[i1])
+							trainFileWriter.append(String.valueOf(jobsTraining.get(i).getJobTasks().get(j).quantity));
 						else
 							trainFileWriter.append(String.valueOf('0'));
 					trainFileWriter.append(COMMA_DELIMITER);
@@ -57,22 +57,22 @@ public class Writer {
 				// testFileWriter.append(String.valueOf(job.getNumberOfTasks()));
 				// testFileWriter.append(COMMA_DELIMITER);
 
-				trainFileWriter.append(String.valueOf(Math.floor(jobs.get(i).getJobReward() / 20) * 20));
+				trainFileWriter.append(String.valueOf(Math.floor(jobsTraining.get(i).getJobReward() / 20) * 20));
 				trainFileWriter.append(COMMA_DELIMITER);
 				// testFileWriter.append(String.valueOf(Math.floor(job.getJobReward()/20)*20));
 				// testFileWriter.append(COMMA_DELIMITER);
 
-				trainFileWriter.append(String.valueOf(Math.floor(jobs.get(i).getJobWeight() / 5) * 5));
+				trainFileWriter.append(String.valueOf(Math.floor(jobsTraining.get(i).getJobWeight() / 5) * 5));
 				trainFileWriter.append(COMMA_DELIMITER);
 				// testFileWriter.append(String.valueOf(Math.floor(job.getJobWeight()/5)*5));
 				// testFileWriter.append(COMMA_DELIMITER);
-				trainFileWriter.append(String.valueOf(jobs.get(i).getJobWeight() / jobs.get(i).getNumberOfTasks()));
+				trainFileWriter.append(String.valueOf(jobsTraining.get(i).getJobWeight() / jobs.get(i).getNumberOfTasks()));
 				trainFileWriter.append(COMMA_DELIMITER);
 				// fileWriter.append(String.valueOf(job.getRewardDivWeight()));
 				// fileWriter.append(COMMA_DELIMITER);
 				// testFileWriter.append("?");
 				// testFileWriter.append(NEW_LINE_SEPARATOR);
-				trainFileWriter.append(String.valueOf(jobs.get(i).getJobCancel()));
+				trainFileWriter.append(String.valueOf(jobsTraining.get(i).getJobCancel()));
 				trainFileWriter.append(NEW_LINE_SEPARATOR);
 
 			}
