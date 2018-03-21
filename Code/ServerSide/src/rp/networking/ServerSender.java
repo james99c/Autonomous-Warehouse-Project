@@ -71,6 +71,7 @@ public class ServerSender extends Thread {
 				output.writeBytes(route);
 				output.flush();
 				logger.debug("We're writing  ---- " + route + " ---- " + robotName);
+				receiver.addCurrentRoute(route);
 			}
 			catch (InterruptedException | IOException e) {
 				e.printStackTrace();

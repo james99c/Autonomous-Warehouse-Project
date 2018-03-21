@@ -51,13 +51,20 @@ public class RouteConversion {
 		// Initial direction robot is looking
 		Direction pointing = direction;
 		
+		pointing = Direction.NORTH;
+		System.out.println(pointing == Direction.NORTH);
+		System.out.println(pointing == Direction.SOUTH);
+		System.out.println(pointing == Direction.EAST);
+		System.out.println(pointing == Direction.WEST);
+		
+		
 		/*
 		 * While there are still coordinates
 		 * define movements for the robot
 		 * to take
 		 */
 		while (i < coordinates.size()) {
-
+			System.out.println("route = " + route);
 			double currentX = currentPosition.getX();
 			double currentY = currentPosition.getY();
 			
@@ -73,61 +80,65 @@ public class RouteConversion {
 			
 			// The robot wants to go East
 			if (changeInX == 1) {
-				switch (direction) {
-				case EAST:
+				if(pointing == Direction.EAST) {
 					route += "0";
-				case WEST:
+					System.out.println("I'm hee");
+				}
+				else if(pointing == Direction.WEST) {
 					route += "30";
-				case SOUTH:
+				}
+				else if(pointing == Direction.SOUTH) {
 					route += "10";
-				default:
+				}
+				else {
 					route += "20";
 				}
-				pointing = direction.EAST;
+				pointing = Direction.EAST;
 			}
-			// The robot wants to go West
 			else if (changeInX == -1) {
-				switch (pointing) {
-				case EAST:
+				if(pointing == Direction.EAST) {
 					route += "30";
-				case WEST:
+				}
+				else if(pointing == Direction.WEST) {
 					route += "0";
-				case SOUTH:
+				}
+				else if(pointing == Direction.SOUTH) {
 					route += "20";
-				default:
+				}
+				else {
 					route += "10";
 				}
-
-				pointing = direction.WEST;
+				pointing = Direction.WEST;
 			}
-			// The robot wants to go North
 			else if (changeInY == 1) {
-				switch (pointing) {
-				case EAST:
+				if(pointing == Direction.EAST) {
 					route += "10";
-				case WEST:
+				}
+				else if(pointing == Direction.WEST) {
 					route += "20";
-				case SOUTH:
+				}
+				else if(pointing == Direction.SOUTH) {
 					route += "30";
-				default:
+				}
+				else {
 					route += "0";
 				}
-
-				pointing = direction.NORTH;
+				pointing = Direction.NORTH;
 			}
-			// The robot wants to go South
 			else {
-				switch (pointing) {
-				case EAST:
+				if(pointing == Direction.EAST) {
 					route += "20";
-				case WEST:
+				}
+				else if(pointing == Direction.WEST) {
 					route += "10";
-				case SOUTH:
+				}
+				else if(pointing == Direction.SOUTH) {
 					route += "0";
-				default:
+				}
+				else {
 					route += "30";
 				}
-				pointing = direction.SOUTH;
+				pointing = Direction.SOUTH;
 			}
 			currentPosition = nextPosition;
 		}

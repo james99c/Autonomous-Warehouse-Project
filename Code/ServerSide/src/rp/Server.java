@@ -140,7 +140,7 @@ public class Server {
 		
 		for(String robotName : robotLocations.keySet()) {
 			clientTable.add(robotBTConnections.get(robotName).getRobotName());
-			ServerReceiver receiver = new ServerReceiver(robotBTConnections.get(robotName), clientTable, map, jobAssigner, rp);
+			ServerReceiver receiver = new ServerReceiver(robotBTConnections.get(robotName), clientTable, map, jobAssigner, rp, robotLocations.get(robotName));
 			
 			(new ServerSender(receiver, robotBTConnections.get(robotName), clientTable.getQueue(robotBTConnections.get(robotName).getRobotName()))).start();
 			receiver.start();

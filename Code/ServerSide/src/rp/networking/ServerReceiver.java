@@ -71,7 +71,7 @@ public class ServerReceiver extends Thread {
 	/**
 	 * Stores the route converter
 	 */
-	private RouteConversion routeConverter;
+	private RouteConversion routeConverter = new RouteConversion();
 	/**
 	 * Stores the direction the robot is facing
 	 */
@@ -86,6 +86,10 @@ public class ServerReceiver extends Thread {
 	final static Logger logger = Logger.getLogger(ServerReceiver.class);
 
 	private boolean finishedRoute = false;
+	
+	private String currentRoute = "";
+	
+	private String robotRoute = "";
 
 	/**
 	 * 
@@ -99,13 +103,14 @@ public class ServerReceiver extends Thread {
 	 * @param jobAssigner
 	 */
 	public ServerReceiver(CommInfo newCommInfo, ClientTable clientTable, Map map, JobAssigner jobAssigner,
-			RoutePlanner rp) {
+			RoutePlanner rp, Location location) {
 		this.robotInfo = newCommInfo;
 		this.inputStream = newCommInfo.getInputStream();
 		this.clientTable = clientTable;
 		this.map = map;
 		this.jobAssigner = jobAssigner;
 		this.rPlanner = rp;
+		this.robotsLocation = location;
 		System.out.println("67");
 	}
 
@@ -146,8 +151,8 @@ public class ServerReceiver extends Thread {
 					}
 				}
 				else {
-					System.out.println("Received something dfferent");
 					instruction = answer;
+					robotRoute += instruction;
 					if (instruction.equals("0")) {
 						map.updateRobotsLocation(robotInfo.robotName, routeAsLocations.remove(0));
 						direction = map.getRobotInformation(robotInfo.robotName).direction;
@@ -155,6 +160,10 @@ public class ServerReceiver extends Thread {
 						System.out.println(map.getRobotInformation(robotInfo.robotName).direction);
 					}
 					logger.debug("Robot's instruction: " + answer);
+					
+					if (robotRoute.equals(currentRoute)) {
+						finishedRoute = true;
+					}
 
 				}
 
@@ -174,11 +183,12 @@ public class ServerReceiver extends Thread {
 			if (finishedRoute) {
 				rPlanner.findRouteToDropOff(robotInfo.robotName);
 				String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
-				System.out.println(convertedRoute);
+				System.out.println("FIrst time");
 				clientTable.getQueue(robotInfo.getRobotName()).offer(convertedRoute);
 			}
 			else {
-
+				System.out.println(robotsLocation.getX());
+				System.out.println(robotsLocation.getY());
 				currentJob = jobAssigner.assignJob(robotsLocation, robotInfo.getRobotName());
 
 				for (String itemName : currentJob.getItems().keySet()) {
@@ -189,13 +199,20 @@ public class ServerReceiver extends Thread {
 				System.out.println(items.get(0).getItemXPos());
 				System.out.println(items.get(0).getItemYPos());
 				routeAsLocations = rPlanner.findRouteToItem(robotInfo.getRobotName(), items.get(0));
+				for(Location testLocation : routeAsLocations) {
+					System.out.println(testLocation.toString());
+				}
 				items.remove(0);
+				System.out.println(robotsLocation);
+				System.out.println(direction);
 				String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
+				System.out.println("Second time");
 				System.out.println(convertedRoute);
 
 				clientTable.getQueue(robotInfo.getRobotName()).offer(convertedRoute);
 			}
-		} else {
+		} 
+		else {
 
 		/*
 		 * Get the route in terms of locations that must be reached and convert it to
@@ -205,10 +222,17 @@ public class ServerReceiver extends Thread {
 		routeAsLocations = rPlanner.findRouteToItem(robotInfo.getRobotName(), items.get(0));
 		items.remove(0);
 		String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
+		System.out.println("Third time");
 		System.out.println(convertedRoute);
 
 		clientTable.getQueue(robotInfo.getRobotName()).offer(convertedRoute);
 		}
+	}
+	
+	
+	
+	public void addCurrentRoute(String currentRoute) {
+		currentRoute = currentRoute;
 	}
 
 }
