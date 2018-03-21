@@ -36,6 +36,10 @@ public class ServerSender extends Thread {
 	 * Stores the logger for this class
 	 */
 	final static Logger logger = Logger.getLogger(ServerSender.class);
+	
+	private float itemsWeight = 0.0f;
+	
+	private String weightAsString = "";
 
 	
 	/**
@@ -51,7 +55,7 @@ public class ServerSender extends Thread {
 		this.output = newRobotCommInfo.getOutputStream();
 		this.robotName = newRobotCommInfo.getRobotName();
 		this.clientQueue = newClientQueue;
-		System.out.println("22");
+		receiver.giveSender(this);
 	}
 
 	
@@ -65,12 +69,15 @@ public class ServerSender extends Thread {
 		while (true) {
 
 			try {
+				weightAsString = String.format("%f", itemsWeight);
 				String route = clientQueue.take();
 				System.out.println(route);
+				output.writeInt(weightAsString.length());
+				output.writeBytes(weightAsString);
 				output.writeInt(route.length());
 				output.writeBytes(route);
 				output.flush();
-				logger.debug("We're writing  ---- " + route + " ---- " + robotName);
+				System.out.println("We're writing  ---- " + route + " ---- " + robotName);
 				receiver.addCurrentRoute(route);
 			}
 			catch (InterruptedException | IOException e) {
@@ -79,6 +86,11 @@ public class ServerSender extends Thread {
 
 		}
 
+	}
+	
+	
+	public void newItemsWeight(Float newWeight) {
+		itemsWeight = newWeight;
 	}
 
 }

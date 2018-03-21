@@ -97,7 +97,7 @@ public class Server {
 	 */
 	private static NXTInfo[] addRobotInfo() {
 		NXTInfo[] newRobots = {
-//		new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"),
+		new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"),
 //		new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
 		new NXTInfo(NXTCommFactory.BLUETOOTH, "Sagittarius", "00165317B913") };
 		return newRobots;

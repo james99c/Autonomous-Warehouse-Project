@@ -24,6 +24,10 @@ public class Client {
 	 */
 	private static Movement robot;
 	
+	private static String currentRoute = "";
+	
+	private static final float MAX_WEIGHT = 50.0f;
+	
 	
 	public static void main(String[] args) {
 		
@@ -32,11 +36,10 @@ public class Client {
 		
 		
 		Display display = new Display();
-		//display.show();
+		
 		
 		Button.waitForAnyPress();
 		
-		//display.pickItem();
 		
 		System.out.println("Press for BT");
 		Button.waitForAnyPress();
@@ -44,6 +47,8 @@ public class Client {
 		System.out.println("Waiting for BT...");
 		BTConnection connection = Bluetooth.waitForConnection();
 		System.out.println("BT connected!");
+		
+		display.show();
 
 		DataInputStream inputStream = connection.openDataInputStream();
 		DataOutputStream outputStream = connection.openDataOutputStream();
@@ -60,6 +65,11 @@ public class Client {
 		while (run) {
 
 			try {
+				int weightLength = inputStream.readInt();
+				byte[] weightArray = new byte[weightLength];
+				inputStream.read(weightArray);
+				String weight = new String(weightArray);
+				float itemsWeight = Float.parseFloat(weight);
 				int length = inputStream.readInt();
 				byte[] array = new byte[length];
 				inputStream.read(array);
@@ -81,6 +91,10 @@ public class Client {
 					for(Character instruction : instructions) {
 						// Execute the route and write the individual locations
 						String routeExecuted = robot.executeRoute(route);
+						currentRoute += routeExecuted;
+						if (currentRoute.equals(route)) {
+							display.pickItem();
+						}
 						outputStream.writeInt(routeExecuted.length());
 						outputStream.writeBytes(routeExecuted);
 						outputStream.flush();

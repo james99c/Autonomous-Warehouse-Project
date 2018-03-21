@@ -90,6 +90,8 @@ public class ServerReceiver extends Thread {
 	private String currentRoute = "";
 	
 	private String robotRoute = "";
+	
+	private ServerSender sender;
 
 	/**
 	 * 
@@ -202,13 +204,14 @@ public class ServerReceiver extends Thread {
 				for(Location testLocation : routeAsLocations) {
 					System.out.println(testLocation.toString());
 				}
-				items.remove(0);
+				
 				System.out.println(robotsLocation);
 				System.out.println(direction);
 				String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
 				System.out.println("Second time");
 				System.out.println(convertedRoute);
-
+				sender.newItemsWeight(items.get(0).getItemWeight());
+				items.remove(0);
 				clientTable.getQueue(robotInfo.getRobotName()).offer(convertedRoute);
 			}
 		} 
@@ -234,5 +237,15 @@ public class ServerReceiver extends Thread {
 	public void addCurrentRoute(String currentRoute) {
 		currentRoute = currentRoute;
 	}
+	
+	
+	
+	
+	public void giveSender(ServerSender sender) {
+		this.sender = sender;
+	}
+	
+	
+	
 
 }
