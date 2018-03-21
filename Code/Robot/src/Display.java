@@ -125,19 +125,20 @@ public class Display {
 	public boolean getIsFull() {
 	    return isFull;
 	}
-//	/** 
-//	 * The method to be called when the robot must drop
-//	 * the items at the destination
-//	 * @return True if the items are dropped, False if canceled
-//	 */
-//    public boolean dropItem() {
-//        int buttonPress = Button.waitForAnyPress();
-//        this.updateStatus("Drop items");
-//        if(buttonPress == 1) {
-//            return true;
-//        }
-//        if(buttonPress == 8) {
-//            return false;
-//        }
-//    }
+	/** 
+	 * The method to be called when the robot must drop
+	 * the items at the destination
+	 * @return True if the items are dropped, False if canceled
+	 */
+    public boolean dropItem() {
+        int buttonPress = Button.waitForAnyPress();
+        this.updateStatus("Drop items");
+        if(buttonPress == 1) {
+            isFull = false;
+            return true;
+        }
+        if(buttonPress == 8) {
+            return false;
+        }
+    }
 }

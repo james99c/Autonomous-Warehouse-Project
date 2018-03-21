@@ -50,7 +50,20 @@ public class RoutePlanner implements RoutePlannerInterface {
 		if (output.size() == 1) {
 			map.getGridPoint(output.get(0).getLocation().getX(), output.get(0).getLocation().getY())
 			.setUnAvailability(output.get(0).getTimeFrames());
-		} else {
+		} 
+		else if(output.size() == 2) {
+			ArrayList<Float[]> timeFramesTwo = output.get(1).getTimeFrames();
+			ArrayList<Float[]> timeFramesOne = output.get(0).getTimeFrames();
+			Float[] second = timeFramesTwo.get(timeFramesTwo.size() - 1);
+			first = timeFramesOne.get(timeFramesOne.size() - 1);
+			
+			map.getGridPoint(output.get(0).getLocation().getX(), output.get(0).getLocation().getY())
+				.setUnAvailability(new Float[] {currentTime + first[0], currentTime + second[1]});
+			
+			map.getGridPoint(output.get(1).getLocation().getX(), output.get(0).getLocation().getY())
+				.setUnAvailability(output.get(1).getTimeFrames());
+		}
+		else {
 			for (index = 2; index < output.size(); index++) {
 				ArrayList<Float[]> timeFramesThree = output.get(index).getTimeFrames();
 				ArrayList<Float[]> timeFramesOne = output.get(index - 2).getTimeFrames();
@@ -74,7 +87,7 @@ public class RoutePlanner implements RoutePlannerInterface {
 
  
 	public ArrayList<Location> findRouteToItem(String _robotName, Item _item){
-		ArrayList<GridPoint> gridPointRoute = findIndividualRoute(map.getRobotInformation(_robotName).location,new Location( _item.getItemXPos() ,_item.getItemYPos()) , map.getRobotInformation(_robotName).direction).getKey();
+		ArrayList<GridPoint> gridPointRoute = findIndividualRoute(map.getRobotInformation(_robotName).location, new Location( _item.getItemXPos() ,_item.getItemYPos()) , map.getRobotInformation(_robotName).direction).getKey();
 		ArrayList<Location> locationRoute = new ArrayList<>();
 		for(GridPoint gr: gridPointRoute) {
 			locationRoute.add(gr.getLocation());
