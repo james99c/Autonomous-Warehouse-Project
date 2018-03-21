@@ -1,5 +1,5 @@
-import lejos.nxt.LCD;
 import lejos.nxt.Button;
+import lejos.nxt.LCD;
 
 public class Display {
 	String jobID = "No job";
@@ -8,13 +8,15 @@ public class Display {
 	int weight = 0;
 	int num = 0;
 	public void show(){
+		LCD.clear();
 		LCD.drawString(jobID, 0, 5);
 		LCD.drawString(status, 2, 0);
 		//LCD.drawInt(weight, 4, 7);
 		LCD.drawString(route, 4, 3);
 		//LCD.drawString("< pick  cancel >", 6, 0);
 	}
-	public void showWithNum() {
+	public void showItemNumber() {
+		LCD.clear();
 		LCD.drawString(jobID, 0, 5);
 		LCD.drawString(status, 2, 0);
 		LCD.drawString(route, 4, 3);
@@ -39,25 +41,27 @@ public class Display {
 		this.show();		
 	}
 	
-	public void waitForInput() {
+	public void pickItem() {
 		boolean waiting = true;
 		this.updateStatus("Pick jobs");
-		this.showWithNum();
+		this.showItemNumber();
+		int buttonPress;
 		while(waiting) {
-			if (Button.waitForAnyPress() == 2 ) {
+			buttonPress = Button.waitForAnyPress();
+			if (buttonPress == 2 ) { //Left Button
 				--num;
-				this.showWithNum();
+				this.showItemNumber();
 			}
-			if (Button.waitForAnyPress() == 4) {
+			if (buttonPress == 4) { //Right Button
 				++num;
-				this.showWithNum();
+				this.showItemNumber();
 			}
-			if (Button.waitForAnyPress() == 1) {
+			if (buttonPress == 1) { //Middle Button
 				//Pass the information to the client
 				waiting = false;
 				this.show();
 			}
-			if (Button.waitForAnyPress() == 8) {
+			if (buttonPress == 8) { //Bottom Button
 				this.cancelJob();
 			}
 		}
@@ -65,10 +69,5 @@ public class Display {
 	public void cancelJob() {
 		//Cancel the proposed job
 	}
-		
-		
-	
-	
-	
-	
+
 }

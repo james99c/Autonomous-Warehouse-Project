@@ -64,8 +64,7 @@ public class Movement {
 			rightCalibrate = Math.max(rightReading, rightCalibrate);
 
 		}
-		System.out.println("Press any button to start program");
-		Button.waitForAnyPress();
+		System.out.println("Calibrated!");
 	}
 
 	 
@@ -131,7 +130,6 @@ public class Movement {
 			middleSensLightVal = middleSensor.getLightValue();
 
 		}
-		m_pilot.steer(200, 7.5);
 		m_pilot.stop();
 		return '1';
 	}
@@ -146,7 +144,6 @@ public class Movement {
 			m_pilot.steer(-200);
 			middleSensLightVal = middleSensor.getLightValue();
 		}
-		m_pilot.steer(200, -4);
 		m_pilot.stop();
 		return '2';
 	}
@@ -164,27 +161,22 @@ public class Movement {
 			char letter;
 			switch (instruction) {
 			case '0':
-				System.out.println("forward");
 				letter = moveForward();
 				routeExecuted += letter;
 				break;
 			case '1':
-				System.out.println("left");
 				letter = turnLeft();
 				routeExecuted += letter;
 				break;
 			case '2':
-				System.out.println("right");
 				letter = turnRight();
 				routeExecuted += letter;
 				break;
 			case '3':
-				System.out.println("backwards");
 				letter = goBack();
 				routeExecuted += letter;
 				break;
 			default:
-				System.out.println("nothing");
 				break;
 			}
 		}

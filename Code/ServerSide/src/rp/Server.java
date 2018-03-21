@@ -1,78 +1,74 @@
 package rp;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.BlockingQueue;
+
+import rp.DataObjects.*;
+import rp.networking.*;
 
 import lejos.pc.comm.NXTComm;
 import lejos.pc.comm.NXTCommException;
 import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
-
 import org.apache.log4j.Logger;
 
-import com.intel.bluetooth.BlueCoveConfigProperties;
-
-import rp.DataObjects.Direction;
-import rp.DataObjects.GridPoint;
-import rp.DataObjects.Location;
-import rp.DataObjects.Map;
-import rp.DataObjects.RobotConnector;
-import rp.networking.ClientTable;
-import rp.networking.CommInfo;
-import rp.networking.ServerReceiver;
-import rp.networking.ServerSender;
 
 /**
+ * 
+ * Server for the program
+ * Ensures communication with the robots and the various subsystems
+ * 
  * @author James
  *
  */
 public class Server {
 
 	/**
-	 * HashMap containing the robots and their connections
+	 * Stores the robots and their connections
 	 */
 	private static HashMap<String, RobotConnector> connections;
 	/**
-	 * The client table for the server
+	 * Stores the client table for the server
 	 */
 	private static ClientTable clientTable;
 	/**
-	 * The logger for debug/error messages
+	 * Stores the logger for this class
 	 */
 	final static Logger logger = Logger.getLogger(RobotConnector.class);
 	/**
 	 * Stores the route in terms of the locations the robot must reach
 	 */
-	private static ArrayList<Location> test = new ArrayList<>();
+	private static ArrayList<Location> obstacles = new ArrayList<>();
 	/**
-	 * THe actual route to be performed by the robot
-	 */
-	static String actualRoute;
-	/**
-	 * The pc interface for the server
+	 * Stores the PC interface for the server
 	 */
 	private static GUI pcInterface;
 	/**
-	 * The map to store the robots' location
+	 * Stores the map which in turn stores the robots' location
 	 */
 	private static Map map;
+	/**
+	 * Stores the name and communication info for a robot
+	 */
+	private static HashMap<String, CommInfo> robotBTConnections = new HashMap<>();
 	
 
 	public static void main(String[] args) {
 		
+		// Add the locations of the obstacles and then create the map
+		for(int i = 1; i < 11; i+=3) {
+			for(int c = 1; c < 6; c++) {
+				obstacles.add(new Location(i, c));
+			}
+		}
+		map = new Map(7, 11, obstacles);
+		
 		// Create a new GUI object and run it to start the PC interface
-		pcInterface = new GUI(this);
+		pcInterface = new GUI(new Server());
 		pcInterface.runGUI();
-		
 
 		
-		//actualRoute = testRoute();
-		logger.debug("------------------------Converted route:" + actualRoute);
-
-		
-
+		// Create the client table to store the robots and their routes
 		clientTable = new ClientTable();
 
 		// Add the hard-coded info about the robots to be used
@@ -88,27 +84,7 @@ public class Server {
 		for (String robotName : connections.keySet()) {
 			initComms(robotName);
 			pcInterface.connectRobot(robotName);
-			
 		}
-		
-		while(!pcInterface.getGUIFinished() ) {
-			logger.trace("While");
-		}
-		pcInterface.runFrame3();
-		
-		
-		map = new Map(10, 10, test);
-		for(String robotName : connections.keySet()) {
-			System.out.println(robotName);
-			map.addRobot(robotName, new Location(0, 0), Direction.NORTH);
-		}
-		
-		JobAssigner jobAssigner = new JobAssigner(map);
-		ArrayList<Location> route = jobAssigner.assignJob(new Location(0, 0), "Pisces");
-		System.out.println(route);
-
-		// Give each robot their first route to get them up and running
-		getFirstRoutes(clientTable);
 
 	}
 	
@@ -120,7 +96,8 @@ public class Server {
 	 * @return A list containing info about robots
 	 */
 	private static NXTInfo[] addRobotInfo() {
-		NXTInfo[] newRobots = { new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"),
+		NXTInfo[] newRobots = {
+		new NXTInfo(NXTCommFactory.BLUETOOTH, "Pisces", "001653155F35"),
 		new NXTInfo(NXTCommFactory.BLUETOOTH, "Gemini", "001653182F7A"),
 		new NXTInfo(NXTCommFactory.BLUETOOTH, "Sagittarius", "00165317B913") };
 		return newRobots;
@@ -139,10 +116,7 @@ public class Server {
 		try {
 			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
 			CommInfo robotCommInfo = connections.get(robotName).connect(nxtComm, robotName);
-			clientTable.add(robotCommInfo.getRobotName());
-			ServerReceiver receiver = new ServerReceiver(robotCommInfo, clientTable, map);
-			receiver.start();
-			(new ServerSender(receiver, robotCommInfo, clientTable.getQueue(robotCommInfo.getRobotName()))).start();
+			robotBTConnections.put(robotName, robotCommInfo);
 		}
 		catch (NXTCommException e) {
 			logger.error("Couldn't create bluetooth connection to robot");
@@ -151,101 +125,30 @@ public class Server {
 
 	}
 	
-
+	
 	/**
 	 * 
-	 * Test method to check whether multiple robots can receive and execute routes
-	 * at the same time
+	 * Start threads to continually communicate between the
+	 * server and the robots, also add each robot to the
+	 * map
 	 * 
-	 * @param clientTable
-	 *            The client table containing the robots
+	 * @param robotLocations The start locations of the robots
 	 */
-	private static void getFirstRoutes(ClientTable clientTable) {
-		BlockingQueue<String> recipientsQueue = clientTable.getQueue("Pisces");
-		if (recipientsQueue != null) {
-			logger.debug("Trying to offer a route to Pisces");
-			recipientsQueue.offer(actualRoute);
-			logger.debug("Successfully offered: " + actualRoute);
-		}
-		
-		 BlockingQueue<String> recipientsQueue2 = clientTable.getQueue("Gemini");
-		 if (recipientsQueue2 != null) {
-		 logger.debug("Trying to offer a route to Gemini");
-		 recipientsQueue2.offer(actualRoute);
-		 logger.debug("Successfully offered: " + actualRoute);
-		 }
-		
-		 BlockingQueue<String> recipientsQueue3 = clientTable.getQueue("Sagittarius");
-		 if (recipientsQueue3 != null) {
-		 logger.debug("Trying to offer a route to Sagittarius");
-		 recipientsQueue3.offer(actualRoute);
-		 logger.debug("Successfully offered: " + actualRoute);
-		 }
-	}
-	
-	
-	
-	
-	private static String testRoute(ArrayList<GridPoint> test) {
-		
-		ArrayList<GridPoint> route = test;
-		for (GridPoint point : route) {
-			logger.debug(point.getLocation().getX() + " : " + point.getLocation().getY());
-		}
-
-		Point[] pointList = new Point[route.size()];
-
-		for (int i = 0; i < route.size(); i++) {
-			pointList[i] = new Point(route.get(i).getLocation().getX(), route.get(i).getLocation().getY());
-		}
-		logger.debug("Starting");
-		for (Point point : pointList) {
-			logger.debug(point);
-		}
-
-		logger.debug("------------Feedback from route converison:");
-		RouteConversion newRoute = new RouteConversion(pointList);
-		return newRoute.convertRoute();
-	}
-	
-	
 	void startRobots(HashMap<String, Location> robotLocations) {
 		
 		JobAssigner jobAssigner = new JobAssigner(map);
-		for (String robotName : robotLocations.keySet()) {
-			;
-			RouteConversion newRoute = new RouteConversion(jobAssigner.assignJob(robotLocations.get(robotName), robotName));
-		}
+		RoutePlanner rp = new RoutePlanner(map);
 		
+		for(String robotName : robotLocations.keySet()) {
+			clientTable.add(robotBTConnections.get(robotName).getRobotName());
+			ServerReceiver receiver = new ServerReceiver(robotBTConnections.get(robotName), clientTable, map, jobAssigner, rp);
+			
+			(new ServerSender(receiver, robotBTConnections.get(robotName), clientTable.getQueue(robotBTConnections.get(robotName).getRobotName()))).start();
+			receiver.start();
+			
+			map.addRobot(robotName, robotLocations.get(robotName), Direction.NORTH);
+		}		
 		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 
 }

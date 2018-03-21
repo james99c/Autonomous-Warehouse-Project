@@ -1,6 +1,9 @@
 package rp;
 
 import java.awt.Point;
+import java.util.ArrayList;
+
+import rp.DataObjects.Location;
 
 /**
  * 
@@ -11,13 +14,13 @@ import java.awt.Point;
 public class RouteConversion {
 
 	/**	The array holding the list of coordinates for the robot to travel to */
-	private Point[] coordinates;
+	private ArrayList<Location> coordinates;
 	/** The position in the array */
 	private int i = 0;
 	/** The current position of the robot */
-	private Point currentPosition;
+	private Location currentPosition;
 	/** The next position of the robot */
-	private Point nextPosition;
+	private Location nextPosition;
 	/** Stores the route for the robot:
 	 *  forwards = 0
 	 *  left = 1 
@@ -28,35 +31,36 @@ public class RouteConversion {
 
 	/**
 	 * Constructs a new route conversion object
-	 * 
-	 * @param coordinates A point array containing coordinates the robot must travel to
 	 */
-	public RouteConversion(Point[] coordinates) {
-		this.coordinates = coordinates;
+	public RouteConversion() {
+		
 	}
 
 	/**
 	 * Converts the coordinates from the array into strings of movements
 	 * 
+	 * @param coordinates A point array containing coordinates the robot must travel to
 	 * @return route The route the robot will take
 	 */
-	public String convertRoute() {
+	public String convertRoute(Location _startLocation, String direction, ArrayList<Location> coordinates) {
 		
-		currentPosition = new Point(0, 0);
+		this.coordinates = coordinates;
+		
+		currentPosition = _startLocation;
 		// Initial direction robot is looking
-		String pointing = "North";
+		String pointing = direction	;
 		
 		/*
 		 * While there are still coordinates
 		 * define movements for the robot
 		 * to take
 		 */
-		while (i < coordinates.length) {
+		while (i < coordinates.size()) {
 
 			double currentX = currentPosition.getX();
 			double currentY = currentPosition.getY();
 			
-			nextPosition = coordinates[i];
+			nextPosition = coordinates.get(i);
 			double nextX = nextPosition.getX();
 			double nextY = nextPosition.getY();
 			i++;
