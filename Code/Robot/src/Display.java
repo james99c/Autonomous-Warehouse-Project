@@ -41,7 +41,7 @@ public class Display {
 		this.show();		
 	}
 	
-	public void pickItem() {
+	public int pickItem() {
 		boolean waiting = true;
 		this.updateStatus("Pick jobs");
 		this.showItemNumber();
@@ -62,12 +62,19 @@ public class Display {
 				this.show();
 			}
 			if (buttonPress == 8) { //Bottom Button
-				this.cancelJob();
+				return -1;
 			}
 		}
+		return num;
 	}
-	public void cancelJob() {
-		//Cancel the proposed job
-	}
-
+    public boolean dropItem() {
+        int buttonPress = Button.waitForAnyPress();
+        this.updateStatus("Drop items");
+        if(buttonPress == 1) {
+            return true;
+        }
+        if(buttonPress == 8) {
+            return false;
+        }
+    }
 }

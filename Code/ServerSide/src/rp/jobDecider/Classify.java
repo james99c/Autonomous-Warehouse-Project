@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
+import weka.classifiers.Evaluation;
 import weka.classifiers.trees.RandomForest;
 
 public class Classify {
@@ -31,6 +33,7 @@ public class Classify {
 	private final String FILE_HEADER = "Actual Class, NB Predicted";
 	private File userMessagesFile = new File("csv");
     private String userMessagesPath = userMessagesFile.getAbsolutePath();
+    
 
 	public void classfy() throws Exception {
 		// load training dataset
@@ -41,11 +44,6 @@ public class Classify {
 		// get number of classes
 		int numClasses = trainDataset.numClasses();
 		// print out class values in the training dataset
-		for (int i = 0; i < numClasses; i++) {
-			// get class string value using the class index
-			String classValue = trainDataset.classAttribute().value(i);
-			System.out.println("Class Value " + i + " is " + classValue);
-		}
 		// create and build the classifier
 		RandomForest rf = new RandomForest();
 		rf.buildClassifier(trainDataset);
@@ -75,11 +73,14 @@ public class Classify {
 			// use this value to get string value of the predicted class
 			String predString = testDataset.classAttribute().value((int) predNB);
 			//System.out.println(actual + ", " + predString);
-			if (actual.equals(predString))
+		if (actual.equals(predString))
 				correctPredicts++;
 			classes.add(actual + ", " + predString);
 		}
-
+		
+//		 Evaluation eval = new Evaluation(trainDataset);
+//		 eval.crossValidateModel(rf, trainDataset, 10, new Random(1));
+//		 System.out.println(eval.toSummaryString("\nResults\n======\n", true));
 		predictionAccuracy = Integer.toString((int) Math.round((float) correctPredicts / classes.size() * 100));
 		System.out.println("ARFF files were classified successfully with accuracy of: " + predictionAccuracy);
 

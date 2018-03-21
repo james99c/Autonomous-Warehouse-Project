@@ -331,4 +331,21 @@ public class GUI {
 	public boolean getGUIFinished() {
 		return GUIFinished;
 	}
+	public void setJobID(String robot, int ID) {
+		if (robotJobs.containsKey(robot)) {
+			robotJobs.put(robot, ID);
+			if (robotsConnected > 0) {
+				joblabel1.setText(robotJobs.get(robot).toString());
+		}
+			if (robotsConnected > 1) {
+				joblabel1.setText(robotJobs.get(connectedRobots.get(0)).toString());
+				joblabel2.setText(robotJobs.get(connectedRobots.get(1)).toString());
+			}
+			if (robotsConnected > 2) {
+				joblabel1.setText(robotJobs.get(connectedRobots.get(0)).toString());
+				joblabel2.setText(robotJobs.get(connectedRobots.get(1)).toString());
+				joblabel3.setText(robotJobs.get(connectedRobots.get(2)).toString());
+			}
+	}
+}
 }

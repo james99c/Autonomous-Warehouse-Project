@@ -16,6 +16,7 @@ public class Reader {
 
 	// final static Logger logger = Logger.getLogger(Reader.class);
 	static HashMap<String, Item> items = new HashMap<>();
+	static ArrayList<Job> jobsTraining = new ArrayList<>();
 	static ArrayList<Job> jobs = new ArrayList<>();
 	static ArrayList<Task> tasks = new ArrayList<>();
 
@@ -26,7 +27,8 @@ public class Reader {
 
 		String itemFile = userMessagesPath + "/items.csv";
 		String locationFile = userMessagesPath + "/locations.csv";
-		String jobFile = userMessagesPath + "/training_jobs.csv";
+		String jobFile = userMessagesPath + "/jobs.csv";
+		String jobTrainingFile = userMessagesPath + "/training_jobs.csv";
 		String cancellationFile = userMessagesPath + "/cancellations.csv";
 		BufferedReader br = null;
 		BufferedReader br1 = null;
@@ -53,7 +55,7 @@ public class Reader {
 			br.close();
 			br1.close();
 
-			br = new BufferedReader(new FileReader(jobFile));
+			br = new BufferedReader(new FileReader(jobTrainingFile));
 			br1 = new BufferedReader(new FileReader(cancellationFile));
 
 			// logger.debug("Reading training_jobs and cancellations csv files");
@@ -73,9 +75,35 @@ public class Reader {
 				else
 					cancel = false;
 
-				jobs.add(new Job(jobID, tasks, items, cancel));
+				jobsTraining.add(new Job(jobID, tasks, items, cancel));
 			}
 
+			br.close();
+			br1.close();
+			
+			br = new BufferedReader(new FileReader(jobFile));
+			br1 = new BufferedReader(new FileReader(cancellationFile));
+			
+			// logger.debug("Reading training_jobs and cancellations csv files");
+			
+			while ((line = br.readLine()) != null && (line2 = br1.readLine()) != null) {
+				tasks = new ArrayList<Task>();
+				String[] jobInfo = line.split(cvsSplitBy);
+				int jobID = Integer.parseInt(jobInfo[0]);
+				String[] cancellation = line2.split(cvsSplitBy);
+				
+				for (int i = 1; i < jobInfo.length; i += 2) {
+					tasks.add(new Task(jobInfo[i], Integer.parseInt(jobInfo[i + 1])));
+				}
+				
+				if (cancellation[1].equals("1"))
+					cancel = true;
+				else
+					cancel = false;
+				
+				jobs.add(new Job(jobID, tasks, items, cancel));
+			}
+			
 			br.close();
 			br1.close();
 
@@ -89,19 +117,21 @@ public class Reader {
 			// System.out.println("adfd");
 
 			// Sorting the jobs reward/weight
-			for (int i = 0; i <= jobs.size() - 2; i++)
-				for (int j = i + 1; j <= jobs.size() - 1; j++)
-					if (jobs.get(i).getRewardDivWeight() < jobs.get(j).getRewardDivWeight()) {
-						Job temp = jobs.get(i);
-						jobs.set(i, jobs.get(j));
-						jobs.set(j, temp);
-					}
 			
-			System.out.println(jobs.size());
+//			for (int i = 0; i <= jobs.size() - 2; i++)
+//				for (int j = i + 1; j <= jobs.size() - 1; j++)
+//					if (jobs.get(i).getRewardDivWeight() < jobs.get(j).getRewardDivWeight()) {
+//						Job temp = jobs.get(i);
+//						jobs.set(i, jobs.get(j));
+//						jobs.set(j, temp);
+//					}
+			sort(jobs, 0, jobs.size()-1);
+			
+			System.out.println("Number of jobs before predictions: " + jobs.size());
 			Classify classifier = new Classify();
 			
 			Writer writer = new Writer(classifier);
-			writer.startWriting(jobs);
+			writer.startWriting(jobs, jobsTraining);
 			ArrayList<String> predictions = classifier.getPredictions();
 			
 			for(int i = 0; i < predictions.size(); i++) {
@@ -112,7 +142,9 @@ public class Reader {
 					predictions.remove(i);
 				}
 			}
-			System.out.println(jobs.size());
+			
+			
+			System.out.println("Number of jobs after predictions: " + jobs.size());
 			// System.out.println("sdgaergdg");
 			// System.out.println(jobs.get(1));
 			// System.out.println(jobs.get(1).getRewardDivWeight());
@@ -152,6 +184,33 @@ public class Reader {
 
 	public ArrayList<Job> getJobs() {
 		return jobs;
+	}
+	
+	public static int partition(ArrayList<Job> jobs, int low, int high) {
+		Float pivot = jobs.get(high).getRewardDivWeight();
+		int i = low-1;
+		for(int j = low; j < high; j++) {
+			if(jobs.get(j).getRewardDivWeight() >= pivot) {
+				i++;
+				Job temp = jobs.get(i);
+				jobs.set(i, jobs.get(j));
+				jobs.set(j, temp);
+			}
+				
+		}
+		Job temp = jobs.get(i+1);
+		jobs.set(i+1, jobs.get(high));
+		jobs.set(high, temp);
+			
+		return i+1;
+	}
+	
+	public static void sort(ArrayList<Job> jobs, int low, int high) {
+		if(low < high) {
+			int pi = partition(jobs, low, high);
+			sort(jobs, low, pi-1);
+			sort(jobs, pi+1, high);
+		}
 	}
 
 }
