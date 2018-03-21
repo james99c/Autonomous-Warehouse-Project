@@ -1,32 +1,64 @@
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
-
+/**
+ * 
+ * The robot display
+ * 
+ * @author paul
+ * 
+ */
 public class Display {
+    
+    /**
+     * The ID of the current job
+     */
 	String jobID = "No job";
+	
+	/**
+	 * The status of the robot
+	 */
 	String status = "Idle";
-	String route = "No route";
-	int weight = 0;
+	
+	/**
+	 * The number of items to be picked
+	 */
 	int num = 0;
+	
+	/**
+	 * Display the job ID and status on the screen
+	 */
 	public void show(){
 		LCD.clear();
 		LCD.drawString(jobID, 0, 5);
 		LCD.drawString(status, 2, 0);
 		//LCD.drawInt(weight, 4, 7);
-		LCD.drawString(route, 4, 3);
 		//LCD.drawString("< pick  cancel >", 6, 0);
 	}
+	
+	/**
+	 * Display the jobID and status along with the 
+	 * number of items to be picked
+	 */
 	public void showItemNumber() {
 		LCD.clear();
 		LCD.drawString(jobID, 0, 5);
 		LCD.drawString(status, 2, 0);
-		LCD.drawString(route, 4, 3);
 		LCD.drawInt(num, 6, 7);
 	}
+	
+	/**
+	 * Update the ID of the current job
+	 * @param x The job ID to be displayed
+	 */
 	public void updateID(String x) {
 		jobID = x;
 		this.show();
 	}
 	
+	/**
+	 * Update the status of the robot
+	 * @param x The status to be displayed
+	 */
 	public void updateStatus(String x) {
 		status = x;
 		this.show();
@@ -36,11 +68,11 @@ public class Display {
 		//Update weight
 	//}
 	
-	public void updateRoute(String x) {
-		route = x;
-		this.show();		
-	}
-	
+	/**
+	 * The method to be called when the robot
+	 * is to pick the items
+	 * @return The number of items being picked, -1 indicates cancel
+	 */
 	public int pickItem() {
 		boolean waiting = true;
 		this.updateStatus("Pick jobs");
@@ -67,6 +99,12 @@ public class Display {
 		}
 		return num;
 	}
+	
+	/** 
+	 * The method to be called when the robot must drop
+	 * the items at the destination
+	 * @return True if the items are dropped, False if canceled
+	 */
     public boolean dropItem() {
         int buttonPress = Button.waitForAnyPress();
         this.updateStatus("Drop items");
