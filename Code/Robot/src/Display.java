@@ -73,7 +73,7 @@ public class Display {
 	 * is to pick the items
 	 * @return The number of items being picked, -1 indicates cancel
 	 */
-	public int pickItem() {
+	public boolean pickItem(float currentWeight, float itemWeight) {
 		boolean waiting = true;
 		this.updateStatus("Pick jobs");
 		this.showItemNumber();
@@ -85,8 +85,11 @@ public class Display {
 				this.showItemNumber();
 			}
 			if (buttonPress == 4) { //Right Button
-				++num;
-				this.showItemNumber();
+			    if(currentWeight + itemWeight > 50.0f) {
+			        ++num;
+				    this.showItemNumber();
+				    currentWeight = currentWeight + itemWeight;
+			    }
 			}
 			if (buttonPress == 1) { //Middle Button
 				//Pass the information to the client
@@ -94,10 +97,10 @@ public class Display {
 				this.show();
 			}
 			if (buttonPress == 8) { //Bottom Button
-				return -1;
+				return false;
 			}
 		}
-		return num;
+		return true;
 	}
 	
 	/** 
