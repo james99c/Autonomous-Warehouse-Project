@@ -28,7 +28,11 @@ public class Client {
 	
 	private static final float MAX_WEIGHT = 50.0f;
 	
-	private static float currentWeight = 0.0f; 
+	private static float currentWeight = 0.0f;
+	
+	private static float itemsWeight = 0.0f;
+	
+	public static boolean isFull = false;
 	
 	
 	public static void main(String[] args) {
@@ -71,7 +75,7 @@ public class Client {
 				byte[] weightArray = new byte[weightLength];
 				inputStream.read(weightArray);
 				String weight = new String(weightArray);
-				float itemsWeight = Float.parseFloat(weight);
+				itemsWeight = Float.parseFloat(weight);
 				int length = inputStream.readInt();
 				byte[] array = new byte[length];
 				inputStream.read(array);
@@ -95,7 +99,13 @@ public class Client {
 						String routeExecuted = robot.executeRoute(route);
 						currentRoute += routeExecuted;
 						if (currentRoute.equals(route)) {
-							display.pickItem();
+							currentWeight = display.pickItem(currentWeight, itemsWeight);
+						}
+						
+						if (isFull) {
+							outputStream.writeInt(1);
+							outputStream.writeBytes("f");
+							outputStream.flush();
 						}
 						outputStream.writeInt(routeExecuted.length());
 						outputStream.writeBytes(routeExecuted);

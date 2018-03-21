@@ -152,6 +152,13 @@ public class ServerReceiver extends Thread {
 						getNewRoute();
 					}
 				}
+				else if(answer.equals("f")) {
+					System.out.println("Robot is full");
+					finishedRoute = true;
+					if (clientTable.getQueue(robotInfo.getRobotName()).isEmpty()) {
+						getNewRoute();
+					}
+				}
 				else {
 					instruction = answer;
 					robotRoute += instruction;
@@ -187,6 +194,7 @@ public class ServerReceiver extends Thread {
 				String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
 				System.out.println("FIrst time");
 				clientTable.getQueue(robotInfo.getRobotName()).offer(convertedRoute);
+				finishedRoute = false;
 			}
 			else {
 				System.out.println(robotsLocation.getX());
