@@ -3,6 +3,8 @@ package rp.RoutePlannerExtra;
 import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -75,7 +77,7 @@ public class SearchTree implements Comparable {
 //					System.out.println(st.currentLocation.getX() + " : " + st.currentLocation.getY());
 //				}
 	
-				Collections.sort(usableLeafNodes);
+				Collections.sort(usableLeafNodes, new SortingClass());
 
 				// System.out.println(usableLeafNodes);
 				// searches the child node with the lowest total cost
@@ -132,4 +134,17 @@ public class SearchTree implements Comparable {
 		Float[] timeFrame = listOfTimeFrame.get(size - 1);
 		return timeFrame[1] - timeFrame[0];
 	}
+}
+
+class SortingClass implements Comparator<SearchTree> {
+
+	@Override
+	public int compare(SearchTree arg0, SearchTree arg1) {
+		float firstCost = arg0.totalCost;
+		float secondCost = arg1.totalCost;
+
+		/* For Ascending order */
+		return (int) (firstCost - secondCost);
+	}
+	
 }
