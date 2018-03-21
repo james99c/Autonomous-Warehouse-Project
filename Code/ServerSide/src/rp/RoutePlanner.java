@@ -11,6 +11,7 @@ import rp.DataObjects.Map;
 import rp.DataObjects.RobotInformation;
 import rp.Interfaces.RoutePlannerInterface;
 import rp.RoutePlannerExtra.SearchTree;
+import rp.jobDecider.Item;
 import javafx.util.Pair;
 
 import org.apache.log4j.Logger;
@@ -18,6 +19,8 @@ import org.apache.log4j.LogManager;
 
 public class RoutePlanner implements RoutePlannerInterface {
 	private Map map;
+	private static final Location DROP_OFF_ONE = new Location(0,0);
+	private static final Location DROP_OFF_TWO = new Location(12,0);
 
 	private static final Logger logger = LogManager.getLogger(RoutePlanner.class);
 
@@ -70,7 +73,32 @@ public class RoutePlanner implements RoutePlannerInterface {
 	}
 
  
+	public ArrayList<Location> findRouteToItem(String _robotName, Item _item){
+		ArrayList<GridPoint> gridPointRoute = findIndividualRoute(map.getRobotInformation(_robotName).location,new Location( _item.getItemXPos() ,_item.getItemYPos()) , map.getRobotInformation(_robotName).direction).getKey();
+		ArrayList<Location> locationRoute = new ArrayList<>();
+		for(GridPoint gr: gridPointRoute) {
+			locationRoute.add(gr.getLocation());
+		}
+		return locationRoute;
+	}
 	
+	public ArrayList<Location> findRouteToDropOff(String _robotName){
+		Integer distanceToPointOne = heuristic(map.getRobotInformation(_robotName).location, DROP_OFF_ONE);
+		Integer distanceToPointTwo = heuristic(map.getRobotInformation(_robotName).location, DROP_OFF_TWO);
+		Location betterDropOff;
+		if(distanceToPointOne > distanceToPointTwo) {
+			betterDropOff = DROP_OFF_ONE;
+		}else {
+			betterDropOff = DROP_OFF_TWO;
+		}
+		ArrayList<GridPoint> gridPointRoute = findIndividualRoute(map.getRobotInformation(_robotName).location,betterDropOff, map.getRobotInformation(_robotName).direction).getKey();
+		ArrayList<Location> locationRoute = new ArrayList<>();
+		for(GridPoint gr: gridPointRoute) {
+			locationRoute.add(gr.getLocation());
+		}
+		return locationRoute;
+		
+	}
 //	public ArrayList<GridPoint> findOverallRoute(Location _startLocation, Job _job, String robotName) {
 //		HashMap<String, Item> itemMap = _job.getItemMap();
 //		ArrayList<String> itemsID = _job.getItems();
@@ -157,6 +185,16 @@ public class RoutePlanner implements RoutePlannerInterface {
 		return shortestLocation;
 	}
 
+	private Integer heuristic(Location _startLocation, Location _endLocation) {
+		int x1 = _startLocation.getX();
+		int y1 = _startLocation.getX();
+		
+		int x2 = _endLocation.getX();
+		int y2 = _endLocation.getY();
+		
+		return Math.abs(x2-x1) + Math.abs(y2-y1);
+	}
+	
 	/* The straight line distance between two locations */
 	private float straightDistance(Location x, Location y) {
 		int xX = x.getX();
