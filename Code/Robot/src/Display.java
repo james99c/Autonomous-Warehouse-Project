@@ -73,8 +73,9 @@ public class Display {
 	 * is to pick the items
 	 * @return The number of items being picked, -1 indicates cancel
 	 */
-	public boolean pickItem(float currentWeight, float itemWeight) {
+	public float pickItem(float currentWeight, float itemWeight) {
 		boolean waiting = true;
+		float originalWeight = currentWeight;
 		this.updateStatus("Pick jobs");
 		this.showItemNumber();
 		int buttonPress;
@@ -97,10 +98,10 @@ public class Display {
 				this.show();
 			}
 			if (buttonPress == 8) { //Bottom Button
-				return false;
+				return originalWeight;
 			}
 		}
-		return true;
+		return currentWeight;
 	}
 	
 	/** 
