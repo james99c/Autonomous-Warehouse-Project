@@ -77,7 +77,16 @@ public class SearchTree implements Comparable {
 //					System.out.println(st.currentLocation.getX() + " : " + st.currentLocation.getY());
 //				}
 	
-				Collections.sort(usableLeafNodes, new SortingClass());
+				//Collections.sort(usableLeafNodes, new SortingClass());
+				Collections.sort(usableLeafNodes, new Comparator<SearchTree>() {
+					@Override
+					public int compare(SearchTree t1, SearchTree t2) {
+						Float cost1 = t1.totalCost;
+						Float cost2 = t2.totalCost;
+						
+						return cost1.compareTo(cost2);
+					}
+				});
 
 				// System.out.println(usableLeafNodes);
 				// searches the child node with the lowest total cost
