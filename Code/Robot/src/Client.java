@@ -59,6 +59,8 @@ public class Client {
 
 		boolean run = true;
 		
+		boolean isDropOff = false;
+		
 		
 		/*
 		 * Read routes from the server,
@@ -96,11 +98,16 @@ public class Client {
 						// Execute the route and write the individual locations
 						String routeExecuted = robot.executeRoute(route);
 						currentRoute += routeExecuted;
-						if (currentRoute.equals(route)) {
+						if (isDropOff) {
+							display.dropItem();
+							isDropOff = false;
+						}
+						else if (currentRoute.equals(route)) {
 							currentWeight = display.pickItem(currentWeight, itemsWeight);
 						}
 						
 						if (display.isFull) {
+							isDropOff = true;
 							outputStream.writeInt(1);
 							outputStream.writeBytes("f");
 							outputStream.flush();
