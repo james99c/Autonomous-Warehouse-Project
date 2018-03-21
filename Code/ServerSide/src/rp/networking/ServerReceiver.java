@@ -13,6 +13,7 @@ import rp.RouteConversion;
 import rp.RoutePlanner;
 
 import org.apache.log4j.Logger;
+
 import lejos.pc.comm.NXTInfo;
 
 /**
@@ -84,6 +85,8 @@ public class ServerReceiver extends Thread {
 	 */
 	final static Logger logger = Logger.getLogger(ServerReceiver.class);
 
+	private boolean finishedRoute = false;
+
 	/**
 	 * 
 	 * Constructor for a new server receiver
@@ -103,37 +106,53 @@ public class ServerReceiver extends Thread {
 		this.map = map;
 		this.jobAssigner = jobAssigner;
 		this.rPlanner = rp;
+		System.out.println("67");
 	}
 
 	/**
 	 * Starts running the thread
 	 */
 	public void run() {
+		System.out.println("85");
 		logger.debug("Server comm is active");
 		try {
+			
+			clientTable.getQueue(robotInfo.getRobotName()).offer("5");
 
 			// Read the route sent by the robote
 			while (true) {
+				
 				int length = inputStream.readInt();
 				byte[] array = new byte[length];
 				inputStream.read(array);
 				String answer = new String(array);
+				System.out.println(answer);
 
 				/*
 				 * If the robot is not sending us any info and the robots queue is empty then
 				 * give it a route, else read what the robot tells us and act on the info
 				 */
 				if ((answer == null || answer.equals(""))) {
+					System.out.println("No answer");
 					if (clientTable.getQueue(robotInfo.getRobotName()).isEmpty()) {
 						getNewRoute();
 					}
 
 				}
+				else if(answer.equals("5")) {
+					System.out.println("Let's go");
+					if (clientTable.getQueue(robotInfo.getRobotName()).isEmpty()) {
+						getNewRoute();
+					}
+				}
 				else {
+					System.out.println("Received something dfferent");
 					instruction = answer;
 					if (instruction.equals("0")) {
 						map.updateRobotsLocation(robotInfo.robotName, routeAsLocations.remove(0));
 						direction = map.getRobotInformation(robotInfo.robotName).direction;
+						System.out.println(map.getRobotInformation(robotInfo.robotName).location);
+						System.out.println(map.getRobotInformation(robotInfo.robotName).direction);
 					}
 					logger.debug("Robot's instruction: " + answer);
 
@@ -152,23 +171,44 @@ public class ServerReceiver extends Thread {
 	private void getNewRoute() {
 		// If there are no more items to retrieve in the current job then get a new job
 		if (items.isEmpty()) {
-			currentJob = jobAssigner.assignJob(robotsLocation, robotInfo.getRobotName());
-
-			for (String itemName : currentJob.getItems().keySet()) {
-				Item item = currentJob.getItems().get(itemName);
-				items.add(item);
+			if (finishedRoute) {
+				rPlanner.findRouteToDropOff(robotInfo.robotName);
+				String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
+				System.out.println(convertedRoute);
+				clientTable.getQueue(robotInfo.getRobotName()).offer(convertedRoute);
 			}
-		}
+			else {
+
+				currentJob = jobAssigner.assignJob(robotsLocation, robotInfo.getRobotName());
+
+				for (String itemName : currentJob.getItems().keySet()) {
+					Item item = currentJob.getItems().get(itemName);
+					items.add(item);
+				}
+				System.out.println("Get route");
+				System.out.println(items.get(0).getItemXPos());
+				System.out.println(items.get(0).getItemYPos());
+				routeAsLocations = rPlanner.findRouteToItem(robotInfo.getRobotName(), items.get(0));
+				items.remove(0);
+				String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
+				System.out.println(convertedRoute);
+
+				clientTable.getQueue(robotInfo.getRobotName()).offer(convertedRoute);
+			}
+		} else {
 
 		/*
 		 * Get the route in terms of locations that must be reached and convert it to
 		 * movement instructions
 		 */
+		System.out.println("Second route planner");
 		routeAsLocations = rPlanner.findRouteToItem(robotInfo.getRobotName(), items.get(0));
 		items.remove(0);
 		String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
+		System.out.println(convertedRoute);
 
 		clientTable.getQueue(robotInfo.getRobotName()).offer(convertedRoute);
+		}
 	}
 
 }

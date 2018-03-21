@@ -30,11 +30,11 @@ public class JobAssigner implements JobAssignerInterface{
 	// creates map of 5x5 with no unavailable co-ordinates
 	private Map map;
 	private RoutePlanner routePlanner;
-//	private Reader jobDecider = new Reader;
+	private Reader jobDecider = new Reader();
 	
 	public JobAssigner (Map map){
-//		jobDecider.startReading();
-//        jobs = jobDecider.getJobs();
+		jobDecider.startReading();
+        jobs = jobDecider.getJobs();
 		this.map = map;
 		routePlanner = new RoutePlanner(map);
 	}

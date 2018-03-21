@@ -51,6 +51,7 @@ public class ServerSender extends Thread {
 		this.output = newRobotCommInfo.getOutputStream();
 		this.robotName = newRobotCommInfo.getRobotName();
 		this.clientQueue = newClientQueue;
+		System.out.println("22");
 	}
 
 	
@@ -65,6 +66,7 @@ public class ServerSender extends Thread {
 
 			try {
 				String route = clientQueue.take();
+				System.out.println(route);
 				output.writeInt(route.length());
 				output.writeBytes(route);
 				output.flush();

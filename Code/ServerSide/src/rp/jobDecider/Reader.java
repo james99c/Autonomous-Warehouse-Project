@@ -19,7 +19,7 @@ public class Reader {
 	static ArrayList<Job> jobs = new ArrayList<>();
 	static ArrayList<Task> tasks = new ArrayList<>();
 
-	public static void main(String[] args) {
+	public void startReading() {
 		
 		File userMessagesFile = new File("csv");
         String userMessagesPath = userMessagesFile.getAbsolutePath();

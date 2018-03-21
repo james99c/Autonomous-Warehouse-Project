@@ -32,11 +32,11 @@ public class Client {
 		
 		
 		Display display = new Display();
-		display.show();
+		//display.show();
 		
 		Button.waitForAnyPress();
 		
-		display.pickItem();
+		//display.pickItem();
 		
 		System.out.println("Press for BT");
 		Button.waitForAnyPress();
@@ -49,6 +49,7 @@ public class Client {
 		DataOutputStream outputStream = connection.openDataOutputStream();
 
 		boolean run = true;
+		
 		
 		/*
 		 * Read routes from the server,
@@ -68,6 +69,11 @@ public class Client {
 				 * If the route received is empty don't do anything,
 				 * otherwise execute the route
 				 */
+				if (route.equals("5")) {
+					outputStream.writeInt(1);
+					outputStream.writeBytes("5");
+					outputStream.flush();
+				}
 				if (route == null || route.equals("")) {
 				}
 				else {

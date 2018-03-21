@@ -1,5 +1,6 @@
 package rp.RoutePlannerExtra;
 
+import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -65,7 +66,15 @@ public class SearchTree implements Comparable {
 							currentCost + (timeFrameDifference(gp.getKey().getTimeFrames())), this.goalLocation, this, newPath, newPath.get(newPath.size() - 1).getValue()));
 				}
 				// then sort usableLeafNodes from lowest to highest totalCost
+				
 				usableLeafNodes.addAll(childNodes);
+//				System.out.println("--------------------");
+//				
+//				for(SearchTree st: usableLeafNodes) {
+//					
+//					System.out.println(st.currentLocation.getX() + " : " + st.currentLocation.getY());
+//				}
+	
 				Collections.sort(usableLeafNodes);
 
 				// System.out.println(usableLeafNodes);
