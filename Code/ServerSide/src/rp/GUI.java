@@ -56,6 +56,14 @@ public class GUI {
 	 */
 	Integer robotsConnected = 0;
 	/**
+	 * the labels displaying the current job
+	 * they must be declared here as they are referred to by
+	 * a method
+	 */
+	JLabel joblabel1 = new JLabel("No job");
+	JLabel joblabel2 = new JLabel("No job");
+	JLabel joblabel3 = new JLabel("No job");
+	/**
 	 * A label displaying the number of connected robots
 	 */
 	JLabel counterLabel;
@@ -78,7 +86,10 @@ public class GUI {
 	 * An ArrayList of the names of the connected robots
 	 */
 	ArrayList<String> connectedRobots = new ArrayList<String>();
-	
+	/**
+	 * A HashMap storing the robot names and their jobs
+	 */
+    HashMap<String, Integer> robotJobs = new HashMap<>();
 	
 	/**
 	 * 
@@ -288,27 +299,46 @@ public class GUI {
         if(robotsConnected > 2) {frame2.add(panel24); }
         if(robotsConnected == 0) {frame2.add(panel25); }
         frame2.add(panel26);
+        //The closeOperation, title and dimensions are set, and the frame created
         frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame2.setTitle("Warehouse GUI");
         frame2.setPreferredSize(new Dimension(350, 280));
         frame2.pack();
         frame2.setVisible(true);
-          
+       
+       /**
+        * 
+        * The method which creates the third frame.
+        * This frame shows all the robots, and their respective jobs.
+        * It also gives the user the option to reconnect a robot or cancel
+        * the current job
+        * 
+        */
 	}
 	public void runFrame3() {
-	        JLabel robotlabel1 = new JLabel("");
-	        JLabel robotlabel2 = new JLabel("");
-	        JLabel robotlabel3 = new JLabel("");
-			frame3 = new JFrame();
-			frame3.setLayout(new FlowLayout());
-			JPanel panel31 = new JPanel();
+	        // The frame is created
+	        frame3 = new JFrame();
+	        
+	        //The required panels are created
+	        JPanel panel31 = new JPanel();
 	        JPanel panel32 = new JPanel();
 	        JPanel panel33 = new JPanel();
 	        JPanel panel34 = new JPanel();
 	        JPanel panel35 = new JPanel();
 	        
+	        //A label acting as a title
 	        JLabel title = new JLabel("Current Jobs");
-	        //JLabel fileName = new JLabel("No file selected");
+	        
+	        // The labels showing the robot names are created, and the layout set
+	        JLabel robotlabel1 = new JLabel("");
+	        JLabel robotlabel2 = new JLabel("");
+	        JLabel robotlabel3 = new JLabel("");
+			frame3.setLayout(new FlowLayout());
+	        
+	        /* The labels showing the robot names have their text set 
+	        This must be done to avoid null pointer exceptions when 
+	        referring to the connectedRobots ArrayList
+	        */
 	        if (robotsConnected > 0) {
 	        	robotlabel1.setText(connectedRobots.get(0));
 	        }
@@ -318,9 +348,7 @@ public class GUI {
 	        if (robotsConnected > 2) {
 	        	robotlabel3.setText(connectedRobots.get(2));
 	        }
-	        JLabel joblabel1 = new JLabel("No job");
-	        JLabel joblabel2 = new JLabel("No job");
-	        JLabel joblabel3 = new JLabel("No job");
+	        
 	        JLabel noneConnected =  new JLabel("No robots connected");
 	        
 	        JButton cancel1 = new JButton("Cancel job");
