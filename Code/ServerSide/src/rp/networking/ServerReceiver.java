@@ -8,6 +8,7 @@ import java.util.concurrent.BlockingQueue;
 import rp.DataObjects.*;
 import rp.jobDecider.Item;
 import rp.jobDecider.Job;
+import rp.GUI;
 import rp.JobAssigner;
 import rp.RouteConversion;
 import rp.RoutePlanner;
@@ -92,6 +93,8 @@ public class ServerReceiver extends Thread {
 	private String robotRoute = "";
 	
 	private ServerSender sender;
+	
+	private GUI pcInterface;
 
 	/**
 	 * 
@@ -105,7 +108,7 @@ public class ServerReceiver extends Thread {
 	 * @param jobAssigner
 	 */
 	public ServerReceiver(CommInfo newCommInfo, ClientTable clientTable, Map map, JobAssigner jobAssigner,
-			RoutePlanner rp, Location location) {
+			RoutePlanner rp, Location location, GUI gui) {
 		this.robotInfo = newCommInfo;
 		this.inputStream = newCommInfo.getInputStream();
 		this.clientTable = clientTable;
@@ -113,7 +116,7 @@ public class ServerReceiver extends Thread {
 		this.jobAssigner = jobAssigner;
 		this.rPlanner = rp;
 		this.robotsLocation = location;
-		System.out.println("67");
+		this.pcInterface = gui;
 	}
 
 	/**
@@ -192,7 +195,7 @@ public class ServerReceiver extends Thread {
 			if (finishedRoute) {
 				rPlanner.findRouteToDropOff(robotInfo.robotName);
 				String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
-				System.out.println("FIrst time");
+				System.out.println("First time");
 				clientTable.getQueue(robotInfo.getRobotName()).offer(convertedRoute);
 				finishedRoute = false;
 			}
@@ -221,6 +224,7 @@ public class ServerReceiver extends Thread {
 				sender.newItemsWeight(items.get(0).getItemWeight());
 				items.remove(0);
 				clientTable.getQueue(robotInfo.getRobotName()).offer(convertedRoute);
+				pcInterface.setJobID(robotInfo.robotName, currentJob.getJobID());
 			}
 		} 
 		else {
@@ -235,7 +239,7 @@ public class ServerReceiver extends Thread {
 		String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
 		System.out.println("Third time");
 		System.out.println(convertedRoute);
-
+		pcInterface.setJobID(robotInfo.robotName, currentJob.getJobID());
 		clientTable.getQueue(robotInfo.getRobotName()).offer(convertedRoute);
 		}
 	}
@@ -243,7 +247,7 @@ public class ServerReceiver extends Thread {
 	
 	
 	public void addCurrentRoute(String currentRoute) {
-		currentRoute = currentRoute;
+		this.currentRoute = currentRoute;
 	}
 	
 	

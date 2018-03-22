@@ -135,18 +135,20 @@ public class Server {
 	 * @param robotLocations The start locations of the robots
 	 */
 	void startRobots(HashMap<String, Location> robotLocations) {
+		pcInterface.runFrame3();
 		JobAssigner jobAssigner = new JobAssigner(map);
 		RoutePlanner rp = new RoutePlanner(map);
 		
 		for(String robotName : robotLocations.keySet()) {
 			clientTable.add(robotBTConnections.get(robotName).getRobotName());
-			ServerReceiver receiver = new ServerReceiver(robotBTConnections.get(robotName), clientTable, map, jobAssigner, rp, robotLocations.get(robotName));
+			ServerReceiver receiver = new ServerReceiver(robotBTConnections.get(robotName), clientTable, map, jobAssigner, rp, robotLocations.get(robotName), pcInterface);
 			
 			(new ServerSender(receiver, robotBTConnections.get(robotName), clientTable.getQueue(robotBTConnections.get(robotName).getRobotName()))).start();
 			receiver.start();
 			
 			map.addRobot(robotName, robotLocations.get(robotName), Direction.NORTH);
-		}		
+		}
+		
 		
 	}	
 

@@ -302,7 +302,7 @@ public class GUI {
         //The closeOperation, title and dimensions are set, and the frame created
         frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame2.setTitle("Warehouse GUI");
-        frame2.setPreferredSize(new Dimension(350, 280));
+        frame2.setPreferredSize(new Dimension(300, 280));
         frame2.pack();
         frame2.setVisible(true);
        
@@ -407,19 +407,16 @@ public class GUI {
 	        //The items regarding the first robot are added to a panel
 	        panel32.add(robotlabel1);
 	        panel32.add(joblabel1);
-	        panel32.add(cancel1);
 	        panel32.add(reconnect1);
 	        
 	        //The items regarding the second robot are added to a panel
 	        panel33.add(robotlabel2);
 	        panel33.add(joblabel2);
-	        panel33.add(cancel2);
 	        panel33.add(reconnect2);
 	        
 	        //The items regarding the third robot are added to a panel
 	        panel34.add(robotlabel3);
 	        panel34.add(joblabel3);
-	        panel34.add(cancel3);
 	        panel34.add(reconnect3);
 	        
 	        //A panel to display if no robots are connected is created

@@ -95,6 +95,8 @@ public class Client {
 				else {
 					char[] instructions =  route.toCharArray();
 					for(Character instruction : instructions) {
+						display.updateID(route);
+						display.updateStatus("Finding item");
 						// Execute the route and write the individual locations
 						String routeExecuted = robot.executeRoute(route);
 						currentRoute += routeExecuted;
@@ -106,7 +108,7 @@ public class Client {
 							currentWeight = display.pickItem(currentWeight, itemsWeight);
 						}
 						
-						if (display.isFull) {
+						if (display.getIsFull()) {
 							isDropOff = true;
 							outputStream.writeInt(1);
 							outputStream.writeBytes("f");
