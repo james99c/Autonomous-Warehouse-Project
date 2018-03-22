@@ -20,7 +20,7 @@ import org.apache.log4j.LogManager;
 public class RoutePlanner implements RoutePlannerInterface {
 	private Map map;
 	private static final Location DROP_OFF_ONE = new Location(0,0);
-	private static final Location DROP_OFF_TWO = new Location(12,0);
+	private static final Location DROP_OFF_TWO = new Location(11,0);
 
 	private static final Logger logger = LogManager.getLogger(RoutePlanner.class);
 
@@ -30,7 +30,7 @@ public class RoutePlanner implements RoutePlannerInterface {
 
 	}
 
-	public Pair<ArrayList<GridPoint>, Direction> findIndividualRoute(Location currentLocation, Location goalLocation,
+	public synchronized Pair<ArrayList<GridPoint>, Direction> findIndividualRoute(Location currentLocation, Location goalLocation,
 			Direction _robotsDirection) {
 		SearchTree searchTree = new SearchTree(currentLocation, currentLocation, 0f, goalLocation, null,
 				new ArrayList<Pair<GridPoint, Direction>>(), _robotsDirection);
@@ -81,13 +81,18 @@ public class RoutePlanner implements RoutePlannerInterface {
 		}
 
 		// need to adjust the time frames
+
+		
+		
 		return new Pair<ArrayList<GridPoint>, Direction>(output,
 				searchTreeOutput.get(searchTreeOutput.size() - 1).getValue());
 	}
 
  
 	public ArrayList<Location> findRouteToItem(String _robotName, Item _item){
-		ArrayList<GridPoint> gridPointRoute = findIndividualRoute(map.getRobotInformation(_robotName).location, new Location( _item.getItemXPos() ,_item.getItemYPos()) , map.getRobotInformation(_robotName).direction).getKey();
+		Pair<ArrayList<GridPoint>, Direction> outputty = findIndividualRoute(map.getRobotInformation(_robotName).location, new Location( _item.getItemXPos() ,_item.getItemYPos()) , map.getRobotInformation(_robotName).direction);
+		map.getRobotInformation(_robotName).direction = outputty.getValue();
+		ArrayList<GridPoint> gridPointRoute = outputty.getKey();
 		ArrayList<Location> locationRoute = new ArrayList<>();
 		for(GridPoint gr: gridPointRoute) {
 			locationRoute.add(gr.getLocation());

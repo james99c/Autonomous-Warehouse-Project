@@ -93,9 +93,9 @@ public class Client {
 				if (route == null || route.equals("")) {
 				}
 				else {
+					display.updateID(route);
 					char[] instructions =  route.toCharArray();
 					for(Character instruction : instructions) {
-						display.updateID(route);
 						display.updateStatus("Finding item");
 						// Execute the route and write the individual locations
 						String routeExecuted = robot.executeRoute(route);

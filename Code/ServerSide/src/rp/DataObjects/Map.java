@@ -45,10 +45,14 @@ public class Map {
 	}
 	
 	public void updateRobotsLocation(String _robotID, Location _newLocation) {
+		System.out.println("this is in update robots location");
+		
 		RobotInformation toUpdate = null;
 		for(RobotInformation robot : this.robots) {
 			if(robot.robotID.equals(_robotID)) {
 				toUpdate = robot;
+				System.out.println(toUpdate.direction);
+				System.out.println(toUpdate.location.getX() + " : " + toUpdate.location.getY());
 				break;
 			}
 		}
@@ -57,22 +61,22 @@ public class Map {
 		Location oldLocation = toUpdate.location;
 		toUpdate.location = _newLocation;
 		Location changeInLocation = new Location( _newLocation.getX() - oldLocation.getX(), _newLocation.getY() - oldLocation.getY());
-		if(changeInLocation.getY() == 1) {
-			toUpdate.direction = Direction.NORTH;
-			return;
-		}
-		if(changeInLocation.getX() == 1) {
-			toUpdate.direction = Direction.EAST;
-			return;
-		}
-		if(changeInLocation.getY() == -1) {
-			toUpdate.direction = Direction.SOUTH;
-			return;
-		}
-		if(changeInLocation.getX() == -1) {
-			toUpdate.direction = Direction.WEST;
-			return;
-		}
+//		if(changeInLocation.getY() == 1) {
+//			toUpdate.direction = Direction.NORTH;
+//			return;
+//		}
+//		if(changeInLocation.getX() == 1) {
+//			toUpdate.direction = Direction.EAST;
+//			return;
+//		}
+//		if(changeInLocation.getY() == -1) {
+//			toUpdate.direction = Direction.SOUTH;
+//			return;
+//		}
+//		if(changeInLocation.getX() == -1) {
+//			toUpdate.direction = Direction.WEST;
+//			return;
+//		}
 		
 		
 	}
@@ -118,9 +122,9 @@ public class Map {
 		ArrayList<GridPoint> surroundingLocations = new ArrayList<GridPoint>();
 		int x = _location.getX();
 		int y = _location.getY();
+		//System.out.printf("map -> (%d, %d)\n", x, y);
 		try {
 			surroundingLocations.add(map[x+1][y].clone());
-			
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
@@ -132,13 +136,11 @@ public class Map {
 		}
 		try {
 			surroundingLocations.add(map[x][y+1].clone());
-			
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
 		try {
 			surroundingLocations.add(map[x][y-1].clone());
-			
 		} catch (IndexOutOfBoundsException e) {
 			// Do nothing
 		}
@@ -208,6 +210,8 @@ public class Map {
 				output.add(new Pair<GridPoint, Direction>(a, newDirection));
 			}
 		}
+		
+		surroundingLocations.clear();
 		
 		
 		return output;

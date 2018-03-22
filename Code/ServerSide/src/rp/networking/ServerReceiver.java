@@ -8,6 +8,7 @@ import java.util.concurrent.BlockingQueue;
 import rp.DataObjects.*;
 import rp.jobDecider.Item;
 import rp.jobDecider.Job;
+import weka.classifiers.functions.SGDText.Count;
 import rp.GUI;
 import rp.JobAssigner;
 import rp.RouteConversion;
@@ -95,6 +96,8 @@ public class ServerReceiver extends Thread {
 	private ServerSender sender;
 	
 	private GUI pcInterface;
+	
+	private int count = 0;
 
 	/**
 	 * 
@@ -168,7 +171,7 @@ public class ServerReceiver extends Thread {
 					if (instruction.equals("0")) {
 						map.updateRobotsLocation(robotInfo.robotName, routeAsLocations.remove(0));
 						direction = map.getRobotInformation(robotInfo.robotName).direction;
-						System.out.println(map.getRobotInformation(robotInfo.robotName).location);
+						System.out.println("NEW LOCATION --------------------------------- " + map.getRobotInformation(robotInfo.robotName).location);
 						System.out.println(map.getRobotInformation(robotInfo.robotName).direction);
 					}
 					logger.debug("Robot's instruction: " + answer);
@@ -232,10 +235,16 @@ public class ServerReceiver extends Thread {
 		/*
 		 * Get the route in terms of locations that must be reached and convert it to
 		 * movement instructions
-		 */
+	`	 */
 		System.out.println("Second route planner");
-		routeAsLocations = rPlanner.findRouteToItem(robotInfo.getRobotName(), items.get(0));
-		items.remove(0);
+		currentJob = jobAssigner.assignJob(robotsLocation, robotInfo.getRobotName());
+
+		for (String itemName : currentJob.getItems().keySet()) {
+			Item item = currentJob.getItems().get(itemName);
+			items.add(item);
+		}
+		routeAsLocations = rPlanner.findRouteToItem(robotInfo.getRobotName(), items.remove(0));
+		//items.remove(0);
 		String convertedRoute = routeConverter.convertRoute(robotsLocation, direction, routeAsLocations);
 		System.out.println("Third time");
 		System.out.println(convertedRoute);
