@@ -10,6 +10,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import rp.DataObjects.*;
+import rp.jobDecider.Job;
 import javafx.util.Pair;
 
 public class SearchTree implements Comparable {
@@ -78,6 +79,7 @@ public class SearchTree implements Comparable {
 //				}
 	
 				//Collections.sort(usableLeafNodes, new SortingClass());
+				/*
 				Collections.sort(usableLeafNodes, new Comparator<SearchTree>() {
 					@Override
 					public int compare(SearchTree t1, SearchTree t2) {
@@ -87,7 +89,20 @@ public class SearchTree implements Comparable {
 						return cost1.compareTo(cost2);
 					}
 				});
-
+				*/
+				
+				qsort(usableLeafNodes, 0, usableLeafNodes.size() - 1);
+				
+//				SearchTree next;
+//				Float nextCost = Float.MAX_VALUE;
+//				for (SearchTree tree: usableLeafNodes) {
+//					if (tree.totalCost < nextCost) {
+//						nextCost = tree.totalCost;
+//						next = tree;
+//					}
+//				}
+	//			next.search();
+				
 				// System.out.println(usableLeafNodes);
 				// searches the child node with the lowest total cost
 				// System.out.println(currentLocation.getX() + " : " + currentLocation.getY());
@@ -142,6 +157,53 @@ public class SearchTree implements Comparable {
 		int size = listOfTimeFrame.size();
 		Float[] timeFrame = listOfTimeFrame.get(size - 1);
 		return timeFrame[1] - timeFrame[0];
+	}
+	
+	public SearchTree getLowestCostTree() {
+		SearchTree ret = null;
+		Float lowestCost = Float.MAX_VALUE;
+		
+		for (SearchTree tree: this.usableLeafNodes) {
+			if (tree.totalCost < lowestCost) {
+				lowestCost = tree.totalCost;
+				ret = tree;
+			}
+		}
+		
+		return ret;
+	}
+	
+	public int partition(ArrayList<SearchTree> trees, int low, int high) {
+		Float pivot = trees.get(high).totalCost;
+		int i = low-1;
+		for(int j = low; j < high; j++) {
+			if(trees.get(j).totalCost <= pivot) {
+				i++;
+				SearchTree temp = trees.get(i);
+				trees.set(i, trees.get(j));
+				trees.set(j, temp);
+			}
+		}
+		SearchTree temp = trees.get(i+1);
+		trees.set(i+1, trees.get(high));
+		trees.set(high, temp);
+			
+		return i+1;
+	}
+	
+	public void qsort(ArrayList<SearchTree> trees, int low, int high) {
+		if(low < high) {
+			int pi = partition(trees, low, high);
+			qsort(trees, low, pi-1);
+			qsort(trees, pi+1, high);
+		}
+	}
+	
+	private void printCost(ArrayList<SearchTree> trees) {
+		for (SearchTree tree: trees) {
+			System.out.printf("%f, ", tree.totalCost);
+		}
+		System.out.println("\n---");
 	}
 }
 

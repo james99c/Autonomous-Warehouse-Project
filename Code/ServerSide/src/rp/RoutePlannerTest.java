@@ -77,12 +77,12 @@ public class RoutePlannerTest {
 		map.addRobot("Fantastic", new Location(0,0), Direction.NORTH);
 		RoutePlanner planner = new RoutePlanner(map);
 
-		//tasks.add(new Task("a", 1));
+		tasks.add(new Task("a", 1));
 		tasks.add(new Task("b", 1));
 		tasks.add(new Task("c", 1));
-//		tasks.add(new Task("d", 1));
-//		tasks.add(new Task("e", 1));
-//		tasks.add(new Task("f", 1));
+		tasks.add(new Task("d", 1));
+		tasks.add(new Task("e", 1));
+		tasks.add(new Task("f", 1));
 		itemMap.put("a", new Item("a", 1f, 1f, 1, 0));
 		itemMap.put("b", new Item("b", 1f, 1f, 1, 3));
 		itemMap.put("c", new Item("c", 1f, 1f, 2, 1));
@@ -91,8 +91,8 @@ public class RoutePlannerTest {
 		itemMap.put("f", new Item("f", 1f, 1f, 4, 2));
 
 		jobs.add(new Job(1, tasks, itemMap, false));
-		
 		for (Task t: tasks) {
+			System.out.println(t.getTaskID());
 			route = planner.findRouteToItem("Awesome", itemMap.get(t.getTaskID()));
 			int lastIndex = route.size() - 1;
 			map.updateRobotsLocation("Awesome", route.get(lastIndex));
