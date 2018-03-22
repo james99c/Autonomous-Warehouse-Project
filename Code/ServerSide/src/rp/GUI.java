@@ -486,7 +486,7 @@ public class GUI {
 	 * 
 	 */
 	public void setJobID(String robot, int ID) {
-		if (robotJobs.containsKey(robot)) {
+		if (connectedRobots.contains(robot)) {
 			robotJobs.put(robot, ID);
 			if (robotsConnected > 0) {
 				joblabel1.setText(robotJobs.get(robot).toString());
