@@ -47,7 +47,7 @@ public class SearchTree {
 			if (NewLocationList.size() == 0) {
 				// if there is another usable node
 				if (usableLeafNodes.size() > 0) {
-					usableLeafNodes.remove(0).search();
+					getLowestCostTree(true).search();
 					return;
 				} else {
 					// when there are no other usable nodes
@@ -89,22 +89,24 @@ public class SearchTree {
 				});
 				*/
 				
-				qsort(usableLeafNodes, 0, usableLeafNodes.size() - 1);
+				//qsort(usableLeafNodes, 0, usableLeafNodes.size() - 1);
 				
-//				SearchTree next;
-//				Float nextCost = Float.MAX_VALUE;
-//				for (SearchTree tree: usableLeafNodes) {
-//					if (tree.totalCost < nextCost) {
-//						nextCost = tree.totalCost;
-//						next = tree;
-//					}
-//				}
-	//			next.search();
+				/*
+				SearchTree next = null;
+				Float nextCost = Float.MAX_VALUE;
+				for (SearchTree tree: usableLeafNodes) {
+					if (tree.totalCost < nextCost) {
+						nextCost = tree.totalCost;
+						next = tree;
+					}
+				}
+				next.search();
+				*/
 				
 				// System.out.println(usableLeafNodes);
 				// searches the child node with the lowest total cost
 				// System.out.println(currentLocation.getX() + " : " + currentLocation.getY());
-				usableLeafNodes.remove(0).search();
+				getLowestCostTree(true).search();
 				return;
 			}
 		} else { // at goal location
@@ -116,7 +118,7 @@ public class SearchTree {
 				return;
 			} else {
 				// searches the next best leaf node
-				usableLeafNodes.remove(0).search();
+				getLowestCostTree(true).search();
 				return;
 			}
 		}
@@ -159,7 +161,10 @@ public class SearchTree {
 		return timeFrame[1] - timeFrame[0];
 	}
 	
-	public SearchTree getLowestCostTree() {
+	// boolean delete -> true if remove the lowest cost tree from usableLeafNodes
+	// getLowestCostTree(true).search() = same as usableLeafNodes.remove(0).search()
+	// return the lowest cost tree
+	public SearchTree getLowestCostTree(boolean delete) {
 		SearchTree ret = null;
 		Float lowestCost = Float.MAX_VALUE;
 		
@@ -169,6 +174,9 @@ public class SearchTree {
 				ret = tree;
 			}
 		}
+		
+		if (delete)
+			SearchTree.usableLeafNodes.remove(ret);
 		
 		return ret;
 	}
