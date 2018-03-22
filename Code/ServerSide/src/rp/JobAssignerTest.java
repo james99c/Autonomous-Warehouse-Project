@@ -59,6 +59,50 @@ public class JobAssignerTest {
 	assertEquals("", job1, mock1.assignJob(new Location(0,0), "mockBot") );
 	}
 	
+	@Test
+	public void testAssignEdge() {
+	JobAssigner mock1 = new JobAssigner();
+	ArrayList<Task> jobObj = new ArrayList<>();
+	HashMap<String, Item> itemMap = new HashMap<>();
+	HashMap<String, Item> itemMap2 = new HashMap<>();
+	HashMap<String, Item> itemMap3 = new HashMap<>();
+
+	jobObj.add(new Task("a", 1));
+	jobObj.add(new Task("b", 1));
+	jobObj.add(new Task("c", 1));
+	jobObj.add(new Task("d", 1));
+	jobObj.add(new Task("e", 1));
+	jobObj.add(new Task("f", 1));
+	itemMap.put("a", new Item(null, 1f, 1f, 1, 1));
+	itemMap.put("b", new Item(null, 1f, 1f, 1, 2));
+	itemMap.put("c", new Item(null, 1f, 1f, 1, 3));
+	itemMap.put("d", new Item(null, 1f, 1f, 1, 4));
+	itemMap.put("e", new Item(null, 1f, 1f, 1, 5));
+	itemMap.put("f", new Item(null, 1f, 1f, 1, 6));
+	
+	itemMap2.put("a", new Item(null, 1f, 1f, 2, 1));
+	itemMap2.put("b", new Item(null, 1f, 1f, 2, 2));
+	itemMap2.put("c", new Item(null, 1f, 1f, 2, 3));
+	itemMap2.put("d", new Item(null, 1f, 1f, 2, 4));
+	itemMap2.put("e", new Item(null, 1f, 1f, 2, 5));
+	itemMap2.put("f", new Item(null, 1f, 1f, 2, 6));
+	
+	itemMap3.put("a", new Item(null, 1f, 1f, 1, 2));
+	itemMap3.put("b", new Item(null, 1f, 1f, 2, 3));
+	itemMap3.put("c", new Item(null, 1f, 1f, 3, 4));
+	itemMap3.put("d", new Item(null, 1f, 1f, 4, 5));
+	itemMap3.put("e", new Item(null, 1f, 1f, 5, 6));
+	itemMap3.put("f", new Item(null, 1f, 1f, 6, 7));
+	
+	Job job1 = new Job(1, jobObj, itemMap, false);
+	Job job2 = new Job(1, jobObj, itemMap2, false);
+	Job job3 = new Job(1, jobObj, itemMap3, false);
+	mock1.jobs.add(job1);
+	mock1.jobs.add(job2);
+	mock1.jobs.add(job3);
+	assertEquals("", job1, mock1.assignJob(new Location(0,0), "mockBot") );
+	}
+	
 	/*
 	@Test
 	public void testSort() {
