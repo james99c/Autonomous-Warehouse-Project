@@ -5,22 +5,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 import java.util.HashMap;
 
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 
 public class Reader {
 
-	// final static Logger logger = Logger.getLogger(Reader.class);
+	final static Logger logger = Logger.getLogger(Reader.class);
 	static HashMap<String, Item> items = new HashMap<>();
 	static ArrayList<Job> jobsTraining = new ArrayList<>();
 	static ArrayList<Job> jobs = new ArrayList<>();
 	static ArrayList<Task> tasks = new ArrayList<>();
 
-	public void startReading() {
+	public static void main(String[] args) {
 		
 		File userMessagesFile = new File("csv");
         String userMessagesPath = userMessagesFile.getAbsolutePath();
@@ -41,7 +40,7 @@ public class Reader {
 
 			br = new BufferedReader(new FileReader(itemFile));
 			br1 = new BufferedReader(new FileReader(locationFile));
-			// logger.debug("Reading items and locations csv files");
+			logger.debug("Reading items and locations csv files");
 
 			while ((line = br.readLine()) != null && (line2 = br1.readLine()) != null) {
 				String[] item = line.split(cvsSplitBy);
@@ -58,7 +57,7 @@ public class Reader {
 			br = new BufferedReader(new FileReader(jobTrainingFile));
 			br1 = new BufferedReader(new FileReader(cancellationFile));
 
-			// logger.debug("Reading training_jobs and cancellations csv files");
+			logger.debug("Reading training_jobs and cancellations csv files");
 
 			while ((line = br.readLine()) != null && (line2 = br1.readLine()) != null) {
 				tasks = new ArrayList<Task>();
@@ -84,7 +83,7 @@ public class Reader {
 			br = new BufferedReader(new FileReader(jobFile));
 			br1 = new BufferedReader(new FileReader(cancellationFile));
 			
-			// logger.debug("Reading training_jobs and cancellations csv files");
+			logger.debug("Reading training_jobs and cancellations csv files");
 			
 			while ((line = br.readLine()) != null && (line2 = br1.readLine()) != null) {
 				tasks = new ArrayList<Task>();
@@ -107,27 +106,13 @@ public class Reader {
 			br.close();
 			br1.close();
 
-			// System.out.println(jobs.get(0).getJobID() + " "
-			// +jobs.get(0).getJobTasks().size() + jobs.get(0).getJobCancel() +
-			// jobs.get(0).getItems().size() );
-			// System.out.println(jobs.get(1).getJobReward());
-			// System.out.println(jobs.get(1).getJobWeight());
-			// System.out.println(jobs.get(0).getNumberOfTasks());
-			// System.out.println("sdgh");
-			// System.out.println("adfd");
-
 			// Sorting the jobs reward/weight
-			
-//			for (int i = 0; i <= jobs.size() - 2; i++)
-//				for (int j = i + 1; j <= jobs.size() - 1; j++)
-//					if (jobs.get(i).getRewardDivWeight() < jobs.get(j).getRewardDivWeight()) {
-//						Job temp = jobs.get(i);
-//						jobs.set(i, jobs.get(j));
-//						jobs.set(j, temp);
-//					}
+
 			sort(jobs, 0, jobs.size()-1);
+			logger.debug("Jobs sorted");
 			
-			System.out.println("Number of jobs before predictions: " + jobs.size());
+			
+			logger.debug("Number of jobs before predictions: " + jobs.size());
 			Classify classifier = new Classify();
 			
 			Writer writer = new Writer(classifier);
@@ -135,27 +120,14 @@ public class Reader {
 			ArrayList<String> predictions = classifier.getPredictions();
 			
 			for(int i = 0; i < predictions.size(); i++) {
-				if(predictions.get(i).split(", ")[1].equals("true")) {
-				//	System.out.println(jobs.get(i).getJobID() + " " + jobs.get(i).getJobCancel()  + " " + i);
-					
+				if(predictions.get(i).equals("true")) {
+								
 					jobs.remove(i);
 					predictions.remove(i);
 				}
 			}
 			
-			
-			System.out.println("Number of jobs after predictions: " + jobs.size());
-			// System.out.println("sdgaergdg");
-			// System.out.println(jobs.get(1));
-			// System.out.println(jobs.get(1).getRewardDivWeight());
-			// for(int i = 0; i <= jobs.size() -1; i++)
-			// System.out.println(jobs.get(i).getRewardDivWeight());
-			//
-			// //System.out.println(jobs.size());
-			// System.out.println(jobs.get(0).getJobID());
-			// System.out.println(jobs.get(0).getNumberOfTasks());
-			// System.out.println("sdg");
-
+			logger.debug("Number of jobs after predictions: " + jobs.size());
 
 			br.close();
 			br1.close();
@@ -163,7 +135,7 @@ public class Reader {
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			// logger.error("One or more files are not found");
+			 logger.error("One or more files are not found");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
