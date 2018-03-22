@@ -1,10 +1,8 @@
 package rp.RoutePlannerExtra;
 
-import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -13,7 +11,7 @@ import rp.DataObjects.*;
 import rp.jobDecider.Job;
 import javafx.util.Pair;
 
-public class SearchTree implements Comparable {
+public class SearchTree {
 	private static final Logger logger = LogManager.getLogger(SearchTree.class);
 	Location currentLocation, previousLocation, goalLocation;
 	Float currentCost, heuristicCost, totalCost;
@@ -112,8 +110,8 @@ public class SearchTree implements Comparable {
 		} else { // at goal location
 			// has found the ideal route
 			if (usableLeafNodes.get(0).totalCost > this.totalCost) {
-				this.outputVariable = currentPath;
-				this.usableLeafNodes.clear();
+				SearchTree.outputVariable = currentPath;
+				SearchTree.usableLeafNodes.clear();
 				// ends the search
 				return;
 			} else {
@@ -125,8 +123,8 @@ public class SearchTree implements Comparable {
 	}
 
 	public ArrayList<Pair<GridPoint,Direction>> getOutputVariable() {
-		ArrayList<Pair<GridPoint,Direction>> ret = new ArrayList<Pair<GridPoint,Direction>>(this.outputVariable);
-		this.outputVariable.clear();
+		ArrayList<Pair<GridPoint,Direction>> ret = new ArrayList<Pair<GridPoint,Direction>>(SearchTree.outputVariable);
+		SearchTree.outputVariable.clear();
 		return ret;
 	}
 
@@ -135,11 +133,12 @@ public class SearchTree implements Comparable {
 		Integer changeInY = Math.abs(goalLocation.getY() - currentLocation.getY());
 		return (Float) (changeInX.floatValue() + changeInY.floatValue());
 	}
-
+	
+	/*
 	public int compareTo(SearchTree compareTree) {
 		float compareage = ((SearchTree) compareTree).totalCost;
 
-		/* For Ascending order */
+		// For Ascending order
 		return (int) (this.totalCost - compareage);
 	}
 
@@ -147,10 +146,11 @@ public class SearchTree implements Comparable {
 	public int compareTo(Object compareTree) {
 		Float compareage = ((SearchTree) compareTree).totalCost;
 
-		/* For Ascending order */
+		// For Ascending order
 		// hope that something doesn't arrive within the same second
 		return (int) (this.totalCost - compareage);
 	}
+	*/
 
 	//
 	private float timeFrameDifference(ArrayList<Float[]> listOfTimeFrame) {
@@ -163,7 +163,7 @@ public class SearchTree implements Comparable {
 		SearchTree ret = null;
 		Float lowestCost = Float.MAX_VALUE;
 		
-		for (SearchTree tree: this.usableLeafNodes) {
+		for (SearchTree tree: SearchTree.usableLeafNodes) {
 			if (tree.totalCost < lowestCost) {
 				lowestCost = tree.totalCost;
 				ret = tree;
@@ -198,24 +198,16 @@ public class SearchTree implements Comparable {
 			qsort(trees, pi+1, high);
 		}
 	}
-	
-	private void printCost(ArrayList<SearchTree> trees) {
-		for (SearchTree tree: trees) {
-			System.out.printf("%f, ", tree.totalCost);
-		}
-		System.out.println("\n---");
-	}
 }
 
 class SortingClass implements Comparator<SearchTree> {
-
 	@Override
 	public int compare(SearchTree arg0, SearchTree arg1) {
-		float firstCost = arg0.totalCost;
-		float secondCost = arg1.totalCost;
-
+		Float firstCost = arg0.totalCost;
+		Float secondCost = arg1.totalCost;
+		Float diff = firstCost - secondCost;
+		
 		/* For Ascending order */
-		return (int) (firstCost - secondCost);
+		return diff.compareTo(0f);
 	}
-	
 }
