@@ -12,6 +12,13 @@ import rp.jobDecider.Item;
 import rp.jobDecider.Job;
 import rp.jobDecider.Task;
 
+/**
+ * 
+ * Job Assigner
+ * 
+ * @author Jacob, Cameron
+ *
+ */
 
 public class JobAssignerTest {
 
