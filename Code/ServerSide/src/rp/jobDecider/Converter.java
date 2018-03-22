@@ -30,13 +30,6 @@ public class Converter {
     ///home/tomas/Dropbox/Mokslai/RP/job files/writer.csv
     Instances data = loader.getDataSet();//get instances object
     
-//    ArrayList<String> my_nominal_values = new ArrayList<>(); 
-//    my_nominal_values.add("false"); 
-//    my_nominal_values.add("true"); 
-//    
-//    Attribute classAtt = new Attribute("Class", my_nominal_values); 
-//    data.deleteAttributeAt(data.numAttributes()-1);
-//    data.insertAttributeAt(classAtt, data.numAttributes());
 
     // save ARFF
     ArffSaver saver = new ArffSaver();
@@ -52,7 +45,6 @@ public class Converter {
 	  // load CSV
 	  CSVLoader loader = new CSVLoader();
 	  loader.setSource(new File(srcName));
-	  ///home/tomas/Dropbox/Mokslai/RP/job files/writer.csv
 	  Instances data = loader.getDataSet();//get instances object
 	  
 	  ArrayList<String> my_nominal_values = new ArrayList<>(); 
@@ -68,7 +60,6 @@ public class Converter {
 	  saver.setInstances(data);//set the dataset we want to convert
 	  //and save as ARFF
 	  saver.setFile(new File(outputName));
-	  ///home/tomas/Dropbox/Mokslai/RP/job files/WriterCon.arff
 	  saver.writeBatch();
   }
 } 
