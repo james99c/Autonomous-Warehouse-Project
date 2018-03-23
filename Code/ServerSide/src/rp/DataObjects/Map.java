@@ -61,22 +61,22 @@ public class Map {
 		Location oldLocation = toUpdate.location;
 		toUpdate.location = _newLocation;
 		Location changeInLocation = new Location( _newLocation.getX() - oldLocation.getX(), _newLocation.getY() - oldLocation.getY());
-//		if(changeInLocation.getY() == 1) {
-//			toUpdate.direction = Direction.NORTH;
-//			return;
-//		}
-//		if(changeInLocation.getX() == 1) {
-//			toUpdate.direction = Direction.EAST;
-//			return;
-//		}
-//		if(changeInLocation.getY() == -1) {
-//			toUpdate.direction = Direction.SOUTH;
-//			return;
-//		}
-//		if(changeInLocation.getX() == -1) {
-//			toUpdate.direction = Direction.WEST;
-//			return;
-//		}
+		if(changeInLocation.getY() == 1) {
+			toUpdate.direction = Direction.NORTH;
+			return;
+		}
+		if(changeInLocation.getX() == 1) {
+			toUpdate.direction = Direction.EAST;
+			return;
+		}
+		if(changeInLocation.getY() == -1) {
+			toUpdate.direction = Direction.SOUTH;
+			return;
+		}
+		if(changeInLocation.getX() == -1) {
+			toUpdate.direction = Direction.WEST;
+			return;
+		}
 		
 		
 	}

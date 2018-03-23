@@ -19,8 +19,8 @@ import org.apache.log4j.LogManager;
 
 public class RoutePlanner implements RoutePlannerInterface {
 	private Map map;
-	private static final Location DROP_OFF_ONE = new Location(0,0);
-	private static final Location DROP_OFF_TWO = new Location(11,0);
+	private static final Location DROP_OFF_ONE = new Location(4,7);
+	private static final Location DROP_OFF_TWO = new Location(7,7);
 
 	private static final Logger logger = LogManager.getLogger(RoutePlanner.class);
 
@@ -77,7 +77,7 @@ public class RoutePlanner implements RoutePlannerInterface {
 					.setUnAvailability(new Float[] { currentTime + output.get(index - 2).getTimeFrames().get(0)[0], currentTime + third[1] });
 			
 			map.getGridPoint(output.get(index - 1).getLocation().getX(), output.get(index - 1).getLocation().getY())
-			.setUnAvailability(new Float[] { currentTime + third[0], currentTime + third[1] });
+			.setUnAvailability(new Float[] { currentTime + third[0], currentTime + third[1] + 3 });
 		}
 
 		// need to adjust the time frames

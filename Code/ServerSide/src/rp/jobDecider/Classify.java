@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import weka.classifiers.Evaluation;
-import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.trees.RandomTree;
 
 public class Classify {
 
@@ -40,7 +40,7 @@ public class Classify {
 		// set class index to the last attribute
 		trainDataset.setClassIndex(trainDataset.numAttributes() - 1);
 		// create and build the classifier
-		NaiveBayes rf = new NaiveBayes();
+		RandomTree rf = new RandomTree();
 		rf.buildClassifier(trainDataset);
 
 		// load new dataset

@@ -152,19 +152,39 @@ public class ServerReceiver extends Thread {
 					}
 
 				}
-				else if(answer.equals("5")) {
+				 if(answer.equals("5")) {
 					System.out.println("Let's go");
 					if (clientTable.getQueue(robotInfo.getRobotName()).isEmpty()) {
 						getNewRoute();
 					}
 				}
-				else if(answer.equals("f")) {
+				 if(answer.equals("f")) {
 					System.out.println("Robot is full");
 					finishedRoute = true;
 					if (clientTable.getQueue(robotInfo.getRobotName()).isEmpty()) {
 						getNewRoute();
 					}
 				}
+				
+				
+				instruction = answer;
+				robotRoute += instruction;
+				if (instruction.equals("0")) {
+					System.out.println("I got 0");
+					map.updateRobotsLocation(robotInfo.robotName, routeAsLocations.remove(0));
+					direction = map.getRobotInformation(robotInfo.robotName).direction;
+					System.out.println("NEW LOCATION --------------------------------- " + map.getRobotInformation(robotInfo.robotName).location);
+					System.out.println(map.getRobotInformation(robotInfo.robotName).direction);
+				}
+				logger.debug("Robot's instruction: " + answer);
+				
+				if (robotRoute.equals(currentRoute)) {
+					finishedRoute = true;
+					System.out.println("robot thinks it at");
+					System.out.println(map.getRobotInformation(robotInfo.robotName).location.getX()  + " : " +  map.getRobotInformation(robotInfo.robotName).location.getY()  + " " + map.getRobotInformation(robotInfo.robotName).direction);
+				}
+				
+				
 				else {
 					instruction = answer;
 					robotRoute += instruction;
@@ -178,6 +198,8 @@ public class ServerReceiver extends Thread {
 					
 					if (robotRoute.equals(currentRoute)) {
 						finishedRoute = true;
+						System.out.println("robot thinks it at");
+						System.out.println(map.getRobotInformation(robotInfo.robotName).location.getX()  + " : " +  map.getRobotInformation(robotInfo.robotName).location.getY()  + " " + map.getRobotInformation(robotInfo.robotName).direction);
 					}
 
 				}
