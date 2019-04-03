@@ -1,4 +1,13 @@
-# Autonomous Warehouse Project - Team 2.1
+Autonomous Warehouse Project - Team 2.1
+===================================
+
+Our task during this project was to create a system
+that would allow multiple LEGO Mindstorm NXT robots
+to traverse a wooden maze and collect and deposit
+virtual items.
+
+This project was completed as an assignment during
+our first year at university.
 
 ## Team Roles
 
