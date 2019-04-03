@@ -9,7 +9,8 @@ virtual items.
 This project was completed as an assignment during
 our first year at university.
 
-## Team Roles
+Team Roles
+-----------------------------------
 
 * Job decider - Ioana, Ryan, Tomas
 * Route planner - Aled, Henry
