@@ -9,7 +9,7 @@ virtual items.
 This project was completed as an assignment during
 our first year at university.
 
-* The final code is on the testing branch
+\* The final code is on the testing branch
 
 Team Roles
 -----------------------------------
